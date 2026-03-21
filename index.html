@@ -412,6 +412,40 @@
       line-height: 1.7;
     }
 
+    /* Details Section */
+    .venue-img {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+
+    .details-list {
+      border-top: 1px solid #ddd;
+    }
+
+    .details-row {
+      display: flex;
+      padding: 16px 0;
+      border-bottom: 1px solid #ddd;
+      font-size: 14px;
+    }
+
+    .details-label {
+      font-weight: 500;
+      width: 70px;
+      flex-shrink: 0;
+    }
+
+    .details-value {
+      color: #555;
+    }
+
+    .details-value a {
+      color: #555;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
     /* Modal */
     .modal-overlay {
       display: none;
@@ -805,6 +839,29 @@
       <p><strong>도구는 누구나 쥘 수 있어요. 차이는 그 위에 무엇을 올리느냐예요.</strong></p>
       <p>자기 일을 깊이 아는 사람들이 모여서, 각자의 맥락에 맞게 AI를 다루는 법을 나누는 자리예요. 한 번 배우고 끝나는 게 아니라, 계속 시도하고, 실패하고, 서로 보여주면서 천천히 익혀가요.</p>
       <p>인쇄술이 세상을 바꾸는 데 200년이 걸렸대요. 지금 우리 손에 들어온 이 도구도 그 정도 무게가 있다고 생각해요. 함께 그 위에 올라가 보아요!</p>
+    </section>
+
+    <section>
+      <h2>Details</h2>
+      <img src="./venue.jpg" alt="서촌 AULA스페이스" class="venue-img">
+      <div class="details-list">
+        <div class="details-row">
+          <span class="details-label">일시</span>
+          <span class="details-value">2026년 4월 5일 (토) 14:00–17:00</span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">장소</span>
+          <span class="details-value"><a href="https://map.naver.com/v5/search/서촌%20AULA스페이스" target="_blank">서촌 AULA스페이스</a></span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">인원</span>
+          <span class="details-value">최대 15명</span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">준비물</span>
+          <span class="details-value">맥북 (macOS 사용자만 참여 가능)</span>
+        </div>
+      </div>
     </section>
 
     <section>
