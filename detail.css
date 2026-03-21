@@ -1,0 +1,264 @@
+/* ========================================
+   detail.html — Above Coding Club 상세페이지
+   byminseok.com/aboco/ 레퍼런스 기반
+   ======================================== */
+
+/* Intro */
+.detail-intro {
+  padding-top: calc(64px + var(--space-3xl));
+  padding-bottom: var(--space-2xl);
+  text-align: center;
+}
+
+.detail-label {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: var(--space-sm);
+}
+
+.detail-intro h1 {
+  font-size: var(--font-size-4xl);
+  margin-bottom: var(--space-md);
+}
+
+.detail-lead {
+  font-size: var(--font-size-xl);
+  color: var(--text-2);
+  line-height: 1.8;
+}
+
+.detail-lead strong {
+  color: var(--primary);
+}
+
+/* Sections */
+.detail-section {
+  padding: var(--space-2xl) 0;
+}
+
+.detail-section--alt {
+  background: var(--surface-2);
+}
+
+/* Heading — 영문 소문자 스타일 */
+.detail-heading {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: var(--space-lg);
+}
+
+/* Prose — 본문 텍스트 */
+.detail-prose {
+  margin-bottom: var(--space-lg);
+}
+
+.detail-prose p {
+  font-size: var(--font-size-lg);
+  line-height: 1.9;
+  color: var(--text);
+  margin-bottom: var(--space-md);
+}
+
+.detail-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.detail-prose strong {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Details list — 라벨 + 값 */
+.detail-list {
+  list-style: none;
+}
+
+.detail-list li {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-md);
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--border-light);
+  font-size: var(--font-size-base);
+  color: var(--text);
+}
+
+.detail-list li:last-child {
+  border-bottom: none;
+}
+
+.detail-list__label {
+  flex-shrink: 0;
+  width: 80px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+/* Steps — 번호 매긴 실습 단계 */
+.detail-steps {
+  list-style: none;
+  counter-reset: step;
+}
+
+.detail-steps li {
+  counter-increment: step;
+  position: relative;
+  padding-left: var(--space-2xl);
+  margin-bottom: var(--space-lg);
+}
+
+.detail-steps li:last-child {
+  margin-bottom: 0;
+}
+
+.detail-steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary);
+  color: white;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  border-radius: 50%;
+}
+
+.detail-steps li strong {
+  display: block;
+  font-size: var(--font-size-base);
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.detail-steps li span {
+  font-size: var(--font-size-sm);
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+/* Bullets — 심플 불릿 리스트 */
+.detail-bullets {
+  list-style: none;
+}
+
+.detail-bullets li {
+  position: relative;
+  padding-left: var(--space-md);
+  margin-bottom: var(--space-sm);
+  font-size: var(--font-size-base);
+  color: var(--text);
+  line-height: 1.7;
+}
+
+.detail-bullets li::before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.detail-bullets li strong {
+  font-weight: 600;
+}
+
+/* Price */
+.detail-price {
+  text-align: center;
+  padding: var(--space-xl);
+  border: 2px solid var(--text);
+  border-radius: var(--radius-lg);
+}
+
+.detail-price__amount {
+  display: block;
+  font-size: var(--font-size-4xl);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.1;
+  margin-bottom: var(--space-xs);
+}
+
+.detail-price__desc {
+  font-size: var(--font-size-sm);
+  color: var(--text-2);
+}
+
+/* CTA */
+.detail-cta {
+  padding: var(--space-3xl) 0;
+  background: var(--text);
+  text-align: center;
+}
+
+.detail-cta__text {
+  font-size: var(--font-size-xl);
+  color: var(--surface);
+  line-height: 1.8;
+  margin-bottom: var(--space-xl);
+}
+
+/* ========================================
+   Responsive
+   ======================================== */
+
+@media (max-width: 768px) {
+  .detail-intro h1 {
+    font-size: var(--font-size-3xl);
+  }
+
+  .detail-lead {
+    font-size: var(--font-size-lg);
+  }
+
+  .detail-prose p {
+    font-size: var(--font-size-base);
+  }
+
+  .detail-price__amount {
+    font-size: var(--font-size-3xl);
+  }
+
+  .detail-cta__text {
+    font-size: var(--font-size-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .detail-intro {
+    padding-top: calc(64px + var(--space-2xl));
+  }
+
+  .detail-intro h1 {
+    font-size: var(--font-size-2xl);
+  }
+
+  .detail-list li {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .detail-list__label {
+    width: auto;
+  }
+
+  .detail-price {
+    padding: var(--space-lg);
+  }
+
+  .detail-price__amount {
+    font-size: var(--font-size-2xl);
+  }
+}
