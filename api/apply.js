@@ -23,10 +23,10 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, phone, macbook, job, goal, motivation } = req.body;
+    const { name, phone, email, job, macbook, paid, tool, message } = req.body;
 
     // 필수 필드 검증
-    if (!name || !email || !phone || !macbook || !job || !goal) {
+    if (!name || !phone || !email || !job) {
       return res.status(400).json({ error: '필수 항목을 모두 입력해주세요.' });
     }
 
@@ -49,12 +49,13 @@ export default async function handler(req, res) {
         records: [{
           fields: {
             '이름': name,
-            '이메일': email,
             '연락처': phone,
-            '맥북 모델': macbook,
+            '이메일': email,
             '하시는 일': job,
-            '만들고 싶은 것': goal,
-            '참가 동기': motivation || ''
+            '맥북 확인': macbook === true,
+            '참가비 입금': paid === true,
+            '만들어보고 싶은 도구': tool || '',
+            '하고 싶은 말': message || ''
           }
         }]
       })
