@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Above Coding Club - Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=BioRhyme:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #1a1a1a;
+      min-height: 100vh;
+      background: #f0ebe5;
+      background-image:
+        radial-gradient(ellipse 120% 80% at 80% 0%, rgba(255, 180, 150, 0.25) 0%, transparent 50%),
+        radial-gradient(ellipse 80% 60% at 0% 100%, rgba(180, 190, 230, 0.2) 0%, transparent 50%);
+    }
+
+    /* Password Gate */
+    .gate {
+      position: fixed;
+      inset: 0;
+      background: rgba(240, 235, 229, 0.97);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+
+    .gate.hidden { display: none; }
+
+    .gate-card {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+      padding: 40px;
+      width: 340px;
+      text-align: center;
+    }
+
+    .gate-card h2 {
+      font-family: 'BioRhyme', serif;
+      font-size: 20px;
+      font-weight: 400;
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+
+    .gate-card p {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 24px;
+    }
+
+    .gate-input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .gate-input:focus { border-color: #f05a28; }
+
+    .gate-btn {
+      width: 100%;
+      margin-top: 12px;
+      padding: 12px;
+      background: #2d3a4a;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .gate-btn:hover { background: #1a2a3a; }
+
+    .gate-error {
+      color: #f05a28;
+      font-size: 12px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* Main Layout */
+    .page-wrapper {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-grid {
+      width: 36px;
+      height: 36px;
+      background: #2d3a4a;
+      border-radius: 8px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      padding: 6px;
+    }
+
+    .logo-grid span { border-radius: 2px; }
+    .logo-grid span:nth-child(1) { background: #4a5a6a; }
+    .logo-grid span:nth-child(2) { background: #f05a28; }
+    .logo-grid span:nth-child(3) { background: #f5a623; }
+    .logo-grid span:nth-child(4) { background: #f05a28; }
+    .logo-grid span:nth-child(5) { background: #f5a623; }
+    .logo-grid span:nth-child(6) { background: #4a90d9; }
+    .logo-grid span:nth-child(7) { background: #f5a623; }
+    .logo-grid span:nth-child(8) { background: #4a90d9; }
+    .logo-grid span:nth-child(9) { background: #4a5a6a; }
+
+    .header-title {
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.3;
+    }
+
+    .header-title small {
+      display: block;
+      font-weight: 400;
+      color: #888;
+      font-size: 11px;
+    }
+
+    .refresh-btn {
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(255,255,255,0.9);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 12px;
+      color: #555;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .refresh-btn:hover { background: #fff; }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-family: 'BioRhyme', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #2d3a4a;
+    }
+
+    .stat-sub {
+      font-size: 11px;
+      color: #aaa;
+      margin-top: 4px;
+    }
+
+    .progress-bar {
+      height: 4px;
+      background: #eee;
+      border-radius: 2px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.6s ease;
+    }
+
+    .progress-fill.orange { background: #f05a28; }
+    .progress-fill.blue { background: #4a90d9; }
+
+    /* Section */
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .section-title {
+      font-family: 'BioRhyme', serif;
+      font-size: 18px;
+      font-weight: 400;
+      font-style: italic;
+      margin-bottom: 14px;
+      color: #2d3a4a;
+    }
+
+    /* Table */
+    .table-wrap {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      overflow: hidden;
+    }
+
+    .search-bar {
+      padding: 14px 18px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #eee;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 12px;
+      outline: none;
+    }
+
+    .search-input:focus { border-color: #f05a28; }
+
+    .table-scroll {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    th {
+      text-align: left;
+      padding: 10px 14px;
+      background: #fafafa;
+      color: #888;
+      font-weight: 500;
+      font-size: 11px;
+      white-space: nowrap;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #f8f8f8;
+      white-space: nowrap;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    tr:hover td { background: #fdfcfb; }
+
+    .badge {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .badge.green { background: #22c55e; }
+    .badge.gray { background: #ddd; }
+
+    /* Job Distribution */
+    .chart-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+
+    .bar-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .bar-label {
+      font-size: 12px;
+      color: #555;
+      min-width: 140px;
+      text-align: right;
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 24px;
+      background: #f5f5f5;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      padding-left: 8px;
+      font-size: 11px;
+      color: #fff;
+      font-weight: 500;
+      transition: width 0.6s ease;
+      min-width: 28px;
+    }
+
+    .bar-colors-0 { background: #f05a28; }
+    .bar-colors-1 { background: #f5a623; }
+    .bar-colors-2 { background: #4a90d9; }
+    .bar-colors-3 { background: #2d3a4a; }
+    .bar-colors-4 { background: #7c3aed; }
+    .bar-colors-5 { background: #22c55e; }
+    .bar-colors-6 { background: #ec4899; }
+    .bar-colors-7 { background: #06b6d4; }
+
+    /* Tool Wishes */
+    .wishes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .wish-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      border-left: 3px solid #f05a28;
+    }
+
+    .wish-text {
+      font-size: 13px;
+      color: #333;
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+
+    .wish-name {
+      font-size: 11px;
+      color: #aaa;
+    }
+
+    /* Timeline */
+    .timeline-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+
+    .timeline-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f8f8f8;
+    }
+
+    .timeline-item:last-child { border-bottom: none; }
+
+    .timeline-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #f05a28;
+      flex-shrink: 0;
+    }
+
+    .timeline-date {
+      font-size: 12px;
+      color: #888;
+      min-width: 90px;
+    }
+
+    .timeline-names {
+      font-size: 12px;
+      color: #333;
+    }
+
+    .timeline-count {
+      font-size: 11px;
+      color: #fff;
+      background: #2d3a4a;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 60px;
+      color: #888;
+      font-size: 13px;
+    }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .wishes-grid { grid-template-columns: 1fr; }
+      .bar-label { min-width: 100px; font-size: 11px; }
+      .stat-value { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Password Gate -->
+  <div class="gate" id="gate">
+    <div class="gate-card">
+      <h2>Dashboard</h2>
+      <p>Above Coding Club 관리자 전용</p>
+      <input type="password" class="gate-input" id="passwordInput" placeholder="비밀번호 입력" autocomplete="off">
+      <button class="gate-btn" id="loginBtn">입장</button>
+      <div class="gate-error" id="gateError">비밀번호가 올바르지 않습니다.</div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="page-wrapper" id="main" style="display:none;">
+    <header>
+      <div class="header-left">
+        <div class="logo-grid">
+          <span></span><span></span><span></span>
+          <span></span><span></span><span></span>
+          <span></span><span></span><span></span>
+        </div>
+        <div class="header-title">
+          Above Coding Club
+          <small>관리자 대시보드</small>
+        </div>
+      </div>
+      <button class="refresh-btn" id="refreshBtn">새로고침</button>
+    </header>
+
+    <!-- Stats -->
+    <div class="stats-grid" id="statsGrid">
+      <div class="loading">불러오는 중...</div>
+    </div>
+
+    <!-- Two-column layout -->
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px;">
+      <!-- Job Distribution -->
+      <div class="section" style="margin-bottom:0;">
+        <div class="section-title">직군 분포</div>
+        <div class="chart-card" id="jobChart">
+          <div class="loading">불러오는 중...</div>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="section" style="margin-bottom:0;">
+        <div class="section-title">신청 타임라인</div>
+        <div class="timeline-card" id="timeline">
+          <div class="loading">불러오는 중...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Participants Table -->
+    <div class="section">
+      <div class="section-title">참가자 목록</div>
+      <div class="table-wrap">
+        <div class="search-bar">
+          <input type="text" class="search-input" id="searchInput" placeholder="이름 또는 직군으로 검색...">
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>이름</th>
+                <th>하시는 일</th>
+                <th>연락처</th>
+                <th>이메일</th>
+                <th>입금</th>
+                <th>맥북</th>
+                <th>신청일</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <tr><td colspan="7" class="loading">불러오는 중...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tool Wishes -->
+    <div class="section">
+      <div class="section-title">만들어보고 싶은 도구</div>
+      <div class="wishes-grid" id="wishesGrid">
+        <div class="loading">불러오는 중...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = '/api/dashboard';
+    let password = sessionStorage.getItem('dashboard_pw') || '';
+    let allParticipants = [];
+
+    // Gate
+    const gate = document.getElementById('gate');
+    const main = document.getElementById('main');
+    const passwordInput = document.getElementById('passwordInput');
+    const loginBtn = document.getElementById('loginBtn');
+    const gateError = document.getElementById('gateError');
+
+    if (password) {
+      fetchData();
+    }
+
+    loginBtn.addEventListener('click', tryLogin);
+    passwordInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') tryLogin();
+    });
+
+    async function tryLogin() {
+      password = passwordInput.value.trim();
+      if (!password) return;
+      gateError.style.display = 'none';
+
+      const ok = await fetchData();
+      if (ok) {
+        sessionStorage.setItem('dashboard_pw', password);
+      } else {
+        gateError.style.display = 'block';
+        password = '';
+        sessionStorage.removeItem('dashboard_pw');
+      }
+    }
+
+    async function fetchData() {
+      try {
+        const res = await fetch(`${API_URL}?password=${encodeURIComponent(password)}`);
+        if (res.status === 401) {
+          gate.classList.remove('hidden');
+          main.style.display = 'none';
+          return false;
+        }
+        if (!res.ok) throw new Error('Server error');
+
+        const data = await res.json();
+        gate.classList.add('hidden');
+        main.style.display = 'block';
+        render(data);
+        return true;
+      } catch (err) {
+        console.error(err);
+        return false;
+      }
+    }
+
+    function render(data) {
+      renderStats(data.stats);
+      renderTable(data.participants);
+      renderJobChart(data.jobDistribution, data.stats.total);
+      renderWishes(data.toolWishes);
+      renderTimeline(data.participants);
+    }
+
+    function renderStats(stats) {
+      const paidPct = stats.total ? Math.round((stats.paid / stats.total) * 100) : 0;
+      const macPct = stats.total ? Math.round((stats.macbook / stats.total) * 100) : 0;
+
+      document.getElementById('statsGrid').innerHTML = `
+        <div class="stat-card">
+          <div class="stat-label">총 신청자</div>
+          <div class="stat-value">${stats.total}</div>
+          <div class="stat-sub">명</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">입금 완료</div>
+          <div class="stat-value">${stats.paid}</div>
+          <div class="stat-sub">${stats.total}명 중 ${stats.paid}명</div>
+          <div class="progress-bar"><div class="progress-fill orange" style="width:${paidPct}%"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">맥북 확인</div>
+          <div class="stat-value">${stats.macbook}</div>
+          <div class="stat-sub">${stats.total}명 중 ${stats.macbook}명</div>
+          <div class="progress-bar"><div class="progress-fill blue" style="width:${macPct}%"></div></div>
+        </div>
+      `;
+    }
+
+    function renderTable(participants) {
+      allParticipants = participants;
+      updateTable(participants);
+    }
+
+    function updateTable(list) {
+      document.getElementById('tableBody').innerHTML = list.map(p => {
+        const date = p.signupDate ? new Date(p.signupDate).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' }) : '-';
+        return `<tr>
+          <td><strong>${esc(p.name)}</strong></td>
+          <td>${esc(p.job)}</td>
+          <td>${esc(p.phone)}</td>
+          <td>${esc(p.email)}</td>
+          <td><span class="badge ${p.paid ? 'green' : 'gray'}"></span></td>
+          <td><span class="badge ${p.macbook ? 'green' : 'gray'}"></span></td>
+          <td style="color:#888">${date}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    function renderJobChart(dist, total) {
+      const sorted = Object.entries(dist).sort((a, b) => b[1] - a[1]);
+      document.getElementById('jobChart').innerHTML = sorted.map(([job, count], i) => {
+        const pct = Math.round((count / total) * 100);
+        return `<div class="bar-item">
+          <div class="bar-label">${esc(job)}</div>
+          <div class="bar-track">
+            <div class="bar-fill bar-colors-${i % 8}" style="width:${Math.max(pct, 12)}%">${count}</div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function renderWishes(wishes) {
+      if (!wishes.length) {
+        document.getElementById('wishesGrid').innerHTML = '<div class="loading">아직 없습니다</div>';
+        return;
+      }
+      const colors = ['#f05a28', '#f5a623', '#4a90d9', '#2d3a4a', '#7c3aed', '#22c55e'];
+      document.getElementById('wishesGrid').innerHTML = wishes.map((w, i) =>
+        `<div class="wish-card" style="border-left-color:${colors[i % colors.length]}">
+          <div class="wish-text">${esc(w.tool)}</div>
+          <div class="wish-name">- ${esc(w.name)}</div>
+        </div>`
+      ).join('');
+    }
+
+    function renderTimeline(participants) {
+      const byDate = {};
+      participants.forEach(p => {
+        if (!p.signupDate) return;
+        const d = new Date(p.signupDate).toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', weekday: 'short' });
+        if (!byDate[d]) byDate[d] = [];
+        byDate[d].push(p.name);
+      });
+
+      const entries = Object.entries(byDate);
+      document.getElementById('timeline').innerHTML = entries.map(([date, names]) =>
+        `<div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-date">${date}</div>
+          <div class="timeline-names">${names.map(esc).join(', ')}</div>
+          <div class="timeline-count">${names.length}</div>
+        </div>`
+      ).join('');
+    }
+
+    // Search
+    document.getElementById('searchInput').addEventListener('input', e => {
+      const q = e.target.value.toLowerCase().trim();
+      if (!q) { updateTable(allParticipants); return; }
+      updateTable(allParticipants.filter(p =>
+        p.name.toLowerCase().includes(q) || p.job.toLowerCase().includes(q)
+      ));
+    });
+
+    // Refresh
+    document.getElementById('refreshBtn').addEventListener('click', fetchData);
+
+    // Escape HTML
+    function esc(s) {
+      const d = document.createElement('div');
+      d.textContent = s;
+      return d.innerHTML;
+    }
+
+    // Responsive: two-column to single-column
+    const style = document.createElement('style');
+    style.textContent = '@media(max-width:700px){[style*="grid-template-columns: 1fr 1fr"]{grid-template-columns:1fr !important;}}';
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>
