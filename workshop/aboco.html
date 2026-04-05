@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Above Coding Club</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=BioRhyme:wght@400;700;800&family=Bricolage+Grotesque:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --aboco-bg: #FAFAF8;
+      --aboco-surface: #FFFFFF;
+      --aboco-surface-2: #F5F4F0;
+      --aboco-border: #E7E5E0;
+      --aboco-text: #1C1917;
+      --aboco-text-2: #8A8580;
+      --aboco-accent: #CC785C;
+      --aboco-accent-soft: rgba(204, 120, 92, 0.10);
+      --aboco-gradient-1: #D4785C;
+      --aboco-gradient-2: #C9A87C;
+      --aboco-gradient-3: #7BA5A8;
+      --aboco-gradient-4: #A678B0;
+      --aboco-radius: 12px;
+      --aboco-max-w: 640px;
+      --font-display: 'BioRhyme', serif;
+      --font-body: 'Bricolage Grotesque', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--aboco-bg);
+      color: var(--aboco-text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── 페이지 보더 (colorscales.io 스타일) ── */
+    .aboco-page-border {
+      position: fixed;
+      inset: 0;
+      border: 2px solid var(--aboco-border);
+      border-radius: 16px;
+      pointer-events: none;
+      z-index: 200;
+    }
+
+    /* ── 그레인 텍스처 오버레이 ── */
+    .aboco-grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 150;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 128px 128px;
+    }
+
+    /* ── 스티키 헤더 ── */
+    .aboco-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 250, 248, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--aboco-border);
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .aboco-header__logo {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--aboco-text);
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .aboco-header__link {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--aboco-text-2);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .aboco-header__link:hover {
+      color: var(--aboco-accent);
+    }
+
+    /* ── 히어로 + 메시 그라데이션 ── */
+    .aboco-hero {
+      position: relative;
+      max-width: var(--aboco-max-w);
+      margin: 0 auto;
+      padding: 100px 28px 64px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .aboco-hero::before {
+      content: '';
+      position: absolute;
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 400px;
+      background:
+        radial-gradient(ellipse at 30% 50%, var(--aboco-gradient-1) 0%, transparent 60%),
+        radial-gradient(ellipse at 70% 30%, var(--aboco-gradient-2) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 80%, var(--aboco-gradient-3) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 70%, var(--aboco-gradient-4) 0%, transparent 50%);
+      opacity: 0.25;
+      filter: blur(60px);
+      z-index: -1;
+      pointer-events: none;
+    }
+    .aboco-hero h1 {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+      color: var(--aboco-text);
+    }
+    .aboco-hero .aboco-tagline {
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--aboco-text-2);
+      margin-bottom: 36px;
+      letter-spacing: 0.3px;
+    }
+    .aboco-hero .aboco-meta {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--aboco-text-2);
+      margin-bottom: 36px;
+    }
+    .aboco-hero .aboco-meta a {
+      color: var(--aboco-text-2);
+      text-decoration: none;
+      border-bottom: 1px solid var(--aboco-border);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .aboco-hero .aboco-meta a:hover {
+      color: var(--aboco-accent);
+      border-color: var(--aboco-accent);
+    }
+
+    /* ── CTA 버튼 ── */
+    .aboco-cta-btn {
+      display: inline-block;
+      padding: 14px 44px;
+      background: var(--aboco-text);
+      color: var(--aboco-bg);
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 40px;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      border: 1px solid transparent;
+    }
+    .aboco-cta-btn:hover {
+      background: transparent;
+      color: var(--aboco-text);
+      border-color: var(--aboco-text);
+    }
+
+    /* ── 본문 ── */
+    .aboco-body {
+      max-width: var(--aboco-max-w);
+      margin: 0 auto;
+      padding: 0 28px 100px;
+    }
+    .aboco-body section {
+      margin-bottom: 64px;
+    }
+    .aboco-body h2 {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--aboco-accent);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .aboco-body p {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--aboco-text);
+      margin-bottom: 14px;
+    }
+    .aboco-body strong {
+      color: var(--aboco-accent);
+      font-weight: 600;
+    }
+
+    /* ── 리스트 ── */
+    .aboco-body ul {
+      list-style: none;
+      padding: 0;
+    }
+    .aboco-body ul li {
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--aboco-text);
+      padding-left: 24px;
+      position: relative;
+      margin-bottom: 8px;
+    }
+    .aboco-body ul li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--aboco-accent);
+      font-size: 13px;
+    }
+
+    /* ── Details 그리드 ── */
+    .aboco-details {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px 24px;
+      font-size: 15px;
+      padding: 24px;
+      background: var(--aboco-surface);
+      border: 1px solid var(--aboco-border);
+      border-radius: var(--aboco-radius);
+    }
+    .aboco-details dt {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--aboco-text-2);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding-top: 2px;
+    }
+    .aboco-details dd {
+      margin: 0;
+      color: var(--aboco-text);
+    }
+    .aboco-details dd a {
+      color: var(--aboco-accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--aboco-accent-soft);
+      transition: border-color 0.2s;
+    }
+    .aboco-details dd a:hover {
+      border-color: var(--aboco-accent);
+    }
+
+    /* ── 가격 섹션 ── */
+    .aboco-price-section {
+      text-align: center;
+      padding: 56px 28px;
+      margin-bottom: 64px;
+      background: var(--aboco-surface);
+      border: 1px solid var(--aboco-border);
+      border-radius: var(--aboco-radius);
+      position: relative;
+      overflow: hidden;
+    }
+    .aboco-price-section::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 200px;
+      background: radial-gradient(ellipse, var(--aboco-accent) 0%, transparent 70%);
+      opacity: 0.08;
+      filter: blur(40px);
+      pointer-events: none;
+    }
+    .aboco-price {
+      font-family: var(--font-display);
+      font-size: 40px;
+      font-weight: 800;
+      color: var(--aboco-text);
+      margin-bottom: 8px;
+      letter-spacing: -1px;
+    }
+    .aboco-price-note {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--aboco-text-2);
+      margin-bottom: 28px;
+      letter-spacing: 0.5px;
+    }
+    .aboco-price-account {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--aboco-text-2);
+      margin-top: 20px;
+    }
+
+    /* ── 안내사항 ── */
+    .aboco-note {
+      font-size: 13px;
+      color: var(--aboco-text-2);
+      line-height: 1.8;
+    }
+    .aboco-note li {
+      padding-left: 20px !important;
+    }
+    .aboco-note li::before {
+      content: '·' !important;
+      color: var(--aboco-text-2) !important;
+      font-size: 15px !important;
+    }
+    .aboco-note a {
+      color: var(--aboco-accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--aboco-accent-soft);
+    }
+
+    /* ── 구분선 ── */
+    .aboco-divider {
+      border: none;
+      border-top: 1px solid var(--aboco-border);
+      margin: 0 0 64px;
+    }
+
+    /* ── 푸터 ── */
+    .aboco-footer {
+      text-align: center;
+      padding: 40px 28px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--aboco-text-2);
+      border-top: 1px solid var(--aboco-border);
+      letter-spacing: 0.5px;
+    }
+
+    /* ── 신청 모달 ── */
+    .aboco-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(28, 25, 23, 0.6);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+    .aboco-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .aboco-modal {
+      background: var(--aboco-surface);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      transform: translateY(20px) scale(0.95);
+      transition: transform 0.3s;
+    }
+    .aboco-modal-overlay.active .aboco-modal {
+      transform: translateY(0) scale(1);
+    }
+    .aboco-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--aboco-border);
+    }
+    .aboco-modal-title {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--aboco-text);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .aboco-modal-close {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: var(--aboco-surface-2);
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--aboco-text-2);
+      font-size: 18px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .aboco-modal-close:hover {
+      background: var(--aboco-border);
+      color: var(--aboco-text);
+    }
+    .aboco-modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      max-height: calc(90vh - 70px);
+    }
+
+    /* ── 폼 스타일 ── */
+    .aboco-form-group {
+      margin-bottom: 20px;
+    }
+    .aboco-form-group:last-child {
+      margin-bottom: 0;
+    }
+    .aboco-form-label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--aboco-text-2);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .aboco-form-label .required {
+      color: var(--aboco-accent);
+      margin-left: 2px;
+    }
+    .aboco-form-input,
+    .aboco-form-textarea {
+      width: 100%;
+      padding: 12px 14px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--aboco-text);
+      background: var(--aboco-surface-2);
+      border: 1px solid var(--aboco-border);
+      border-radius: var(--aboco-radius);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .aboco-form-input:focus,
+    .aboco-form-textarea:focus {
+      outline: none;
+      border-color: var(--aboco-accent);
+      box-shadow: 0 0 0 3px var(--aboco-accent-soft);
+    }
+    .aboco-form-input::placeholder,
+    .aboco-form-textarea::placeholder {
+      color: var(--aboco-text-2);
+      opacity: 0.6;
+    }
+    .aboco-form-textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    .aboco-form-checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .aboco-form-checkbox input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      accent-color: var(--aboco-accent);
+      cursor: pointer;
+    }
+    .aboco-form-checkbox-text {
+      font-size: 14px;
+      color: var(--aboco-text);
+      line-height: 1.5;
+    }
+    .aboco-form-checkbox-text small {
+      display: block;
+      font-size: 12px;
+      color: var(--aboco-text-2);
+      margin-top: 2px;
+    }
+    .aboco-form-account {
+      margin-top: 8px;
+      padding: 12px;
+      background: var(--aboco-surface-2);
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--aboco-text);
+      display: none;
+    }
+    .aboco-form-account.visible {
+      display: block;
+    }
+    .aboco-form-submit {
+      width: 100%;
+      padding: 14px 24px;
+      margin-top: 24px;
+      background: var(--aboco-text);
+      color: var(--aboco-bg);
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .aboco-form-submit:hover:not(:disabled) {
+      background: var(--aboco-accent);
+    }
+    .aboco-form-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .aboco-form-message {
+      margin-top: 16px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      text-align: center;
+      display: none;
+    }
+    .aboco-form-message.error {
+      display: block;
+      background: #FEF2F2;
+      color: #DC2626;
+      border: 1px solid #FECACA;
+    }
+    .aboco-form-message.success {
+      display: block;
+      background: #F0FDF4;
+      color: #16A34A;
+      border: 1px solid #BBF7D0;
+    }
+    .aboco-form-success-view {
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .aboco-form-success-view h3 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--aboco-text);
+      margin-bottom: 12px;
+    }
+    .aboco-form-success-view p {
+      font-size: 15px;
+      color: var(--aboco-text-2);
+      line-height: 1.7;
+      margin-bottom: 8px;
+    }
+    .aboco-form-success-view .aboco-cta-btn {
+      margin-top: 24px;
+    }
+
+    /* ── 플로팅 신청 버튼 ── */
+    .aboco-floating-cta {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 90;
+      padding: 14px 28px;
+      background: var(--aboco-text);
+      color: var(--aboco-bg);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 40px;
+      text-decoration: none;
+      box-shadow: 0 10px 40px rgba(28, 25, 23, 0.3);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+    .aboco-floating-cta.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .aboco-floating-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 50px rgba(28, 25, 23, 0.4);
+    }
+
+    /* ── 반응형 ── */
+    @media (max-width: 640px) {
+      .aboco-hero { padding: 72px 20px 48px; }
+      .aboco-hero h1 { font-size: 28px; }
+      .aboco-hero .aboco-meta { gap: 12px; }
+      .aboco-body { padding: 0 20px 80px; }
+      .aboco-details { padding: 20px; gap: 10px 16px; }
+      .aboco-price { font-size: 32px; }
+      .aboco-price-section { padding: 40px 20px; }
+      .aboco-floating-cta { bottom: 16px; right: 16px; padding: 12px 24px; font-size: 13px; }
+      .aboco-modal { max-height: 85vh; }
+      .aboco-modal-body { height: 65vh; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="aboco-page-border"></div>
+<div class="aboco-grain"></div>
+
+<header class="aboco-header">
+  <a class="aboco-header__logo" href="./aboco.html">Above Coding Club</a>
+  <a class="aboco-header__link" href="https://www.instagram.com/abovecodingclub" target="_blank" rel="noopener">@abovecodingclub</a>
+</header>
+
+<div class="aboco-hero">
+  <h1>Above Coding Club</h1>
+  <p class="aboco-tagline">코딩 위의 기획, 사고력, 조직력</p>
+  <div class="aboco-meta">
+    <span>2026. 04. 05 (토) 14:00–17:00</span>
+    <a href="https://map.naver.com/v5/search/%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%9E%90%ED%95%98%EB%AC%B8%EB%A1%9C12%EA%B8%B8%2010-8" target="_blank" rel="noopener">서촌 AULA스페이스</a>
+    <span>최대 15명</span>
+  </div>
+  <a href="#" class="aboco-cta-btn">신청하기</a>
+</div>
+
+<main class="aboco-body">
+
+  <section id="about">
+    <h2>About</h2>
+    <p>문과 출신 동료에게 Claude Code를 깔아줬어요. 일주일 뒤, 그 사람이 영상 편집 자동화를 만들어서 자랑하러 왔어요. 그다음 주엔 로고 색상 변환 도구를 만들었어요. 가르쳐준 적 없는 것들이었어요.</p>
+    <p>그걸 보면서 깨달았어요. 이건 한 번 배우고 끝나는 기술이 아니라, <strong>계속 쓰면서 자기 것으로 만들어가는 기술</strong>이라는 걸요. 그래서 혼자가 아니라 같이 할 수 있는 자리를 만들어보기로 했어요.</p>
+    <p>구텐베르크의 인쇄술 이후, 문해율이 1%에서 70%까지 오르는 데 200년이 걸렸대요. 지금 우리 손에 들어온 도구도 그만큼의 변곡점이라고 생각해요. 다만 이번엔 혼자 읽는 게 아니라 같이 쓰는 거예요.</p>
+  </section>
+
+  <hr class="aboco-divider">
+
+  <section id="what-we-do">
+    <h2>What we do</h2>
+    <p>AI 코딩 도구 Claude Code를 설치하고, 각자의 일에 맞게 직접 써보는 3시간이에요.</p>
+    <ul>
+      <li>Claude Code 설치와 환경 세팅</li>
+      <li>내 업무에 맞는 첫 번째 자동화 만들어보기</li>
+      <li>서로 다른 도메인의 사용법을 구경하고 나누는 시간</li>
+      <li>워크숍 이후에도 오픈채팅방에서 계속 이어가요</li>
+    </ul>
+  </section>
+
+  <hr class="aboco-divider">
+
+  <section id="who">
+    <h2>Who</h2>
+    <p>유행이라서 오는 사람 말고, 자기 일에 진심인 사람이면 좋겠어요. 기획자, 디자이너, 마케터, 연구자 — 도메인은 달라도 괜찮아요. 코딩을 할 줄 몰라도 괜찮아요.</p>
+    <p>중요한 건, 안에서 만들고 싶은 게 있는 사람이에요. 내가 뭘 넣느냐에 따라 결과가 달라지는 도구거든요. 다른 일을 하는 사람들이 각자의 방식을 나누면, 혼자서는 못 봤을 풍경이 보여요.</p>
+  </section>
+
+  <hr class="aboco-divider">
+
+  <section id="details">
+    <h2>Details</h2>
+    <dl class="aboco-details">
+      <dt>일시</dt>
+      <dd>2026년 4월 5일 (토) 14:00–17:00</dd>
+      <dt>장소</dt>
+      <dd><a href="https://map.naver.com/v5/search/%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%9E%90%ED%95%98%EB%AC%B8%EB%A1%9C12%EA%B8%B8%2010-8" target="_blank" rel="noopener">서촌 AULA스페이스</a> (종로구 자하문로12길 10-8 1층)</dd>
+      <dt>인원</dt>
+      <dd>최대 15명</dd>
+      <dt>준비물</dt>
+      <dd>맥북 (macOS 사용자만 참여 가능)</dd>
+    </dl>
+  </section>
+
+  <hr class="aboco-divider">
+
+  <div class="aboco-price-section">
+    <div class="aboco-price">50,000원</div>
+    <p class="aboco-price-note">첫 번째 워크숍. 파일럿.</p>
+    <a href="#" class="aboco-cta-btn">신청하기</a>
+    <p class="aboco-price-account">신청 후 입금해주시면 확정됩니다</p>
+  </div>
+
+  <section id="note">
+    <ul class="aboco-note">
+      <li>윈도우 사용자는 다음 라운드에서 만나요</li>
+      <li>구형 맥북이라면 macOS 버전을 미리 확인해주세요</li>
+      <li>궁금한 건 <a href="https://www.instagram.com/abovecodingclub" target="_blank" rel="noopener">인스타 DM</a>으로 편하게 물어봐 주세요</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="aboco-footer">
+  Above Coding Club — 어보코
+</footer>
+
+<!-- 신청 모달 -->
+<div class="aboco-modal-overlay" id="applyModal">
+  <div class="aboco-modal">
+    <div class="aboco-modal-header">
+      <span class="aboco-modal-title">워크샵 신청</span>
+      <button class="aboco-modal-close" id="closeModal" aria-label="닫기">&times;</button>
+    </div>
+    <div class="aboco-modal-body">
+      <!-- 신청 폼 -->
+      <form id="applyForm">
+        <div class="aboco-form-group">
+          <label class="aboco-form-label">이름 <span class="required">*</span></label>
+          <input type="text" class="aboco-form-input" name="name" placeholder="홍길동" required>
+        </div>
+
+        <div class="aboco-form-group">
+          <label class="aboco-form-label">연락처 <span class="required">*</span></label>
+          <input type="tel" class="aboco-form-input" name="phone" placeholder="010-1234-5678" required>
+        </div>
+
+        <div class="aboco-form-group">
+          <label class="aboco-form-label">이메일 <span class="required">*</span></label>
+          <input type="email" class="aboco-form-input" name="email" placeholder="hello@example.com" required>
+        </div>
+
+        <div class="aboco-form-group">
+          <label class="aboco-form-label">하시는 일 <span class="required">*</span></label>
+          <input type="text" class="aboco-form-input" name="job" placeholder="예: 기획자, 디자이너, 마케터, 연구자..." required>
+        </div>
+
+        <div class="aboco-form-group">
+          <label class="aboco-form-checkbox">
+            <input type="checkbox" name="macbook" id="macbookCheck">
+            <span class="aboco-form-checkbox-text">
+              M1 이상 맥북 사용자입니다
+              <small>Claude Code는 현재 macOS만 지원해요</small>
+            </span>
+          </label>
+        </div>
+
+        <div class="aboco-form-group">
+          <label class="aboco-form-checkbox">
+            <input type="checkbox" name="paid" id="paidCheck">
+            <span class="aboco-form-checkbox-text">
+              참가비 50,000원 입금 완료 (또는 예정)
+            </span>
+          </label>
+          <div class="aboco-form-account" id="accountInfo">
+            카카오뱅크 3333-26-2143052 박지혜
+          </div>
+        </div>
+
+        <div class="aboco-form-group">
+          <label class="aboco-form-label">만들어보고 싶은 도구</label>
+          <textarea class="aboco-form-textarea" name="tool" placeholder="워크샵에서 만들어보고 싶은 자동화나 도구가 있다면 적어주세요 (선택)"></textarea>
+        </div>
+
+        <div class="aboco-form-group">
+          <label class="aboco-form-label">하고 싶은 말</label>
+          <textarea class="aboco-form-textarea" name="message" placeholder="궁금한 점이나 전하고 싶은 말이 있다면 적어주세요 (선택)"></textarea>
+        </div>
+
+        <button type="submit" class="aboco-form-submit" id="submitBtn">신청하기</button>
+        <div class="aboco-form-message" id="formMessage"></div>
+      </form>
+
+      <!-- 신청 완료 화면 -->
+      <div class="aboco-form-success-view" id="successView" style="display: none;">
+        <h3>신청이 완료되었습니다!</h3>
+        <p>확인 후 연락드릴게요.</p>
+        <p>궁금한 점은 인스타 DM으로 편하게 물어봐 주세요.</p>
+        <a href="https://www.instagram.com/abovecodingclub" target="_blank" rel="noopener" class="aboco-cta-btn">인스타그램 바로가기</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 플로팅 신청 버튼 -->
+<button class="aboco-floating-cta" id="floatingCta">신청하기</button>
+
+<script>
+(function() {
+  // 모달 열기/닫기
+  const modal = document.getElementById('applyModal');
+  const closeBtn = document.getElementById('closeModal');
+  const floatingCta = document.getElementById('floatingCta');
+  const ctaButtons = document.querySelectorAll('.aboco-cta-btn');
+  const applyForm = document.getElementById('applyForm');
+  const successView = document.getElementById('successView');
+  const formMessage = document.getElementById('formMessage');
+  const submitBtn = document.getElementById('submitBtn');
+  const paidCheck = document.getElementById('paidCheck');
+  const accountInfo = document.getElementById('accountInfo');
+
+  function openModal(e) {
+    e.preventDefault();
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function resetForm() {
+    applyForm.reset();
+    applyForm.style.display = 'block';
+    successView.style.display = 'none';
+    formMessage.className = 'aboco-form-message';
+    formMessage.textContent = '';
+    accountInfo.classList.remove('visible');
+  }
+
+  // CTA 버튼 클릭 (모달 내부 링크 제외)
+  ctaButtons.forEach(btn => {
+    if (!btn.closest('.aboco-form-success-view')) {
+      btn.addEventListener('click', openModal);
+    }
+  });
+  floatingCta.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+  });
+
+  // 입금 체크 시 계좌번호 표시
+  paidCheck.addEventListener('change', function() {
+    if (this.checked) {
+      accountInfo.classList.add('visible');
+    } else {
+      accountInfo.classList.remove('visible');
+    }
+  });
+
+  // 폼 제출
+  applyForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    // 버튼 비활성화 및 로딩 상태
+    submitBtn.disabled = true;
+    submitBtn.textContent = '신청 중...';
+    formMessage.className = 'aboco-form-message';
+    formMessage.textContent = '';
+
+    // 폼 데이터 수집
+    const formData = new FormData(applyForm);
+    const data = {
+      name: formData.get('name'),
+      phone: formData.get('phone'),
+      email: formData.get('email'),
+      job: formData.get('job'),
+      macbook: formData.get('macbook') === 'on',
+      paid: formData.get('paid') === 'on',
+      tool: formData.get('tool') || '',
+      message: formData.get('message') || ''
+    };
+
+    try {
+      const response = await fetch('/api/apply', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        // 성공 - 완료 화면 표시
+        applyForm.style.display = 'none';
+        successView.style.display = 'block';
+      } else {
+        // 에러 메시지 표시
+        formMessage.className = 'aboco-form-message error';
+        formMessage.textContent = result.error || '신청 처리 중 오류가 발생했습니다.';
+        submitBtn.disabled = false;
+        submitBtn.textContent = '신청하기';
+      }
+    } catch (error) {
+      console.error('Submit error:', error);
+      formMessage.className = 'aboco-form-message error';
+      formMessage.textContent = '네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+      submitBtn.disabled = false;
+      submitBtn.textContent = '신청하기';
+    }
+  });
+
+  // 플로팅 버튼 스크롤 표시
+  const hero = document.querySelector('.aboco-hero');
+  function checkScroll() {
+    const heroBottom = hero.getBoundingClientRect().bottom;
+    if (heroBottom < 0) {
+      floatingCta.classList.add('visible');
+    } else {
+      floatingCta.classList.remove('visible');
+    }
+  }
+  window.addEventListener('scroll', checkScroll, { passive: true });
+  checkScroll();
+})();
+</script>
+
+<script src="./edit.js" defer></script>
+</body>
+</html>

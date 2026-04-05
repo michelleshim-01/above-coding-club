@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Part 1: 설치 가이드 — Claude Code 워크샵</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav-inner">
+    <a class="nav-logo" href="./index.html">Claude Code <span>워크샵</span></a>
+    <ul class="nav-links">
+      <li><a href="./index.html">홈</a></li>
+      <li><a href="./01-setup.html" class="active">1. 설치</a></li>
+      <li><a href="./02-basics.html">2. 기본</a></li>
+      <li><a href="./03-git.html">3. Git</a></li>
+      <li><a href="./04-claude-md.html">4. CLAUDE.md</a></li>
+      <li><a href="./05-vibe-coding.html">5. 바이브코딩</a></li>
+      <li><a href="./handout.html">핸드아웃</a></li>
+      <li><a href="./aboco.html">어보브 코딩</a></li>
+    </ul>
+    <div class="nav-spacer"></div>
+    <span class="nav-badge">0:00 – 0:40</span>
+  <button id="edit-btn" style="padding: 5px 12px; background: transparent; color: var(--text-2); border: 1px solid var(--border); border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 8px;">✏️ 편집</button><button id="reset-btn" style="padding: 5px 10px; background: transparent; color: rgb(220, 38, 38); border: 1px solid rgb(254, 202, 202); border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 4px; display: none;">↺ 초기화</button><button id="save-file-btn" style="padding: 5px 12px; background: rgb(22, 101, 52); color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 4px;">💾 파일 저장</button></nav>
+</header>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <span class="part-badge">Part 1</span>
+    <h1>설치 &amp; Claude Code란?</h1>
+    <p>Claude Code가 무엇인지 이해하고, 내 컴퓨터에 설치해서 첫 대화를 나눠봅니다.</p>
+    <div class="time-badge">⏱ 40분</div>
+  </div>
+</div>
+
+<main class="main-content">
+
+  <h2>Claude Code란?</h2>
+  <p>Claude Code는 <strong>터미널에서 동작하는 AI 에이전트</strong>입니다. 파일을 읽고, 코드를 작성하고, 명령어를 실행하며, 스스로 결과를 확인하고 수정합니다.</p>
+  <p>쉽게 말하면: <strong>"24시간 일하는 스마트 인턴"</strong></p>
+
+  <div class="callout callout-info">
+    <div class="callout-title">🔄 에이전트 루프</div>
+    Claude Code는 세 단계를 반복합니다:<br>
+    <strong>① 컨텍스트 수집</strong> → 프로젝트 구조와 파일을 읽고 이해<br>
+    <strong>② 작업 실행</strong> → 파일 생성/수정, 명령어 실행<br>
+    <strong>③ 결과 검증</strong> → 테스트 실행, 오류 확인, 필요시 반복
+  </div>
+
+  <h3>다른 AI 도구와 비교</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>도구</th>
+          <th>역할</th>
+          <th>자율성</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>GitHub Copilot</td>
+          <td>코드 자동 완성 (한 줄씩)</td>
+          <td>낮음</td>
+        </tr>
+        <tr>
+          <td>Cursor / Windsurf</td>
+          <td>편집기 안에서 AI 채팅</td>
+          <td>중간</td>
+        </tr>
+        <tr>
+          <td><strong>Claude Code</strong></td>
+          <td><strong>여러 파일에 걸쳐 자율적으로 작업</strong></td>
+          <td><strong>높음</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>전통 개발 vs 바이브코딩</h2>
+  <div class="compare-grid">
+    <div class="compare-card traditional">
+      <h4>🏗️ 전통적인 개발</h4>
+      <ul>
+        <li>설계 → 기초부터 차근차근</li>
+        <li>완성도 높은 코드 지향</li>
+        <li>수정 시 투입 인력·시간 큼</li>
+        <li>전문 지식 필요</li>
+      </ul>
+    </div>
+    <div class="compare-card vibe">
+      <h4>🌊 바이브코딩 (Vibe Coding)</h4>
+      <ul>
+        <li>대화로 코드 생성 (비용 ≈ 0)</li>
+        <li>러프하게 빠르게 만들고 폐기</li>
+        <li>수정 비용이 거의 없음</li>
+        <li>기획력이 핵심 역량</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout callout-warning">
+    <div class="callout-title">⚠️ 기술 부채 주의</div>
+    바이브코딩은 빠르지만, AI 코드의 품질 편차가 큽니다. 장기 운영 시 기술 부채가 쌓이면 — 수정 지점을 알 수 없고, 보안 문제가 생기고, 버전업이 어려워집니다. <strong>Git으로 버전을 잘 관리하고, CLAUDE.md로 규칙을 잡아두는 것</strong>이 해결책입니다.
+  </div>
+
+  <h2>설치하기</h2>
+  <p>아래에서 내 운영체제를 선택하세요.</p>
+
+  <div class="os-tabs">
+    <div class="os-tab-buttons">
+      <button class="os-tab-btn active" onclick="switchTab(this, 'mac')">🍎 Mac (macOS)</button>
+      <button class="os-tab-btn" onclick="switchTab(this, 'win')">🪟 Windows</button>
+    </div>
+
+    <!-- MAC -->
+    <div id="tab-mac" class="os-tab-content active">
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h3>Node.js 설치 확인</h3>
+            <p>터미널을 열고 (Cmd+Space → "터미널") 아래를 입력하세요.</p>
+          </div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-label">Terminal</div>
+        <button class="copy-btn" onclick="copyCode(this)">복사</button>
+        <pre>node --version</pre>
+      </div>
+      <p>v18.0.0 이상이 나오면 OK. 없으면 <a href="https://nodejs.org" target="_blank">nodejs.org</a>에서 LTS 버전을 다운로드하세요.</p>
+
+      <div class="steps" style="margin-top:20px;">
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h3>Claude Code 설치</h3>
+          </div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-label">Terminal</div>
+        <button class="copy-btn" onclick="copyCode(this)">복사</button>
+        <pre>npm install -g @anthropic-ai/claude-code</pre>
+      </div>
+
+      <div class="steps" style="margin-top:20px;">
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h3>PATH 설정 (명령어를 못 찾는다고 나오면)</h3>
+          </div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-label">Terminal</div>
+        <button class="copy-btn" onclick="copyCode(this)">복사</button>
+        <pre>echo 'export PATH="$HOME/.claude/bin:$PATH"' &gt;&gt; ~/.zshrc
+source ~/.zshrc</pre>
+      </div>
+
+      <div class="steps" style="margin-top:20px;">
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h3>설치 확인</h3>
+          </div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-label">Terminal</div>
+        <button class="copy-btn" onclick="copyCode(this)">복사</button>
+        <pre>claude --version</pre>
+      </div>
+      <p>버전 번호가 나오면 설치 완료!</p>
+    </div>
+
+    <!-- WINDOWS -->
+    <div id="tab-win" class="os-tab-content">
+      <div class="callout callout-warning">
+        <div class="callout-title">⚠️ PowerShell 필수</div>
+        Windows에서는 반드시 <strong>PowerShell</strong>을 사용해야 합니다. CMD(명령 프롬프트)에서는 작동하지 않습니다. VS Code 터미널이 기본 PowerShell이면 바로 사용 가능합니다.
+      </div>
+
+      <div class="steps" style="margin-top:20px;">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h3>Node.js 설치 확인</h3>
+            <p>PowerShell을 열고 아래를 입력하세요.</p>
+          </div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-label">PowerShell</div>
+        <button class="copy-btn" onclick="copyCode(this)">복사</button>
+        <pre>node --version</pre>
+      </div>
+      <p>v18 이상이 없으면 <a href="https://nodejs.org" target="_blank">nodejs.org</a>에서 LTS 버전을 다운로드하세요.</p>
+
+      <div class="steps" style="margin-top:20px;">
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h3>Claude Code 설치</h3>
+          </div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-label">PowerShell</div>
+        <button class="copy-btn" onclick="copyCode(this)">복사</button>
+        <pre>npm install -g @anthropic-ai/claude-code</pre>
+      </div>
+
+      <div class="steps" style="margin-top:20px;">
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h3>PATH 수동 추가 (명령어를 못 찾으면)</h3>
+            <p>시스템 환경변수에 아래 경로를 추가하세요:</p>
+          </div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-label">추가할 PATH 경로</div>
+        <button class="copy-btn" onclick="copyCode(this)">복사</button>
+        <pre>%USERPROFILE%\.claude\bin</pre>
+      </div>
+      <p style="font-size:13px; color:var(--text-2);">시작 → 환경 변수 검색 → 사용자 변수 Path 편집 → 새로 만들기 → 위 경로 입력 → 확인 → PowerShell 재시작</p>
+
+      <div class="steps" style="margin-top:20px;">
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h3>설치 확인</h3>
+          </div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-label">PowerShell</div>
+        <button class="copy-btn" onclick="copyCode(this)">복사</button>
+        <pre>claude --version</pre>
+      </div>
+    </div>
+  </div>
+
+  <h2>API 키 설정 &amp; 비용 한도</h2>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Anthropic 콘솔에서 API 키 발급</h3>
+        <p><a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys → Create Key</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>⚠️ 비용 한도 설정 (꼭 하세요!)</h3>
+        <p>Settings → Billing → Monthly Spend Limit → $5~10 설정. 처음엔 적게 설정해두는 게 안전합니다.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>또는 Claude Pro 구독 사용</h3>
+        <p>claude.ai/pro 구독($20/월)이 있으면 API 키 없이 <code>claude</code> 실행 후 브라우저 로그인으로 사용 가능. Claude Max($100/월)는 사용량 제한이 거의 없습니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>VS Code 연동</h2>
+  <p>터미널만으로도 사용 가능하지만, <strong>VS Code에서 작업하면 파일 변경사항과 Git 내역을 한눈에 볼 수 있어 훨씬 편합니다.</strong></p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Claude VS Code 확장 설치</h3>
+        <p>VS Code → Extensions (Ctrl+Shift+X) → "Claude" 검색 → Anthropic 공식 확장 설치</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>첫 실행</h3>
+        <p>VS Code에서 작업 폴더 열기 → 하단 터미널 열기 (Ctrl+`) → <code>claude</code> 입력</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>유용한 VS Code 설정</h3>
+        <p>File → Auto Save 켜기 · View → Light Modern 테마 · 한국어 팩 설치 (선택)</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>공통 오류 대처</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>오류 메시지</th><th>해결 방법</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>command not found: claude</code></td>
+          <td>PATH 설정 후 터미널 재시작</td>
+        </tr>
+        <tr>
+          <td>로그인 후 반응 없음</td>
+          <td>브라우저 팝업 차단 해제 → 다시 시도</td>
+        </tr>
+        <tr>
+          <td><code>401 Unauthorized</code></td>
+          <td>API 키 재확인 / Claude Pro 구독 확인</td>
+        </tr>
+        <tr>
+          <td>Windows에서 설치 실패</td>
+          <td>PowerShell을 관리자 권한으로 실행 후 재시도</td>
+        </tr>
+        <tr>
+          <td>VS Code 확장 작동 안 함</td>
+          <td>VS Code 완전 재시작 (Cmd/Ctrl+Shift+P → Reload Window)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-title">✅ 이 단계 완료 체크</div>
+    <code>claude --version</code> 입력 시 버전 번호가 나오면 Part 1 완료! 다음으로 넘어가세요.
+  </div>
+
+  <div class="page-nav">
+    <a class="prev" href="./index.html">
+      <span class="nav-dir">← 이전</span>
+      <span class="nav-title">홈 — 워크샵 개요</span>
+    </a>
+    <a class="next" href="./02-basics.html">
+      <span class="nav-dir">다음 →</span>
+      <span class="nav-title">Part 2: 기본 사용법</span>
+    </a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  Claude Code 워크샵 · Part 1: 설치 가이드
+</footer>
+
+<script>
+function switchTab(btn, id) {
+  document.querySelectorAll('.os-tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.os-tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+}
+
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent.trim()).then(() => {
+    btn.textContent = '복사됨 ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+<script src="./edit.js"></script>
+
+
+</body><whale-quicksearch translate="no" style="visibility: visible;"></whale-quicksearch></html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>참가자 핸드아웃 — Claude Code 워크샵</title>
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    /* Screen styles */
+    .print-hint {
+      background: var(--info-bg);
+      border: 1px solid var(--info-border);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      font-size: 14px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .handout-page {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+      max-width: 720px;
+    }
+
+    .handout-title {
+      text-align: center;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--accent);
+    }
+
+    .handout-title h1 { font-size: 20px; font-weight: 900; color: var(--text); }
+    .handout-title p { font-size: 12px; color: var(--text-2); margin-top: 4px; }
+
+    .handout-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .handout-section {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .handout-section-full {
+      grid-column: 1 / -1;
+    }
+
+    .handout-section h2 {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--accent);
+      color: white;
+      padding: 5px 10px;
+      margin: 0;
+      border-bottom: none;
+      display: block;
+    }
+
+    .handout-section-body {
+      padding: 10px;
+    }
+
+    .h-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    .h-table th {
+      background: var(--surface-2);
+      font-size: 10px;
+      padding: 4px 6px;
+    }
+
+    .h-table td {
+      padding: 4px 6px;
+      font-size: 11px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .h-table tr:last-child td { border-bottom: none; }
+
+    .h-table code {
+      font-size: 10px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      padding: 1px 3px;
+      border-radius: 3px;
+    }
+
+    .h-checklist {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 11px;
+    }
+
+    .h-checklist li {
+      padding: 3px 0;
+      border-bottom: 1px dotted var(--border);
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .h-checklist li::before {
+      content: "□";
+      position: absolute;
+      left: 0;
+      color: var(--text-2);
+    }
+
+    .h-checklist li:last-child { border-bottom: none; }
+
+    .cycle-row {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 11px;
+      padding: 6px 0;
+    }
+
+    .cycle-chip {
+      padding: 3px 8px;
+      border-radius: 99px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .cycle-chip.s1 { background: var(--accent-light); color: var(--accent-dark); }
+    .cycle-chip.s2 { background: #EDE9FE; color: #5B21B6; }
+    .cycle-chip.s3 { background: #F0FDF4; color: #166534; }
+    .cycle-chip.s4 { background: #EFF6FF; color: #1D4ED8; }
+    .cycle-chip.s5 { background: #FEF3C7; color: #92400E; }
+    .cycle-arrow { color: var(--text-2); }
+
+    .principle-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 11px;
+    }
+
+    .principle-list li {
+      padding: 3px 0 3px 14px;
+      position: relative;
+      border-bottom: 1px dotted var(--border);
+    }
+
+    .principle-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .principle-list li:last-child { border-bottom: none; }
+
+    .resource-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 11px;
+    }
+
+    .resource-list li {
+      padding: 3px 0;
+      border-bottom: 1px dotted var(--border);
+    }
+
+    .resource-list li:last-child { border-bottom: none; }
+    .resource-list a { color: var(--accent); font-size: 10px; word-break: break-all; }
+
+    /* Print */
+    @media print {
+      body { background: white; }
+      .site-header, .page-nav, .site-footer, .print-hint, .main-content > :not(.handout-page) { display: none; }
+      .main-content { padding: 0; max-width: none; }
+      .handout-page {
+        border: none;
+        box-shadow: none;
+        padding: 16px;
+        max-width: none;
+      }
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav-inner">
+    <a class="nav-logo" href="./index.html">Claude Code <span>워크샵</span></a>
+    <ul class="nav-links">
+      <li><a href="./index.html">홈</a></li>
+      <li><a href="./01-setup.html">1. 설치</a></li>
+      <li><a href="./02-basics.html">2. 기본</a></li>
+      <li><a href="./03-git.html">3. Git</a></li>
+      <li><a href="./04-claude-md.html">4. CLAUDE.md</a></li>
+      <li><a href="./05-vibe-coding.html">5. 바이브코딩</a></li>
+      <li><a href="./handout.html" class="active">핸드아웃</a></li>
+      <li><a href="./aboco.html">어보브 코딩</a></li>
+    </ul>
+    <div class="nav-spacer"></div>
+    <button onclick="window.print()" style="padding:6px 14px; background:var(--accent); color:white; border:none; border-radius:6px; font-size:13px; font-weight:600; cursor:pointer;">🖨 인쇄</button>
+  </nav>
+</header>
+
+<main class="main-content">
+
+  <div class="print-hint">
+    <span>🖨</span>
+    <span>이 페이지는 A4 인쇄용으로 최적화되어 있습니다. 위 <strong>인쇄</strong> 버튼을 누르거나 브라우저 인쇄(Ctrl/Cmd+P)를 사용하세요.</span>
+  </div>
+
+  <div class="handout-page">
+    <div class="handout-title">
+      <h1>Claude Code 워크샵 — 참가자 핸드아웃</h1>
+      <p>핵심 내용 빠른 참조 카드 · 전체 자료: 워크샵 사이트 참고</p>
+    </div>
+
+    <div class="handout-grid">
+
+      <!-- 설치 -->
+      <div class="handout-section">
+        <h2>설치 명령어</h2>
+        <div class="handout-section-body">
+          <table class="h-table">
+            <thead><tr><th>OS</th><th>명령어</th></tr></thead>
+            <tbody>
+              <tr><td>공통</td><td><code>npm install -g @anthropic-ai/claude-code</code></td></tr>
+              <tr><td>Mac PATH</td><td><code>echo 'export PATH="$HOME/.claude/bin:$PATH"' >> ~/.zshrc</code></td></tr>
+              <tr><td>Win PATH</td><td>환경변수 → <code>%USERPROFILE%\.claude\bin</code> 추가</td></tr>
+              <tr><td>확인</td><td><code>claude --version</code></td></tr>
+              <tr><td>⚠️ Windows</td><td>CMD ❌ → PowerShell ✅ 필수</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 4가지 모드 -->
+      <div class="handout-section">
+        <h2>4가지 모드 (Shift+Tab 전환)</h2>
+        <div class="handout-section-body">
+          <table class="h-table">
+            <thead><tr><th>모드</th><th>권한</th><th>추천 시점</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Default</strong></td><td>매번 확인</td><td>✅ 처음 시작</td></tr>
+              <tr><td><strong>Auto-accept</strong></td><td>파일 자동</td><td>익숙해지면</td></tr>
+              <tr><td><strong>Plan Mode</strong></td><td>읽기 전용</td><td>작업 전 검토</td></tr>
+              <tr><td style="color:#DC2626;"><strong>⚠️ Dangerous</strong></td><td>전부 자동</td><td>Git 완비 후</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 슬래시 명령어 -->
+      <div class="handout-section">
+        <h2>핵심 슬래시 명령어</h2>
+        <div class="handout-section-body">
+          <table class="h-table">
+            <thead><tr><th>명령어</th><th>역할</th></tr></thead>
+            <tbody>
+              <tr><td><code>/init</code></td><td>CLAUDE.md 자동 생성</td></tr>
+              <tr><td><code>/plan</code></td><td>Plan Mode 진입</td></tr>
+              <tr><td><code>/clear</code></td><td>대화 초기화 (5쌍 이내 권장)</td></tr>
+              <tr><td><code>/compact</code></td><td>대화 압축 (50% 이하 남았을 때)</td></tr>
+              <tr><td><code>/resume</code></td><td>이전 세션 불러오기</td></tr>
+              <tr><td><code>/cost</code></td><td>비용 확인</td></tr>
+              <tr><td><code>/memory</code></td><td>자동 기억 확인/수정</td></tr>
+              <tr><td><code>!명령어</code></td><td>터미널 직접 실행</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 단축키 -->
+      <div class="handout-section">
+        <h2>키보드 단축키</h2>
+        <div class="handout-section-body">
+          <table class="h-table">
+            <tbody>
+              <tr><td><strong>Shift+Tab</strong></td><td>모드 전환</td></tr>
+              <tr><td><strong>Shift+Enter</strong></td><td>줄바꿈</td></tr>
+              <tr><td><strong>Ctrl+C</strong></td><td>작업 중단</td></tr>
+              <tr><td><strong>Esc × 2</strong></td><td>직전 Claude 작업 취소</td></tr>
+              <tr><td><strong>Ctrl+`</strong></td><td>VS Code 터미널 열기</td></tr>
+              <tr><td><strong>Cmd/Ctrl+P</strong></td><td>VS Code 파일 빠른 열기</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 바이브코딩 사이클 -->
+      <div class="handout-section handout-section-full">
+        <h2>바이브코딩 5단계 사이클</h2>
+        <div class="handout-section-body">
+          <div class="cycle-row">
+            <div class="cycle-chip s1">① 기획</div>
+            <span class="cycle-arrow">→</span>
+            <div class="cycle-chip s2">② 플랜</div>
+            <span class="cycle-arrow">→</span>
+            <div class="cycle-chip s3">③ 액션+저장</div>
+            <span class="cycle-arrow">→</span>
+            <div class="cycle-chip s4">④ 확인</div>
+            <span class="cycle-arrow">→</span>
+            <div class="cycle-chip s5">⑤ 수정+반복</div>
+          </div>
+          <table class="h-table" style="margin-top:8px;">
+            <tbody>
+              <tr><td style="color:var(--accent-dark);"><strong>① 기획</strong></td><td>GitHub 레포 생성 → Claude에게 기획 문서 초안 요청 → 직접 읽고 확인</td></tr>
+              <tr><td style="color:#5B21B6;"><strong>② 플랜</strong></td><td>Plan Mode에서 페이즈별 작업 계획 MD 파일 생성 → 방향 확인</td></tr>
+              <tr><td style="color:#166534;"><strong>③ 액션+저장</strong></td><td>코드 작성 → git commit push → /clear → /init → 다시 저장</td></tr>
+              <tr><td style="color:#1D4ED8;"><strong>④ 확인</strong></td><td>MCP(Chrome)으로 결과 테스트 → 에러 분석 보고</td></tr>
+              <tr><td style="color:#92400E;"><strong>⑤ 수정+반복</strong></td><td>문제 → 작은 플랜 → 수정 / 3번 실패시 세이브 지점으로 복귀</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Git -->
+      <div class="handout-section">
+        <h2>Git 핵심 명령어</h2>
+        <div class="handout-section-body">
+          <table class="h-table">
+            <thead><tr><th>명령어</th><th>역할</th></tr></thead>
+            <tbody>
+              <tr><td><code>git clone [URL]</code></td><td>GitHub → 내 컴퓨터</td></tr>
+              <tr><td><code>git add .</code></td><td>변경 파일 전체 선택</td></tr>
+              <tr><td><code>git commit -m "메시지"</code></td><td>저장 (Claude가 자동 작성)</td></tr>
+              <tr><td><code>git push</code></td><td>GitHub에 업로드</td></tr>
+              <tr><td><code>git pull</code></td><td>GitHub → 내 컴퓨터</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:10px; color:var(--text-2); margin-top:6px;">💡 초보자는 commit + push + pull 3개만으로 충분!<br>Claude에게 "현재 상태 저장해줘"라고 하면 자동 실행.</p>
+        </div>
+      </div>
+
+      <!-- 프롬프팅 원칙 -->
+      <div class="handout-section">
+        <h2>효과적인 프롬프팅 원칙</h2>
+        <div class="handout-section-body">
+          <ul class="principle-list">
+            <li><strong>구체적으로</strong> — "B열=서울 행만 필터링해서 새 파일로"</li>
+            <li><strong>검증 기준 포함</strong> — 예상 결과나 샘플 데이터 함께 제공</li>
+            <li><strong>Plan Mode 먼저</strong> — 큰 작업 전에 계획 확인 필수</li>
+            <li><strong>@파일명 참조</strong> — 관련 파일을 직접 컨텍스트로</li>
+            <li><strong>반복 개선 OK</strong> — 5~10번 수정이 정상 과정</li>
+            <li><strong>막히면 /clear</strong> — 같은 실수 2번 반복 시 초기화</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 컨텍스트 관리 -->
+      <div class="handout-section">
+        <h2>컨텍스트 관리</h2>
+        <div class="handout-section-body">
+          <ul class="principle-list">
+            <li>질문-답변 <strong>5쌍 이내</strong>에 작업 완료 → <code>/clear</code></li>
+            <li>컨텍스트 <strong>50% 남았을 때</strong> → <code>/compact</code> 미리 실행</li>
+            <li>작업 완료 → <code>/init</code> → <code>git push</code> → <code>/clear</code></li>
+            <li><code>/clear</code> 후 돌아가고 싶으면 → <code>/resume</code></li>
+          </ul>
+          <p style="font-size:10px; color:var(--text-2); margin-top:6px;">⚠️ Anthropic 엔지니어들도 평균 5쌍 이내에 세션 종료</p>
+        </div>
+      </div>
+
+      <!-- CLAUDE.md -->
+      <div class="handout-section">
+        <h2>CLAUDE.md 위치</h2>
+        <div class="handout-section-body">
+          <table class="h-table">
+            <thead><tr><th>위치</th><th>적용 범위</th></tr></thead>
+            <tbody>
+              <tr><td><code>~/.claude/CLAUDE.md</code></td><td>모든 프로젝트 (전역)</td></tr>
+              <tr><td><code>./CLAUDE.md</code></td><td>현재 프로젝트 (팀 공유)</td></tr>
+              <tr><td><code>./CLAUDE.local.md</code></td><td>개인 로컬 (gitignore)</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:10px; color:var(--text-2); margin-top:6px;">💡 <code>/init</code>으로 자동 생성 → 읽고 확인 → 규칙 추가<br>200줄 이내로 유지</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="page-nav">
+    <a class="prev" href="./05-vibe-coding.html">
+      <span class="nav-dir">← 이전</span>
+      <span class="nav-title">Part 5: 바이브코딩 사이클</span>
+    </a>
+    <a class="next" href="./index.html">
+      <span class="nav-dir">처음으로 →</span>
+      <span class="nav-title">홈 — 워크샵 개요</span>
+    </a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  Claude Code 워크샵 · 참가자 핸드아웃
+</footer>
+<script src="./edit.js"></script>
+</body>
+</html>

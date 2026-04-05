@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code 워크샵</title>
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    .hero-section {
+      background: linear-gradient(135deg, #FEF0EA 0%, #FAFAF8 60%);
+      border-bottom: 1px solid var(--border);
+      padding: 60px 24px 50px;
+      text-align: center;
+    }
+    .hero-section h1 {
+      font-size: 36px;
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+    .hero-section h1 em { color: var(--accent); font-style: normal; }
+    .hero-section p { font-size: 17px; color: var(--text-2); max-width: 500px; margin: 0 auto 20px; }
+    .hero-tags { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+    .hero-tag {
+      font-size: 13px; font-weight: 600;
+      background: white; border: 1px solid var(--border);
+      padding: 5px 14px; border-radius: 99px; color: var(--text-2);
+    }
+    .outcomes {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .outcome-card {
+      padding: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 14px;
+    }
+    .outcome-icon { font-size: 24px; margin-bottom: 8px; display: block; }
+    .outcome-card strong { display: block; margin-bottom: 4px; }
+    .outcome-card span { color: var(--text-2); font-size: 13px; }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav-inner">
+    <a class="nav-logo" href="./index.html">Claude Code <span>워크샵</span></a>
+    <ul class="nav-links">
+      <li><a href="./index.html" class="active">홈</a></li>
+      <li><a href="./01-setup.html">1. 설치</a></li>
+      <li><a href="./02-basics.html">2. 기본</a></li>
+      <li><a href="./03-git.html">3. Git</a></li>
+      <li><a href="./04-claude-md.html">4. CLAUDE.md</a></li>
+      <li><a href="./05-vibe-coding.html">5. 바이브코딩</a></li>
+      <li><a href="./handout.html">핸드아웃</a></li>
+      <li><a href="./aboco.html">어보브 코딩</a></li>
+    </ul>
+    <div class="nav-spacer"></div>
+    <span class="nav-badge">3시간</span>
+  <button id="edit-btn" style="padding: 5px 12px; background: var(--accent); color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 8px;">✓ 완료</button><button id="reset-btn" style="padding: 5px 10px; background: transparent; color: rgb(220, 38, 38); border: 1px solid rgb(254, 202, 202); border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 4px; display: inline-block;">↺ 초기화</button><button id="save-file-btn" style="padding: 5px 12px; background: rgb(22, 101, 52); color: white; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; margin-left: 4px;">💾 파일 저장</button></nav>
+</header>
+
+<div class="hero-section">
+  <h1 contenteditable="true" style="outline: rgb(252, 169, 142) dashed 1.5px; border-radius: 3px;" data-edit-active="1"><em>Claude Code</em><div>101</div></h1>
+  <p contenteditable="true" style="outline: rgb(252, 169, 142) dashed 1.5px; border-radius: 3px;" data-edit-active="1">비개발자 친구들을 위한 Claude Code 입문 (야매) 워크샵<br>설치부터 바이브코딩 실전까지 마스터 해보자구!</p> <img style="width:220px; margin-top:5px; border-radius:16px;" src="./images/화이팅짤.JPG">
+  <div class="hero-tags">
+    <span class="hero-tag">⏱ 3시간</span>
+    <span class="hero-tag">💻 Mac / Windows</span>
+    <span class="hero-tag">🧑 비개발자 대상</span>
+    <span class="hero-tag">🛠 설치부터 실전까지</span>
+  </div>
+</div>
+
+<main class="main-content">
+
+  <h2 contenteditable="true" style="outline: rgb(252, 169, 142) dashed 1.5px; border-radius: 3px;" data-edit-active="1">오늘의 커리큘럼</h2>
+  <nav class="timeline">
+    <a class="timeline-card" href="./01-setup.html">
+      <span class="timeline-card-time">0:00–0:40</span>
+      <div class="timeline-card-body">
+        <strong>Part 1 — 설치 &amp; Claude Code란?</strong>
+        <span>바이브코딩 vs 전통 개발 · Mac/Windows 설치 · API 키 설정 · VS Code 연동</span>
+      </div>
+      <span class="timeline-card-arrow">→</span>
+    </a>
+    <a class="timeline-card" href="./02-basics.html">
+      <span class="timeline-card-time">0:40–1:10</span>
+      <div class="timeline-card-body">
+        <strong>Part 2 — 기본 사용법</strong>
+        <span>4가지 모드 · 핵심 슬래시 명령어 · 키보드 단축키 · 첫 실습</span>
+      </div>
+      <span class="timeline-card-arrow">→</span>
+    </a>
+    <a class="timeline-card" href="./03-git.html">
+      <span class="timeline-card-time">1:10–1:40</span>
+      <div class="timeline-card-body">
+        <strong>Part 3 — Git 안전망</strong>
+        <span>Git/GitHub 개념 · 타임머신 비유 · Claude가 대신 쓰는 명령어 · 실습</span>
+      </div>
+      <span class="timeline-card-arrow">→</span>
+    </a>
+    <a class="timeline-card" href="./04-claude-md.html">
+      <span class="timeline-card-time">1:40–2:10</span>
+      <div class="timeline-card-body">
+        <strong>Part 4 — CLAUDE.md 설정</strong>
+        <span>인턴 온보딩 문서 · /init 실습 · 나만의 규칙 추가 · Auto-memory</span>
+      </div>
+      <span class="timeline-card-arrow">→</span>
+    </a>
+    <a class="timeline-card" href="./05-vibe-coding.html">
+      <span class="timeline-card-time">2:10–2:50</span>
+      <div class="timeline-card-body">
+        <strong>Part 5 — 바이브코딩 5단계 사이클</strong>
+        <span>기획 → 플랜 → 액션+저장 → 확인 → 반복 · 실전 실습 · Hook 맛보기</span>
+      </div>
+      <span class="timeline-card-arrow">→</span>
+    </a>
+    <div class="timeline-card" style="cursor:default;">
+      <span class="timeline-card-time">2:50–3:00</span>
+      <div class="timeline-card-body">
+        <strong>마무리 — Q&amp;A &amp; 다음 단계</strong>
+        <span>MCP 확장 소개 · Claude Core Work · 다음에 해볼 것들</span>
+      </div>
+    </div>
+  </nav>
+
+  <h2 contenteditable="true" style="outline: rgb(252, 169, 142) dashed 1.5px; border-radius: 3px;" data-edit-active="1">오늘 얻어가는 것</h2>
+  <div class="outcomes">
+    <div class="outcome-card">
+      <span class="outcome-icon">⚙️</span>
+      <strong>Claude Code 설치 완료</strong>
+      <span>Mac/Windows에 Claude Code 환경 구축</span>
+    </div>
+    <div class="outcome-card">
+      <span class="outcome-icon">🎮</span>
+      <strong>4가지 모드 완전 이해</strong>
+      <span>Plan / Default / Auto-accept / Dangerous 언제 쓸지 파악</span>
+    </div>
+    <div class="outcome-card">
+      <span class="outcome-icon">🌳</span>
+      <strong>Git 안전망 구축</strong>
+      <span>"현재 상태 저장해줘" 한 마디로 버전 관리</span>
+    </div>
+    <div class="outcome-card">
+      <span class="outcome-icon">📋</span>
+      <strong>CLAUDE.md 나만의 설정</strong>
+      <span>한 번 설정하면 매번 설명 안 해도 되는 나만의 규칙</span>
+    </div>
+    <div class="outcome-card">
+      <span class="outcome-icon">🔄</span>
+      <strong>바이브코딩 사이클 체험</strong>
+      <span>기획→플랜→액션→확인→반복 흐름 직접 경험</span>
+    </div>
+    <div class="outcome-card">
+      <span class="outcome-icon">🚀</span>
+      <strong>첫 자동화 아이디어 설계</strong>
+      <span>내 반복 업무를 AI로 자동화할 설계도 완성</span>
+    </div>
+  </div>
+
+  <h2 contenteditable="true" style="outline: rgb(252, 169, 142) dashed 1.5px; border-radius: 3px;" data-edit-active="1">사전 준비물 체크리스트</h2>
+  <p contenteditable="true" style="outline: rgb(252, 169, 142) dashed 1.5px; border-radius: 3px;" data-edit-active="1">워크샵 당일 전에 아래를 미리 준비해 오시면 첫 40분을 훨씬 수월하게 지나갈 수 있어요.</p>
+  <ul class="checklist">
+    <li contenteditable="true" style="outline: rgb(252, 169, 142) dashed 1.5px; border-radius: 3px;" data-edit-active="1">노트북 (Mac 또는 Windows) — 태블릿은 불가</li>
+    <li contenteditable="true" style="outline: rgb(252, 169, 142) dashed 1.5px; border-radius: 3px;" data-edit-active="1">GitHub 계정 — <a href="https://github.com" target="_blank">github.com</a> 가입 (무료)</li>
+    <li contenteditable="true" style="outline: rgb(252, 169, 142) dashed 1.5px; border-radius: 3px;" data-edit-active="1">Anthropic 계정 — <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> 가입 (무료)</li>
+    <li contenteditable="true" style="outline: rgb(252, 169, 142) dashed 1.5px; border-radius: 3px;" data-edit-active="1">API 키 발급 + 월 비용 한도 $5 설정</li>
+    <li contenteditable="true" style="outline: rgb(252, 169, 142) dashed 1.5px; border-radius: 3px;" data-edit-active="1">VS Code 설치 — <a href="https://code.visualstudio.com" target="_blank">code.visualstudio.com</a></li>
+    <li contenteditable="true" style="outline: rgb(252, 169, 142) dashed 1.5px; border-radius: 3px;" data-edit-active="1">Node.js 설치 (v18 이상) — <a href="https://nodejs.org" target="_blank">nodejs.org</a></li>
+  </ul>
+
+  <div class="callout callout-info">
+    <div class="callout-title">💡 사전 준비가 어려우면?</div>
+    Claude Code를 설치하는 방법은 공식 문서를 보는 게 가장 정확하지만, 어려우면 그냥 Claude나 GPT에게 공식 문서 내용을 붙여넣고 물어보세요. (Claude Code 설치 방법을 Claude Code에게 물어보는 건… 재귀적으로 불가능하니 이 단계에서는 웹 Claude를 쓰세요 😄)
+  </div>
+
+  <div class="page-nav">
+    <a class="next" href="./01-setup.html">
+      <span class="nav-dir">다음 →</span>
+      <span class="nav-title">Part 1: 설치 가이드</span>
+    </a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  Claude Code 워크샵 · 참고: <a href="https://m1zz.github.io/ClaudeCode101" target="_blank">ClaudeCode101</a> · <a href="https://hkg-workshop.vercel.app" target="_blank">HKG Workshop</a>
+</footer>
+
+<script>
+  // Mark active nav link
+  const path = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    if (a.getAttribute('href').includes(path)) a.classList.add('active');
+    else a.classList.remove('active');
+  });
+</script>
+<script src="./edit.js"></script>
+
+
+</body><whale-quicksearch translate="no" style="visibility: visible;"></whale-quicksearch></html>

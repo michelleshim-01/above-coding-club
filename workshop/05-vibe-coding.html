@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Part 5: 바이브코딩 사이클 — Claude Code 워크샵</title>
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    .vibe-steps { display: flex; flex-direction: column; gap: 0; margin: 20px 0; }
+
+    .vibe-step {
+      display: flex;
+      gap: 0;
+      position: relative;
+    }
+
+    .vibe-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 19px;
+      top: 48px;
+      width: 2px;
+      height: calc(100% - 16px);
+      background: var(--border);
+    }
+
+    .vibe-step-num {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 15px;
+      color: white;
+      margin-right: 16px;
+      margin-bottom: 24px;
+      z-index: 1;
+    }
+
+    .s1 .vibe-step-num { background: var(--accent); }
+    .s2 .vibe-step-num { background: #7C3AED; }
+    .s3 .vibe-step-num { background: #16A34A; }
+    .s4 .vibe-step-num { background: #1D4ED8; }
+    .s5 .vibe-step-num { background: #B45309; }
+
+    .vibe-step-content {
+      flex: 1;
+      padding-bottom: 24px;
+    }
+
+    .vibe-step-content h3 {
+      margin-top: 8px;
+      font-size: 17px;
+    }
+
+    .vibe-step-content .meta {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-2);
+      margin-bottom: 4px;
+    }
+
+    .rhythm-box {
+      background: var(--code-bg);
+      color: var(--code-text);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 13px;
+      line-height: 2;
+      margin: 16px 0;
+    }
+
+    .rhythm-box .label { color: #93C5FD; }
+    .rhythm-box .cmd { color: #4ADE80; }
+    .rhythm-box .comment { color: #6B7280; }
+
+    .use-case-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .use-case-card {
+      padding: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 13px;
+    }
+
+    .use-case-card .icon { font-size: 22px; margin-bottom: 6px; display: block; }
+    .use-case-card strong { display: block; margin-bottom: 4px; font-size: 14px; }
+    .use-case-card .before-after { color: var(--text-2); font-size: 12px; }
+
+    .mcp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .mcp-card {
+      padding: 12px 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mcp-icon { font-size: 20px; }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav-inner">
+    <a class="nav-logo" href="./index.html">Claude Code <span>워크샵</span></a>
+    <ul class="nav-links">
+      <li><a href="./index.html">홈</a></li>
+      <li><a href="./01-setup.html">1. 설치</a></li>
+      <li><a href="./02-basics.html">2. 기본</a></li>
+      <li><a href="./03-git.html">3. Git</a></li>
+      <li><a href="./04-claude-md.html">4. CLAUDE.md</a></li>
+      <li><a href="./05-vibe-coding.html" class="active">5. 바이브코딩</a></li>
+      <li><a href="./handout.html">핸드아웃</a></li>
+      <li><a href="./aboco.html">어보브 코딩</a></li>
+    </ul>
+    <div class="nav-spacer"></div>
+    <span class="nav-badge">2:10 – 2:50</span>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <span class="part-badge">Part 5</span>
+    <h1>바이브코딩 5단계 사이클</h1>
+    <p>코드를 몰라도 됩니다. 기획하고, 방향을 잡고, Claude에게 맡기고, 확인하고, 반복하는 것 — 이게 바이브코딩입니다.</p>
+    <div class="time-badge">⏱ 40분</div>
+  </div>
+</div>
+
+<main class="main-content">
+
+  <h2>바이브코딩의 핵심 능력</h2>
+  <p>코딩 지식은 필요 없습니다. 이 4가지 능력만 있으면 됩니다:</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>능력</th><th>의미</th></tr></thead>
+      <tbody>
+        <tr><td>① 자동화 대상 정의</td><td>어떤 반복 업무를 자동화할지 구체적으로 파악하기</td></tr>
+        <tr><td>② 단계별 프로세스 설명</td><td>입력 → 처리 → 출력 흐름을 AI에게 명확히 설명하기</td></tr>
+        <tr><td>③ 반복 개선 마인드셋</td><td>한 번에 완벽하지 않아도 됨 — 5~10번 수정이 정상</td></tr>
+        <tr><td>④ 결과 검증</td><td>AI 결과물을 내 업무 지식으로 맞는지 확인하기</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>5단계 사이클 개요</h2>
+
+  <div class="cycle-diagram">
+    <div class="cycle-step s1">① 기획</div>
+    <div class="cycle-arrow">→</div>
+    <div class="cycle-step s2">② 플랜</div>
+    <div class="cycle-arrow">→</div>
+    <div class="cycle-step s3">③ 액션+저장</div>
+    <div class="cycle-arrow">→</div>
+    <div class="cycle-step s4">④ 확인</div>
+    <div class="cycle-arrow">→</div>
+    <div class="cycle-step s5">⑤ 수정+반복</div>
+    <div class="cycle-arrow" style="transform:rotate(180deg)">→</div>
+  </div>
+
+  <h2>각 단계 상세</h2>
+
+  <div class="vibe-steps">
+
+    <!-- 1. 기획 -->
+    <div class="vibe-step s1">
+      <div class="vibe-step-num">1</div>
+      <div class="vibe-step-content">
+        <div class="meta">Planning</div>
+        <h3>기획</h3>
+        <p>GitHub 레포지토리를 먼저 만들고, Claude에게 <strong>기획 문서 초안</strong>을 작성해달라고 요청합니다. 초안을 직접 읽고 수정하며 디테일을 완성하세요.</p>
+        <div class="callout callout-warning" style="margin-top:12px;">
+          <div class="callout-title">⚠️ 기획이 가장 중요합니다</div>
+          3일짜리 프로젝트라면 1~2일은 기획에만 투자하세요. <strong>코드는 AI가 짜지만, 뭘 만들지는 내가 결정해야 합니다.</strong> 기획이 탄탄해야 AI에게 제대로 일을 시킬 수 있습니다.
+        </div>
+        <div class="code-block" style="margin-top:12px;">
+          <div class="code-label">예시 프롬프트</div>
+          <button class="copy-btn" onclick="copyCode(this)">복사</button>
+          <pre>내가 만들고 싶은 것: 구글 폼으로 받은 비품 요청을
+자동으로 취합해서 부서별 발주서를 만들어주는 도구야.
+이걸 위한 기획 문서를 작성해줘.</pre>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 플랜 -->
+    <div class="vibe-step s2">
+      <div class="vibe-step-num">2</div>
+      <div class="vibe-step-content">
+        <div class="meta">Plan Mode</div>
+        <h3>플랜</h3>
+        <p>기획 문서를 바탕으로 <strong>페이즈별 작업 계획 MD 파일</strong>을 만들고, Plan Mode에서 방향이 맞는지 확인합니다.</p>
+        <div class="code-block" style="margin-top:12px;">
+          <div class="code-label">예시 프롬프트</div>
+          <button class="copy-btn" onclick="copyCode(this)">복사</button>
+          <pre>기획.md를 읽고 구체적인 작업 계획을
+페이즈별로 나눠서 plan.md 파일로 만들어줘</pre>
+        </div>
+        <p style="margin-top:8px; font-size:13px; color:var(--text-2);">계획이 내가 원하는 방향과 다르면 수정을 요청하세요. 모르는 기술 용어는 Claude나 GPT에게 쉽게 설명해달라고 하면 됩니다.</p>
+      </div>
+    </div>
+
+    <!-- 3. 액션+저장 -->
+    <div class="vibe-step s3">
+      <div class="vibe-step-num">3</div>
+      <div class="vibe-step-content">
+        <div class="meta">Action &amp; Save</div>
+        <h3>액션 + 저장</h3>
+        <p>작업 계획의 1단계를 실행하고, 완료 후 <strong>반드시 저장</strong>합니다.</p>
+        <div class="rhythm-box">
+          <span class="label">핵심 리듬:</span>
+          <br><span class="cmd">① 코드 작성</span> <span class="comment">← Claude가 실행</span>
+          <br><span class="cmd">② git commit push</span> <span class="comment">← "저장해줘" 한 마디로</span>
+          <br><span class="cmd">③ /clear</span> <span class="comment">← 컨텍스트 초기화</span>
+          <br><span class="cmd">④ /init</span> <span class="comment">← CLAUDE.md 업데이트</span>
+          <br><span class="cmd">⑤ git commit push</span> <span class="comment">← 다시 저장</span>
+          <br><span class="comment">↳ 다음 작업 단위 시작</span>
+        </div>
+        <div class="callout callout-tip" style="margin-top:8px;">
+          <div class="callout-title">🎮 세이브 포인트</div>
+          큰 작업 전에 항상 "현재 상태 저장해줘"를 먼저 실행하세요. 문제가 생기면 언제든 이 지점으로 돌아올 수 있습니다.
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. 확인 -->
+    <div class="vibe-step s4">
+      <div class="vibe-step-num">4</div>
+      <div class="vibe-step-content">
+        <div class="meta">Verification</div>
+        <h3>확인</h3>
+        <p>Claude에게 결과물을 직접 확인시킵니다. MCP(Playwright/Chrome)가 연결되어 있으면 Claude가 직접 브라우저를 열어 테스트합니다.</p>
+        <div class="code-block" style="margin-top:12px;">
+          <div class="code-label">예시 프롬프트</div>
+          <button class="copy-btn" onclick="copyCode(this)">복사</button>
+          <pre>만든 페이지를 열어서 비품 요청 버튼이 잘 작동하는지 확인해줘
+에러가 있으면 뭔지 알려줘</pre>
+        </div>
+        <div class="callout callout-tip" style="margin-top:8px;">
+          <div class="callout-title">⚡ 병렬 작업 팁</div>
+          Claude가 테스트하는 동안 여러분은 다음 단계의 플랜을 세울 수 있습니다. Claude가 끝나면 결과를 받고 다음 작업으로 넘어가세요.
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. 수정+반복 -->
+    <div class="vibe-step s5">
+      <div class="vibe-step-num">5</div>
+      <div class="vibe-step-content">
+        <div class="meta">Iterate</div>
+        <h3>수정 + 반복</h3>
+        <p>문제가 발견되면 작은 플랜을 세우고 수정합니다. 그리고 다시 저장→확인→수정 사이클을 반복합니다.</p>
+        <div class="callout callout-warning" style="margin-top:12px;">
+          <div class="callout-title">🔁 3번 규칙</div>
+          같은 문제를 3번 이상 수정해도 해결되지 않으면, <strong>과감하게 버리고 3단계(저장 지점)으로 돌아가서 다시 시작하세요.</strong> 트러블슈팅 내용을 MD 파일로 기록해두면 다음 시도에서 더 잘 됩니다.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <h2>자동화 후보 찾기</h2>
+  <p>어떤 업무를 자동화하면 좋을까요? 아래 체크리스트에 3개 이상 해당하면 좋은 후보입니다.</p>
+
+  <ul>
+    <li>매주/매월 반복하는 작업</li>
+    <li>복사-붙여넣기를 반복하는 작업</li>
+    <li>같은 템플릿 문서를 계속 만드는 작업</li>
+    <li>여러 곳에서 데이터를 모아 합치는 작업</li>
+    <li>웹에서 정보를 수집하는 작업</li>
+  </ul>
+
+  <h3>직군별 자동화 사례</h3>
+  <div class="use-case-grid">
+    <div class="use-case-card">
+      <span class="icon">📊</span>
+      <strong>마케터</strong>
+      <div class="before-after">광고 리포트 취합<br>4시간 → 5분</div>
+    </div>
+    <div class="use-case-card">
+      <span class="icon">👥</span>
+      <strong>HR 담당자</strong>
+      <div class="before-after">근태 데이터 정리<br>8시간 → 15분</div>
+    </div>
+    <div class="use-case-card">
+      <span class="icon">🛒</span>
+      <strong>영업</strong>
+      <div class="before-after">CRM 개인화 이메일<br>5시간 → 10분</div>
+    </div>
+    <div class="use-case-card">
+      <span class="icon">📦</span>
+      <strong>총무</strong>
+      <div class="before-after">비품 요청 취합<br>3시간 → 15분</div>
+    </div>
+    <div class="use-case-card">
+      <span class="icon">💰</span>
+      <strong>경리</strong>
+      <div class="before-after">세금계산서 검증<br>6시간 → 20분</div>
+    </div>
+    <div class="use-case-card">
+      <span class="icon">📋</span>
+      <strong>PM</strong>
+      <div class="before-after">회의록 → 액션아이템<br>30분 → 자동</div>
+    </div>
+  </div>
+
+  <h2>Hook — 작업 완료 알림</h2>
+  <p>여러 작업을 동시에 돌릴 때, 작업이 끝났는지 계속 화면을 보고 있을 필요가 없습니다.</p>
+
+  <div class="code-block">
+    <div class="code-label">Mac에서 작업 완료 알림 설정</div>
+    <button class="copy-btn" onclick="copyCode(this)">복사</button>
+    <pre>"Claude야, 작업이 끝나면 Mac에서 소리로 알려줘.
+say 명령어로 '클로드 작업 완료'라고 말해줘"</pre>
+  </div>
+
+  <p style="font-size:13px; color:var(--text-2);">Hook을 설정하면 작업이 끝날 때마다 알림이 옵니다. 여러 Claude 창을 열고 각각 다른 작업을 시켜도 완료 시 알림을 받을 수 있어요.</p>
+
+  <h2>MCP로 외부 서비스 연결</h2>
+  <p>MCP(Model Context Protocol)를 설치하면 Claude가 외부 서비스를 직접 사용할 수 있습니다.</p>
+
+  <div class="mcp-grid">
+    <div class="mcp-card"><span class="mcp-icon">🔍</span> Playwright / Chrome — 브라우저 자동화</div>
+    <div class="mcp-card"><span class="mcp-icon">📗</span> Google Sheets — 스프레드시트 읽기/쓰기</div>
+    <div class="mcp-card"><span class="mcp-icon">💬</span> Slack — 메시지 자동 전송</div>
+    <div class="mcp-card"><span class="mcp-icon">📓</span> Notion — 문서 자동 생성</div>
+    <div class="mcp-card"><span class="mcp-icon">📅</span> Google Calendar — 일정 읽기/쓰기</div>
+    <div class="mcp-card"><span class="mcp-icon">🐙</span> GitHub — PR 생성, 코드 리뷰</div>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-title">💡 Claude Core Work</div>
+    Claude Code보다 진입장벽이 낮은 <strong>Claude Core Work</strong>도 있습니다. Mac 데스크탑 앱에서 "다운로드 폴더 정리해줘"처럼 파일 관리 작업을 시킬 수 있습니다. 관심 있으면 Claude 앱에서 찾아보세요!
+  </div>
+
+  <h2>실습 과제</h2>
+
+  <div class="callout callout-tip">
+    <div class="callout-title">🎯 실습 — 바이브코딩 사이클 체험</div>
+    아래 중 하나를 골라 1~3단계를 실제로 진행해보세요.
+    <br><br>
+    <strong>A: 할 일 관리 웹페이지</strong><br>
+    "체크박스가 있는 간단한 할 일 관리 HTML 웹페이지를 만들어줘. 할 일을 추가하고 완료 체크를 할 수 있어야 해."
+    <br><br>
+    <strong>B: 내 업무 자동화 기획서</strong><br>
+    자신의 반복 업무를 하나 골라서: "내가 매주 [업무 내용]을 하는데 이걸 자동화하는 도구 기획서를 작성해줘."
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-title">✅ 이 단계 완료 체크</div>
+    기획 → 플랜 → 액션 → 저장까지 한 사이클을 돌았으면 Part 5 완료! 🎉
+  </div>
+
+  <div class="page-nav">
+    <a class="prev" href="./04-claude-md.html">
+      <span class="nav-dir">← 이전</span>
+      <span class="nav-title">Part 4: CLAUDE.md 설정</span>
+    </a>
+    <a class="next" href="./handout.html">
+      <span class="nav-dir">다음 →</span>
+      <span class="nav-title">참가자 핸드아웃</span>
+    </a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  Claude Code 워크샵 · Part 5: 바이브코딩 사이클
+</footer>
+
+<script>
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent.trim()).then(() => {
+    btn.textContent = '복사됨 ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+<script src="./edit.js"></script>
+</body>
+</html>
