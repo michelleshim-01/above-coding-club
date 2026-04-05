@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code 101 — Above Coding Club</title>
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    .section-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin: 24px 0;
+    }
+    .section-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.15s;
+    }
+    .section-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 4px 12px rgba(204, 120, 92, 0.15);
+      transform: translateY(-1px);
+    }
+    .section-card-num {
+      flex-shrink: 0;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 16px;
+    }
+    .section-card-body { flex: 1; }
+    .section-card-body strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+    .section-card-body span {
+      font-size: 13px;
+      color: var(--text-2);
+    }
+    .section-card-arrow {
+      color: var(--text-2);
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    @media (max-width: 640px) {
+      .section-card { padding: 16px; gap: 12px; }
+      .section-card-num { width: 32px; height: 32px; font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav-inner">
+    <a class="nav-logo" href="./index.html">Above Coding Club</a>
+    <ul class="nav-links">
+      <li><a href="./cc101-1-setup.html">1. 세팅</a></li>
+      <li><a href="./cc101-2-vscode.html">2. VS Code</a></li>
+      <li><a href="./cc101-3-basics.html">3. 기본</a></li>
+      <li><a href="./cc101-4-git.html">4. Git</a></li>
+      <li><a href="./cc101-5-claude-md.html">5. CLAUDE.md</a></li>
+      <li><a href="./cc101-6-vibe.html">6. 바이브코딩</a></li>
+      <li><a href="./cc101-7-faq.html">7. FAQ</a></li>
+    </ul>
+    <div class="nav-spacer"></div>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <span class="part-badge">2026.04.05</span>
+    <h1>Claude Code 101</h1>
+    <p>Above Coding Club — 비개발자를 위한 Claude Code 입문 워크샵</p>
+    <div class="time-badge">14:00 – 17:00</div>
+  </div>
+</div>
+
+<main class="main-content">
+
+  <h2>커리큘럼</h2>
+  <p>아래 섹션을 순서대로 따라가세요. 각 카드를 클릭하면 해당 페이지로 이동합니다.</p>
+
+  <div class="section-grid">
+    <a class="section-card" href="./cc101-1-setup.html">
+      <div class="section-card-num">1</div>
+      <div class="section-card-body">
+        <strong>세팅 가이드</strong>
+        <span>계정 만들기부터 Claude Code 설치까지, 단계별로 따라하세요.</span>
+      </div>
+      <div class="section-card-arrow">→</div>
+    </a>
+    <a class="section-card" href="./cc101-2-vscode.html">
+      <div class="section-card-num">2</div>
+      <div class="section-card-body">
+        <strong>VS Code 활용법</strong>
+        <span>VS Code 필수 설정과 단축키를 익혀봅니다.</span>
+      </div>
+      <div class="section-card-arrow">→</div>
+    </a>
+    <a class="section-card" href="./cc101-3-basics.html">
+      <div class="section-card-num">3</div>
+      <div class="section-card-body">
+        <strong>기본 사용법</strong>
+        <span>Permission Mode, 슬래시 명령어, 단축키를 익히고 첫 실습을 해봅니다.</span>
+      </div>
+      <div class="section-card-arrow">→</div>
+    </a>
+    <a class="section-card" href="./cc101-4-git.html">
+      <div class="section-card-num">4</div>
+      <div class="section-card-body">
+        <strong>Git 안전망</strong>
+        <span>코드의 타임머신 — 언제든 되돌릴 수 있는 안전망을 만드세요.</span>
+      </div>
+      <div class="section-card-arrow">→</div>
+    </a>
+    <a class="section-card" href="./cc101-5-claude-md.html">
+      <div class="section-card-num">5</div>
+      <div class="section-card-body">
+        <strong>CLAUDE.md 설정</strong>
+        <span>Claude에게 이 프로젝트에서 지켜야 할 행동 지침을 알려주는 파일.</span>
+      </div>
+      <div class="section-card-arrow">→</div>
+    </a>
+    <a class="section-card" href="./cc101-6-vibe.html">
+      <div class="section-card-num">6</div>
+      <div class="section-card-body">
+        <strong>바이브코딩 5단계 사이클</strong>
+        <span>기획하고, 방향을 잡고, Claude에게 맡기고, 확인하고, 반복합니다.</span>
+      </div>
+      <div class="section-card-arrow">→</div>
+    </a>
+    <a class="section-card" href="./cc101-7-faq.html">
+      <div class="section-card-num">7</div>
+      <div class="section-card-body">
+        <strong>자주 묻는 질문 (FAQ)</strong>
+        <span>Claude Code 입문자가 자주 궁금해하는 질문과 답변.</span>
+      </div>
+      <div class="section-card-arrow">→</div>
+    </a>
+  </div>
+
+  <div class="page-nav" style="margin-top:48px;">
+    <a class="prev" href="./index.html">
+      <span class="nav-dir">← 돌아가기</span>
+      <span class="nav-title">워크샵 홈</span>
+    </a>
+    <a class="next" href="./cc101-1-setup.html">
+      <span class="nav-dir">시작하기 →</span>
+      <span class="nav-title">세팅 가이드</span>
+    </a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  Above Coding Club · Claude Code 101 — 2026.04.05
+</footer>
+
+</body>
+</html>

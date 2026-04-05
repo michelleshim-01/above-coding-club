@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>세팅 가이드 — Claude Code 101</title>
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    .os-global-tabs .os-tab-buttons { position: sticky; top: var(--nav-h); z-index: 5; }
+    .os-content-mac, .os-content-win { display: none; }
+    body.os-mac .os-content-mac { display: block; }
+    body.os-win .os-content-win { display: block; }
+  </style>
+</head>
+<body class="os-mac">
+<header class="site-header">
+  <nav class="nav-inner">
+    <a class="nav-logo" href="./cc101.html">Above Coding Club</a>
+    <ul class="nav-links">
+      <li><a href="./cc101-1-setup.html" class="active">1. 세팅</a></li>
+      <li><a href="./cc101-2-vscode.html">2. VS Code</a></li>
+      <li><a href="./cc101-3-basics.html">3. 기본</a></li>
+      <li><a href="./cc101-4-git.html">4. Git</a></li>
+      <li><a href="./cc101-5-claude-md.html">5. CLAUDE.md</a></li>
+      <li><a href="./cc101-6-vibe.html">6. 바이브코딩</a></li>
+      <li><a href="./cc101-7-faq.html">7. FAQ</a></li>
+    </ul>
+    <div class="nav-spacer"></div>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <span class="part-badge">Part 1</span>
+    <h1>세팅 가이드</h1>
+    <p>계정 만들기부터 Claude Code 설치까지, 단계별로 따라하세요.</p>
+  </div>
+</div>
+
+<main class="main-content">
+
+  <p>아래에서 내 운영체제를 선택하세요.</p>
+
+  <div class="os-tabs os-global-tabs">
+    <div class="os-tab-buttons">
+      <button class="os-tab-btn active" onclick="pickOS('mac')">🍎 Mac (macOS)</button>
+      <button class="os-tab-btn" onclick="pickOS('win')">🪟 Windows</button>
+    </div>
+  </div>
+
+  <h2>Step 1. 계정 만들기</h2>
+  <p>아래 사이트에 가입해주세요. 이미 있으면 다음으로 넘어가세요.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>서비스</th><th>용도</th><th>가입 방법</th></tr></thead>
+      <tbody>
+        <tr><td><a href="https://github.com" target="_blank"><strong>GitHub</strong></a></td><td>코드 저장 & 공유</td><td>Sign up → Continue with Google</td></tr>
+        <tr><td><a href="https://vercel.com" target="_blank"><strong>Vercel</strong></a></td><td>웹사이트 배포</td><td>Sign Up → Continue with GitHub</td></tr>
+        <tr><td><a href="https://claude.ai" target="_blank"><strong>Claude</strong></a></td><td>AI 코딩 에이전트</td><td>계정 생성 → Pro 구독 ($20/월)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:13px; color:var(--text-2);">Google로 가입하면 비밀번호 관리가 편합니다. Vercel과 GitHub은 무료 플랜으로 충분합니다.</p>
+
+  <!-- Step 2 -->
+  <h2>Step 2. VS Code 설치</h2>
+  <p>코드를 보고 편집하는 작업 공간입니다. 안에 터미널(명령 창)도 내장되어 있어요.</p>
+  <div class="os-content-mac">
+    <ol>
+      <li><a href="https://code.visualstudio.com/download" target="_blank">code.visualstudio.com/download</a> → Mac 버전 다운로드</li>
+      <li><code>.dmg</code> 파일 열기 → VS Code를 <strong>Applications 폴더로 드래그</strong></li>
+      <li>Spotlight(<kbd>Cmd+Space</kbd>)에서 "Visual Studio Code" 실행</li>
+    </ol>
+  </div>
+  <div class="os-content-win">
+    <ol>
+      <li><a href="https://code.visualstudio.com/download" target="_blank">code.visualstudio.com/download</a> → Windows 버전 다운로드</li>
+      <li><code>.exe</code> 파일 실행 → 설치 마법사 진행</li>
+      <li>시작 메뉴에서 "Visual Studio Code" 실행</li>
+    </ol>
+  </div>
+
+  <!-- Step 3 -->
+  <h2>Step 3. Claude Extension 설치 (가장 쉬운 방법!)</h2>
+  <div class="callout callout-info">
+    <div class="callout-title">💡 VS Code 안에서 채팅 패널로 Claude를 쓰는 방법입니다. 클릭 몇 번이면 끝!</div>
+  </div>
+
+  <h3>설치</h3>
+  <ol>
+    <li>VS Code 왼쪽 사이드바에서 <strong>Extensions</strong> 아이콘 클릭 (네모 4개 모양)
+      <div class="os-content-mac"><p style="font-size:13px; color:var(--text-2);">못 찾겠으면 단축키: <kbd>Cmd + Shift + X</kbd></p></div>
+      <div class="os-content-win"><p style="font-size:13px; color:var(--text-2);">못 찾겠으면 단축키: <kbd>Ctrl + Shift + X</kbd></p></div>
+    </li>
+    <li>검색창에 <strong>Claude</strong> 입력</li>
+    <li><strong>Anthropic</strong> 제작 확인 후 <strong>Install</strong> 클릭</li>
+  </ol>
+  <img src="./images/vscode-ext-search.png" alt="VS Code에서 Claude 확장 검색" style="width:100%; border-radius:var(--radius); border:1px solid var(--border); margin:12px 0;">
+
+  <h3>Extension 열기</h3>
+  <ol>
+    <li>왼쪽 사이드바 <strong>파일 아이콘</strong> 클릭 (맨 위)</li>
+    <li>우측 상단 주황색 <strong>Claude 아이콘</strong> 클릭하여 패널 열기
+      <div class="os-content-mac"><p style="font-size:13px; color:var(--text-2);">단축키: <kbd>Cmd+Shift+Esc</kbd></p></div>
+      <div class="os-content-win"><p style="font-size:13px; color:var(--text-2);">단축키: <kbd>Ctrl+Shift+Esc</kbd></p></div>
+    </li>
+  </ol>
+  <img src="./images/claude-panel.png" alt="Claude 익스텐션 패널" style="width:100%; border-radius:var(--radius); border:1px solid var(--border); margin:12px 0;">
+
+  <h3>로그인 & 테스트</h3>
+  <ol>
+    <li><strong>Sign In</strong> 버튼 클릭</li>
+    <li>브라우저에서 Claude 계정 로그인 → 허용 클릭</li>
+    <li>Claude 패널에 <code>안녕하세요</code> 입력 → 응답 오면 성공!</li>
+  </ol>
+  <img src="./images/claude-login-test.png" alt="Claude Code 첫 대화 테스트 성공" style="width:100%; border-radius:var(--radius); border:1px solid var(--border); margin:12px 0;">
+
+  <div class="callout callout-tip">
+    <div class="callout-title">✅ 여기까지 하면 Claude Code를 사용할 수 있어요!</div>
+    아래 Step 4~6은 <strong>터미널 버전 설치</strong>입니다. Extension만으로는 안 되는 고급 기능(MCP 연결, 자동화 스크립트 등)을 위해 필요해요.
+  </div>
+
+  <!-- Step 4 -->
+  <h2>Step 4. Homebrew & Git 설치</h2>
+  <div class="callout callout-info">
+    <div class="callout-title">💡 왜 필요한가요?</div>
+    Claude Code 터미널 버전에서 스킬을 설치하고 공유하려면 <strong>Git</strong>이 필요합니다.
+    <div class="os-content-mac">Mac에서는 <strong>Homebrew</strong>(패키지 관리자)를 먼저 설치하고, Homebrew로 Git을 설치합니다.</div>
+  </div>
+
+  <div class="os-content-mac">
+    <h3>1. Homebrew 설치</h3>
+    <ol>
+      <li>VS Code 상단 메뉴에서 <strong>Terminal → New Terminal</strong> 클릭</li>
+      <li>아래 명령어 복사 → 터미널에 붙여넣기 → Enter:</li>
+    </ol>
+    <div class="code-block">
+      <div class="code-label">Terminal</div>
+      <button class="copy-btn" onclick="copyCode(this)">복사</button>
+      <pre>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</pre>
+    </div>
+    <ol start="3">
+      <li>비밀번호 입력 요청 → <strong>Mac 로그인 비밀번호</strong> 입력 (화면에 안 보이지만 정상)</li>
+      <li>설치 완료 메시지 확인</li>
+    </ol>
+    <div class="callout callout-warning">
+      <div class="callout-title">⚠️ 설치 후 아래와 같은 메시지가 나오면 그대로 복사해서 실행하세요:</div>
+      <div class="code-block" style="margin-top:8px;">
+        <div class="code-label">터미널에 표시된 메시지 예시</div>
+        <pre>==> Next steps:
+- Run these commands in your terminal to add Homebrew to your PATH:
+    echo >> ~/.zprofile
+    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+    eval "$(/opt/homebrew/bin/brew shellenv)"</pre>
+      </div>
+    </div>
+    <p>확인: <code>brew --version</code></p>
+
+    <h3>2. Git 설치</h3>
+    <div class="code-block">
+      <div class="code-label">Terminal</div>
+      <button class="copy-btn" onclick="copyCode(this)">복사</button>
+      <pre>brew install git</pre>
+    </div>
+    <p>확인: <code>git --version</code></p>
+  </div>
+
+  <div class="os-content-win">
+    <h3>Git 설치</h3>
+    <ol>
+      <li><a href="https://git-scm.com/download/win" target="_blank">git-scm.com/download/win</a> → <strong>64-bit Git for Windows Setup</strong> 클릭</li>
+      <li>.exe 파일 실행 → 모든 옵션 <strong>기본값 유지</strong> → Next 진행</li>
+    </ol>
+    <div class="code-block">
+      <div class="code-label">PowerShell</div>
+      <button class="copy-btn" onclick="copyCode(this)">복사</button>
+      <pre>git --version</pre>
+    </div>
+    <div class="callout callout-warning">
+      <div class="callout-title">⚠️ 설치 후 VS Code를 완전히 종료했다가 다시 열어야 git 명령어가 인식됩니다.</div>
+    </div>
+  </div>
+
+  <!-- Step 5 -->
+  <h2>Step 5. Claude Code 설치 (터미널 버전)</h2>
+  <p>Extension과 별개로, 터미널에서 직접 쓰는 버전을 설치합니다.</p>
+
+  <div class="os-content-mac">
+    <ol>
+      <li>VS Code에서 <strong>Terminal → New Terminal</strong> (<kbd>Ctrl+`</kbd>)</li>
+      <li>명령어 입력:</li>
+    </ol>
+    <div class="code-block">
+      <div class="code-label">Terminal</div>
+      <button class="copy-btn" onclick="copyCode(this)">복사</button>
+      <pre>curl -fsSL https://claude.ai/install.sh | bash</pre>
+    </div>
+    <ol start="3">
+      <li>VS Code <strong>완전히 종료</strong> 후 다시 열기</li>
+      <li>확인:</li>
+    </ol>
+    <div class="code-block">
+      <div class="code-label">Terminal</div>
+      <button class="copy-btn" onclick="copyCode(this)">복사</button>
+      <pre>claude --version</pre>
+    </div>
+    <div class="callout callout-warning">
+      <div class="callout-title">⚠️ PATH 설정이 필요하다는 메시지가 나오면:</div>
+      <div class="code-block" style="margin-top:8px;">
+        <div class="code-label">Terminal</div>
+        <button class="copy-btn" onclick="copyCode(this)">복사</button>
+        <pre>echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="os-content-win">
+    <ol>
+      <li>VS Code에서 <strong>Terminal → New Terminal</strong> (<kbd>Ctrl+`</kbd>)</li>
+      <li>명령어 입력:</li>
+    </ol>
+    <div class="code-block">
+      <div class="code-label">PowerShell</div>
+      <button class="copy-btn" onclick="copyCode(this)">복사</button>
+      <pre>irm https://claude.ai/install.ps1 | iex</pre>
+    </div>
+    <div class="callout callout-warning" style="margin-top:4px;">
+      <div class="callout-title">⚠️ CMD에서는 작동하지 않습니다. 반드시 PowerShell을 사용하세요.</div>
+    </div>
+    <ol start="3">
+      <li>VS Code <strong>완전히 종료</strong> 후 다시 열기</li>
+      <li>확인:</li>
+    </ol>
+    <div class="code-block">
+      <div class="code-label">PowerShell</div>
+      <button class="copy-btn" onclick="copyCode(this)">복사</button>
+      <pre>claude --version</pre>
+    </div>
+    <div class="callout callout-warning">
+      <div class="callout-title">⚠️ PATH 설정이 필요하다는 메시지가 나오면:</div>
+      <ol style="margin-top:8px; font-size:13px;">
+        <li><kbd>Win+R</kbd> → <code>sysdm.cpl</code> → Enter → 고급 탭</li>
+        <li>환경 변수 → 사용자 변수 <strong>Path</strong> → 편집</li>
+        <li>새로 만들기 → <code>%USERPROFILE%\.local\bin</code> 과 <code>%USERPROFILE%\.claude\bin</code> 추가</li>
+        <li>확인 → VS Code 재시작</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Step 6 -->
+  <h2>Step 6. Claude Code 로그인 (터미널용)</h2>
+  <p>터미널에서 claude를 직접 사용하기 위한 로그인입니다. Step 3의 Extension 로그인과 별개입니다.</p>
+
+  <ol>
+    <li>터미널 열기 (<kbd>Ctrl+`</kbd>) → <code>claude</code> 입력 → Enter</li>
+    <li>테마 선택 → <strong>Light</strong> 또는 Dark</li>
+  </ol>
+  <img src="./images/claude-theme.png" alt="Claude Code 테마 선택" style="width:100%; max-width:500px; border-radius:var(--radius); border:1px solid var(--border); margin:12px 0;">
+
+  <ol start="3">
+    <li>로그인 방법 → <strong>Claude account with subscription</strong> 선택</li>
+  </ol>
+  <img src="./images/claude-login-method.png" alt="Claude 로그인 방법 선택" style="width:100%; border-radius:var(--radius); border:1px solid var(--border); margin:12px 0;">
+
+  <ol start="5">
+    <li>브라우저 자동 오픈 → Claude 계정 로그인 → 허용 클릭</li>
+    <li>터미널에서 <code>안녕하세요</code> 입력 → 응답 오면 성공!</li>
+  </ol>
+
+  <!-- Step 7 -->
+  <h2>Step 7. Vercel 연동</h2>
+  <p><a href="https://vercel.com" target="_blank">vercel.com</a> 로그인 → <strong>New Project</strong> → Import Git Repository → GitHub 계정 연결</p>
+  <p style="font-size:13px; color:var(--text-2);">나중에 GitHub에 코드를 올리면 Vercel이 자동으로 웹사이트를 배포해줍니다.</p>
+
+  <div class="callout callout-tip">
+    <div class="callout-title">✅ 세팅 완료!</div>
+    모든 설치가 끝났습니다. 다음 섹션으로 넘어가세요.
+  </div>
+
+  <h3>문제 해결</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>증상</th><th>해결</th></tr></thead>
+      <tbody>
+        <tr><td>Extension이 안 보임</td><td>VS Code 재시작</td></tr>
+        <tr><td><code>claude</code> 명령어가 안 됨</td><td>VS Code 완전히 종료 후 재시작</td></tr>
+        <tr><td>브라우저 로그인 후 반응 없음</td><td>브라우저에서 "허용" 클릭 확인</td></tr>
+        <tr><td>로그인이 안 됨</td><td>브라우저 팝업 차단 해제</td></tr>
+        <tr><td>응답이 안 옴</td><td>Claude Pro 구독 상태 확인</td></tr>
+        <tr><td><code>git</code> 명령어가 안 됨</td><td>VS Code 완전히 종료 후 재시작 또는 재설치</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="page-nav">
+    <a class="prev" href="./cc101.html">
+      <span class="nav-dir">← 이전</span>
+      <span class="nav-title">CC 101 홈</span>
+    </a>
+    <a class="next" href="./cc101-2-vscode.html">
+      <span class="nav-dir">다음 →</span>
+      <span class="nav-title">VS Code 활용법</span>
+    </a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  Above Coding Club · Claude Code 101
+</footer>
+
+<script>
+function pickOS(os) {
+  document.body.classList.remove('os-mac', 'os-win');
+  document.body.classList.add('os-' + os);
+  document.querySelectorAll('.os-global-tabs .os-tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.os-global-tabs .os-tab-btn').forEach(b => {
+    if ((os === 'mac' && b.textContent.includes('Mac')) || (os === 'win' && b.textContent.includes('Windows'))) {
+      b.classList.add('active');
+    }
+  });
+}
+document.addEventListener('DOMContentLoaded', () => pickOS('mac'));
+
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent.trim()).then(() => {
+    btn.textContent = '복사됨 ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>

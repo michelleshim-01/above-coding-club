@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>자주 묻는 질문 — Claude Code 101</title>
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    .faq-item { border: 1px solid var(--border); border-radius: var(--radius); margin: 8px 0; }
+    .faq-item summary {
+      padding: 14px 16px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::before { content: "▶"; font-size: 10px; color: var(--text-2); transition: transform 0.2s; }
+    .faq-item[open] summary::before { transform: rotate(90deg); }
+    .faq-item .faq-body { padding: 0 16px 16px; font-size: 14px; line-height: 1.8; }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav-inner">
+    <a class="nav-logo" href="./cc101.html">Above Coding Club</a>
+    <ul class="nav-links">
+      <li><a href="./cc101-1-setup.html">1. 세팅</a></li>
+      <li><a href="./cc101-2-vscode.html">2. VS Code</a></li>
+      <li><a href="./cc101-3-basics.html">3. 기본</a></li>
+      <li><a href="./cc101-4-git.html">4. Git</a></li>
+      <li><a href="./cc101-5-claude-md.html">5. CLAUDE.md</a></li>
+      <li><a href="./cc101-6-vibe.html">6. 바이브코딩</a></li>
+      <li><a href="./cc101-7-faq.html" class="active">7. FAQ</a></li>
+    </ul>
+    <div class="nav-spacer"></div>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <span class="part-badge">Part 7</span>
+    <h1>자주 묻는 질문</h1>
+    <p>Claude Code 입문자가 자주 궁금해하는 질문과 답변.</p>
+  </div>
+</div>
+
+<main class="main-content">
+
+  <details class="faq-item">
+    <summary>Q1. Claude랑 Claude Code랑 무슨 차이에요?</summary>
+    <div class="faq-body">
+      <ul>
+        <li><strong>Claude</strong> = Anthropic이 만든 LLM 모델 (AI 두뇌)</li>
+        <li><strong>Claude Code</strong> = Claude 모델 + 다양한 <strong>도구(Tool)</strong>를 실행할 수 있는 AI 코딩 에이전트</li>
+      </ul>
+      <p>Tool 예시: Edit(파일 수정), Web Search(웹 검색), Bash(명령어 실행) 등</p>
+      <p>즉, 코드를 생성하는 것뿐 아니라 <strong>실행까지 자동화하는 도구</strong>입니다.</p>
+      <div class="table-wrap" style="margin-top:12px;">
+        <table>
+          <thead><tr><th></th><th>Claude</th><th>Claude Code</th></tr></thead>
+          <tbody>
+            <tr><td>작동 위치</td><td>웹 브라우저</td><td>내 컴퓨터 터미널</td></tr>
+            <tr><td>할 수 있는 일</td><td>대화, 질문 답변</td><td>파일 생성/수정, 명령어 실행</td></tr>
+            <tr><td>비유</td><td>카카오톡 상담사</td><td>직접 출장 온 전문가</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary>Q2. Claude Desktop이랑 Claude Code랑 무슨 차이에요?</summary>
+    <div class="faq-body">
+      <p><strong>발전 순서:</strong></p>
+      <ol>
+        <li>Claude 모델 개발</li>
+        <li>Claude 웹 (claude.ai) 개발</li>
+        <li>Claude Desktop 개발 (채팅 탭)</li>
+        <li>Claude Code 개발 (터미널 CLI)</li>
+        <li>Claude Desktop에 Code 탭 추가</li>
+        <li>Claude Desktop에 Cowork 탭 추가</li>
+      </ol>
+      <p><strong>핵심 차이:</strong></p>
+      <ul>
+        <li><strong>Claude Code</strong> = 개발자를 위한 도구 (터미널 CLI)</li>
+        <li><strong>Claude Desktop</strong> = 비개발자를 위한 도구 (채팅 / Cowork / Code 탭 통합)</li>
+      </ul>
+      <p>뒤에서 돌아가는 Claude 모델은 동일합니다. 단, 시스템 프롬프트와 도구(Tool) 구성이 다르기 때문에 체감 성능은 다를 수 있습니다. Claude Desktop의 Code 탭은 Claude Code와 동일한데, GUI냐 CLI냐의 차이입니다.</p>
+
+      <div class="table-wrap" style="margin-top:12px;">
+        <table>
+          <thead><tr><th>기능</th><th>claude.ai 웹</th><th>Claude Code</th><th>Claude Desktop</th></tr></thead>
+          <tbody>
+            <tr><td>인터페이스</td><td>브라우저 채팅</td><td>터미널 CLI</td><td>네이티브 앱 GUI</td></tr>
+            <tr><td>파일 접근</td><td>업로드만</td><td>프로젝트 전체 자동 인식</td><td>로컬 폴더 직접 접근</td></tr>
+            <tr><td>코드 실행</td><td>격리 환경</td><td>터미널 직접 실행</td><td>격리 환경 + 로컬 접근</td></tr>
+            <tr><td>Artifacts</td><td>완전 지원</td><td>X</td><td>웹과 동일</td></tr>
+            <tr><td>Deep Research</td><td>O</td><td>X</td><td>O</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary>Q3. 터미널은 뭐에요?</summary>
+    <div class="faq-body">
+      <p><strong>어원:</strong> 라틴어 Terminalis(끝, 종착점)에서 유래. 옛날 중앙 컴퓨터의 끝단(terminal point)에 연결된 입출력 장치를 터미널이라고 불렀습니다.</p>
+      <p><strong>지금의 터미널:</strong> 버튼 없이 직접 명령을 보내서 실행하는 창. 컴퓨터와 소통하는 매개체입니다.</p>
+      <div class="table-wrap" style="margin-top:12px;">
+        <table>
+          <thead><tr><th></th><th>GUI</th><th>터미널</th></tr></thead>
+          <tbody>
+            <tr><td>조작 방식</td><td>마우스로 클릭</td><td>키보드로 타이핑</td></tr>
+            <tr><td>예시</td><td>윈도우 탐색기, macOS Finder</td><td>Terminal(Mac), PowerShell(Win)</td></tr>
+            <tr><td>비유</td><td>터치스크린 키오스크</td><td>직원에게 직접 말로 주문</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout-info" style="margin-top:12px;">
+        <div class="callout-title">💡 안심하세요</div>
+        Claude Code를 쓸 때는 터미널 명령어를 외울 필요가 없습니다. <strong>한국어로 하고 싶은 말을 입력하면 됩니다.</strong>
+      </div>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary>Q4. CLI는 뭐에요?</summary>
+    <div class="faq-body">
+      <p><strong>CLI = Command Line Interface</strong> (명령줄 인터페이스)</p>
+      <p>개발 환경에서는 CLI 기반으로 많이 개발합니다. CLI의 장점:</p>
+      <ul>
+        <li><strong>반복 작업에 강함</strong> — 파일 이름 100개 바꿔야 할 때, GUI는 우클릭 100번. CLI는 반복문 한 줄이면 끝</li>
+        <li><strong>조합이 자유로움</strong> — GUI는 메뉴 버튼만 누를 수 있지만, CLI는 명령어를 자유롭게 조합 가능</li>
+        <li><strong>자동화</strong> — 반복적인 명령어들을 스크립트(.sh, .bat)로 만들어 한 번에 실행 가능</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary>Q5. IDE(VS Code)에서 쓰는 것과 터미널의 차이</summary>
+    <div class="faq-body">
+      <p><strong>IDE = Integrated Development Environment (통합 개발 환경)</strong></p>
+      <p>VS Code 같은 것들이 IDE입니다. 코드를 확인할 수 있는 공간 + 개발 편의 도구가 함께 있습니다. <strong>IDE 안에도 터미널이 내장</strong>되어 있어요.</p>
+
+      <div class="table-wrap" style="margin-top:12px;">
+        <table>
+          <thead><tr><th></th><th>IDE (VS Code)</th><th>터미널</th></tr></thead>
+          <tbody>
+            <tr><td>역할</td><td>코드를 보고 편집하는 작업 공간</td><td>컴퓨터에게 명령을 내리는 창</td></tr>
+            <tr><td>비유</td><td>워드 프로세서</td><td>메모장 + 리모컨</td></tr>
+            <tr><td>Claude Code와의 관계</td><td>VS Code 안에서 터미널을 열어서 사용</td><td>Claude Code가 실행되는 곳</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="margin-top:12px;"><strong>그럼 왜 터미널을 선호하는가?</strong></p>
+      <p>Claude Code를 많이 사용하면서 이제 코드를 거의 보지 않는 사람들이 늘고 있습니다 → 터미널로 충분. 개발하는 방식의 차이일 뿐, 더 좋고 나쁘고의 문제가 아닙니다.</p>
+
+      <div class="callout callout-tip" style="margin-top:12px;">
+        <div class="callout-title">💡 비개발자에게는</div>
+        VS Code 안에 터미널이 내장되어 있어서, <strong>VS Code 하나만 열면 둘 다 사용할 수 있습니다.</strong> 파일이 어떻게 바뀌는지 눈으로 확인할 수 있어서 처음에는 VS Code를 권장합니다.
+      </div>
+    </div>
+  </details>
+
+  <div class="page-nav">
+    <a class="prev" href="./cc101-6-vibe.html">
+      <span class="nav-dir">← 이전</span>
+      <span class="nav-title">바이브코딩</span>
+    </a>
+    <a class="next" href="./cc101.html">
+      <span class="nav-dir">다음 →</span>
+      <span class="nav-title">CC 101 홈</span>
+    </a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  Above Coding Club · Claude Code 101
+</footer>
+
+<script>
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent.trim()).then(() => {
+    btn.textContent = '복사됨 ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VS Code 활용법 — Claude Code 101</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav-inner">
+    <a class="nav-logo" href="./cc101.html">Above Coding Club</a>
+    <ul class="nav-links">
+      <li><a href="./cc101-1-setup.html">1. 세팅</a></li>
+      <li><a href="./cc101-2-vscode.html" class="active">2. VS Code</a></li>
+      <li><a href="./cc101-3-basics.html">3. 기본</a></li>
+      <li><a href="./cc101-4-git.html">4. Git</a></li>
+      <li><a href="./cc101-5-claude-md.html">5. CLAUDE.md</a></li>
+      <li><a href="./cc101-6-vibe.html">6. 바이브코딩</a></li>
+      <li><a href="./cc101-7-faq.html">7. FAQ</a></li>
+    </ul>
+    <div class="nav-spacer"></div>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <span class="part-badge">Part 2</span>
+    <h1>VS Code 활용법</h1>
+    <p>VS Code 필수 설정과 단축키를 익혀봅니다.</p>
+  </div>
+</div>
+
+<main class="main-content">
+
+  <h3>필수 설정</h3>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>밝은 테마로 변경</h3>
+        <p>눈에 편한 밝은 테마로 바꿔봅시다.</p>
+        <ul>
+          <li>Mac: <strong>Code</strong> → Settings → Color Theme → <strong>Light Modern</strong></li>
+          <li>Windows: <strong>File</strong> → Preferences → Color Theme → <strong>Light Modern</strong></li>
+        </ul>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>한국어 언어팩 설치 (선택)</h3>
+        <p>Extensions (<kbd>Cmd+Shift+X</kbd> / <kbd>Ctrl+Shift+X</kbd>) → "Korean" 검색 → <strong>Korean Language Pack</strong> 설치 → VS Code 재시작</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Auto Save 켜기</h3>
+        <p><strong>File → Auto Save</strong> 체크. 파일을 수정하면 자동으로 저장됩니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>기본 조작법</h3>
+  <ul>
+    <li><strong>파일 탐색기</strong> — 왼쪽 사이드바에서 폴더/파일 구조를 한눈에 볼 수 있습니다</li>
+    <li><strong>터미널 열기</strong> — <kbd>Ctrl+`</kbd> (백틱) 또는 상단 메뉴 Terminal → New Terminal</li>
+    <li><strong>파일 검색</strong> — <kbd>Cmd+P</kbd> (Mac) / <kbd>Ctrl+P</kbd> (Windows)</li>
+    <li><strong>전체 검색</strong> — <kbd>Cmd+Shift+F</kbd> (Mac) / <kbd>Ctrl+Shift+F</kbd> (Windows)</li>
+  </ul>
+
+  <h3>VS Code 단축키</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>기능</th><th>Mac</th><th>Windows</th></tr></thead>
+      <tbody>
+        <tr><td>터미널 열기/닫기</td><td><kbd>Ctrl+`</kbd></td><td><kbd>Ctrl+`</kbd></td></tr>
+        <tr><td>확장 탭 열기</td><td><kbd>Cmd+Shift+X</kbd></td><td><kbd>Ctrl+Shift+X</kbd></td></tr>
+        <tr><td>파일 빠른 열기</td><td><kbd>Cmd+P</kbd></td><td><kbd>Ctrl+P</kbd></td></tr>
+        <tr><td>설정</td><td><kbd>Cmd+,</kbd></td><td><kbd>Ctrl+,</kbd></td></tr>
+        <tr><td>글씨 크기 확대</td><td><kbd>Cmd++</kbd></td><td><kbd>Ctrl++</kbd></td></tr>
+        <tr><td>글씨 크기 축소</td><td><kbd>Cmd+-</kbd></td><td><kbd>Ctrl+-</kbd></td></tr>
+        <tr><td>전체 검색</td><td><kbd>Cmd+Shift+F</kbd></td><td><kbd>Ctrl+Shift+F</kbd></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-title">💡 VS Code = 작업 공간</div>
+    VS Code는 코드 편집기이면서 동시에 터미널, 파일 탐색기, Git 관리 도구가 하나로 합쳐진 <strong>통합 작업 공간</strong>입니다. Claude Code를 쓸 때 파일 변경사항을 바로 확인할 수 있어서 편리합니다.
+  </div>
+
+  <div class="page-nav">
+    <a class="prev" href="./cc101-1-setup.html">
+      <span class="nav-dir">← 이전</span>
+      <span class="nav-title">세팅 가이드</span>
+    </a>
+    <a class="next" href="./cc101-3-basics.html">
+      <span class="nav-dir">다음 →</span>
+      <span class="nav-title">기본 사용법</span>
+    </a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  Above Coding Club · Claude Code 101
+</footer>
+
+<script>
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent.trim()).then(() => {
+    btn.textContent = '복사됨 ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>

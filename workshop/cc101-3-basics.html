@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>기본 사용법 — Claude Code 101</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav-inner">
+    <a class="nav-logo" href="./cc101.html">Above Coding Club</a>
+    <ul class="nav-links">
+      <li><a href="./cc101-1-setup.html">1. 세팅</a></li>
+      <li><a href="./cc101-2-vscode.html">2. VS Code</a></li>
+      <li><a href="./cc101-3-basics.html" class="active">3. 기본</a></li>
+      <li><a href="./cc101-4-git.html">4. Git</a></li>
+      <li><a href="./cc101-5-claude-md.html">5. CLAUDE.md</a></li>
+      <li><a href="./cc101-6-vibe.html">6. 바이브코딩</a></li>
+      <li><a href="./cc101-7-faq.html">7. FAQ</a></li>
+    </ul>
+    <div class="nav-spacer"></div>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <span class="part-badge">Part 3</span>
+    <h1>기본 사용법</h1>
+    <p>Permission Mode, 슬래시 명령어, 단축키를 익히고 첫 실습을 해봅니다.</p>
+  </div>
+</div>
+
+<main class="main-content">
+
+  <h3>첫 실행</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>작업 폴더 열기</h3>
+        <p>바탕화면의 <code>my-workshop</code> 폴더를 VS Code로 열기 (File → Open Folder)</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Claude Code 실행</h3>
+        <p>VS Code 하단 터미널 열기 (<kbd>Ctrl+`</kbd>) → <code>claude</code> 입력 → 테마 선택 (Light 권장)</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>첫 대화</h3>
+        <p><code>안녕하세요! 이 폴더에 "hello.txt" 파일을 만들어줘. 내용은 "Claude Code 워크샵 시작!"</code> 입력 후 Enter</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-title">💡 터미널 = 대화창</div>
+    터미널이 무섭게 느껴질 수 있지만, <strong>그냥 Claude와 대화하는 창</strong>이라고 생각하세요. 명령어를 외울 필요가 없습니다. 하고 싶은 걸 말로 입력하면 됩니다.
+  </div>
+
+  <h3>4가지 Permission Mode</h3>
+  <p><kbd>Shift+Tab</kbd>을 누를 때마다 모드가 순환됩니다.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>모드</th><th>파일 수정</th><th>명령어 실행</th><th>언제 쓸까?</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Default</strong></td><td>매번 확인</td><td>매번 확인</td><td>✅ 처음 시작할 때 (권장)</td></tr>
+        <tr><td><strong>Auto-accept Edits</strong></td><td>자동 승인</td><td>매번 확인</td><td>어느 정도 익숙해지면</td></tr>
+        <tr><td><strong>Plan Mode</strong></td><td>읽기 전용</td><td>불가</td><td>작업 전 계획 검토할 때</td></tr>
+        <tr><td style="color:#DC2626;"><strong>⚠️ Dangerous Skip</strong></td><td>자동 승인</td><td>자동 승인</td><td>Git 완비 후 + 경험 충분할 때만</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-warning">
+    <div class="callout-title">⚠️ Dangerous Skip Permission 주의</div>
+    이 모드는 Claude가 마음만 먹으면 <strong>내 컴퓨터의 모든 파일을 삭제할 수 있는 권한</strong>을 줍니다. Default 모드와 Plan 모드로 10번 이상 작업을 잘 컨트롤할 자신이 생긴 후, 반드시 Git 안전망을 구축한 다음에 사용하세요.
+  </div>
+
+  <h4>Plan Mode 실습</h4>
+  <p>Plan Mode는 Claude가 파일을 <strong>건드리지 않고</strong> 계획만 세웁니다.</p>
+  <div class="code-block">
+    <div class="code-label">Claude Code 입력</div>
+    <button class="copy-btn" onclick="copyCode(this)">복사</button>
+    <pre>내 폴더에 간단한 메모 앱 HTML 파일을 만들려고 해.
+어떤 파일들이 필요하고 어떻게 만들 건지 계획 세워줘. 지금은 만들지 말고.</pre>
+  </div>
+  <p>→ 계획을 보고 방향이 맞으면 <kbd>Shift+Tab</kbd>으로 Default 모드로 전환해서 실행!</p>
+
+  <h3>핵심 슬래시 명령어</h3>
+  <p>프롬프트 입력창에서 <code>/</code>를 입력하면 목록이 나옵니다.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>명령어</th><th>역할</th><th>언제?</th></tr></thead>
+      <tbody>
+        <tr><td><code>/init</code></td><td>현재 폴더를 분석해서 CLAUDE.md 자동 생성</td><td>새 프로젝트 시작 시</td></tr>
+        <tr><td><code>/plan</code></td><td>Plan Mode 진입 (읽기 전용 분석)</td><td>큰 작업 전 검토</td></tr>
+        <tr><td><code>/clear</code></td><td>대화 기록 초기화 (새 세션 시작)</td><td>하나의 작업 완료 후</td></tr>
+        <tr><td><code>/compact</code></td><td>긴 대화를 압축해서 컨텍스트 절약</td><td>대화가 길어질 때</td></tr>
+        <tr><td><code>/resume</code></td><td>이전 세션 불러오기</td><td>/clear 후 돌아가고 싶을 때</td></tr>
+        <tr><td><code>/cost</code></td><td>현재 세션 API 비용 확인</td><td>비용 모니터링</td></tr>
+        <tr><td><code>/memory</code></td><td>자동 기억 확인/수정</td><td>Claude가 뭘 기억하는지 볼 때</td></tr>
+        <tr><td><code>/model</code></td><td>사용 모델 변경</td><td>다른 모델을 시도하고 싶을 때</td></tr>
+        <tr><td><code>/fast</code></td><td>빠른 모드 전환</td><td>응답 속도를 높이고 싶을 때</td></tr>
+        <tr><td><code>/help</code></td><td>모든 명령어 목록 보기</td><td>언제든지</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-title">📊 컨텍스트 관리 원칙</div>
+    AI 모델은 대화를 "기억"하는 게 아니라 모든 대화 내용을 매번 다시 읽습니다. 대화가 길어질수록 느려지고 비용이 늘어납니다.<br><br>
+    <strong>Anthropic 엔지니어들의 권장 패턴:</strong><br>
+    • 질문-답변 5쌍 이내에 한 작업 단위 완료<br>
+    • 작업 완료 → <code>/clear</code>로 새 세션 시작<br>
+    • 컨텍스트 50% 남았을 때 → <code>/compact</code>으로 미리 압축
+  </div>
+
+  <h3>키보드 단축키</h3>
+  <div class="shortcut-grid">
+    <div class="shortcut-item"><kbd>Shift+Tab</kbd> <span>모드 전환</span></div>
+    <div class="shortcut-item"><kbd>Shift+Enter</kbd> <span>줄바꿈 (Enter는 전송)</span></div>
+    <div class="shortcut-item"><kbd>Ctrl+C</kbd> <span>작업 중단</span></div>
+    <div class="shortcut-item"><kbd>Esc</kbd> <span>현재 입력 취소</span></div>
+    <div class="shortcut-item"><kbd>Esc</kbd><kbd>Esc</kbd> <span>직전 작업 취소 (되돌리기)</span></div>
+    <div class="shortcut-item"><kbd>Alt+P</kbd> <span>모델 전환</span></div>
+    <div class="shortcut-item"><kbd>Alt+T</kbd> <span>사고 모드 전환</span></div>
+    <div class="shortcut-item"><kbd>!명령어</kbd> <span>터미널 Bash 직접 실행</span></div>
+  </div>
+
+  <div class="callout callout-warning">
+    <div class="callout-title">⚠️ Esc × 2 주의사항</div>
+    <kbd>Esc</kbd>를 두 번 누르면 Claude가 수정한 파일을 되돌립니다. 단, <strong>사용자가 직접 수정한 내용은 되돌아가지 않습니다.</strong> Claude 작업만 취소됩니다.
+  </div>
+
+  <h3>! 로 터미널 명령어 실행</h3>
+  <p>Claude Code 입력창에서 <code>!</code>로 시작하면 터미널 명령어를 직접 실행합니다.</p>
+  <div class="code-block">
+    <div class="code-label">예시</div>
+    <button class="copy-btn" onclick="copyCode(this)">복사</button>
+    <pre>!ls           # 현재 폴더 파일 목록
+!node app.js  # 파일 실행
+!git status   # Git 상태 확인</pre>
+  </div>
+
+  <div class="page-nav">
+    <a class="prev" href="./cc101-2-vscode.html">
+      <span class="nav-dir">← 이전</span>
+      <span class="nav-title">VS Code 활용법</span>
+    </a>
+    <a class="next" href="./cc101-4-git.html">
+      <span class="nav-dir">다음 →</span>
+      <span class="nav-title">Git 안전망</span>
+    </a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  Above Coding Club · Claude Code 101
+</footer>
+
+<script>
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent.trim()).then(() => {
+    btn.textContent = '복사됨 ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>

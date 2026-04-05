@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Git 안전망 — Claude Code 101</title>
+  <link rel="stylesheet" href="./style.css">
+  <style>
+    .git-flow {
+      display: flex; align-items: center; gap: 0;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden; margin: 16px 0;
+    }
+    .git-flow-item { flex: 1; padding: 14px 10px; text-align: center; font-size: 13px; }
+    .git-flow-item strong { display: block; font-size: 14px; margin-bottom: 2px; }
+    .git-flow-item span { font-size: 11px; color: var(--text-2); }
+    .git-flow-item:nth-child(1) { background: var(--accent-light); }
+    .git-flow-item:nth-child(3) { background: #EDE9FE; }
+    .git-flow-item:nth-child(5) { background: #F0FDF4; }
+    .git-flow-sep { color: var(--text-2); padding: 0 4px; font-size: 18px; }
+    .cmd-grid { display: flex; flex-direction: column; gap: 8px; margin: 16px 0; }
+    .cmd-row {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 16px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px;
+    }
+    .cmd-row code {
+      flex-shrink: 0; min-width: 160px;
+      background: var(--code-bg); color: var(--code-text);
+      border: none; padding: 3px 8px; border-radius: 4px; font-size: 12px;
+    }
+    .cmd-row span { color: var(--text-2); }
+    @media (max-width: 640px) {
+      .git-flow { flex-direction: column; }
+      .git-flow-sep { transform: rotate(90deg); padding: 4px; }
+      .cmd-row { flex-direction: column; gap: 4px; }
+      .cmd-row code { min-width: auto; }
+    }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav-inner">
+    <a class="nav-logo" href="./cc101.html">Above Coding Club</a>
+    <ul class="nav-links">
+      <li><a href="./cc101-1-setup.html">1. 세팅</a></li>
+      <li><a href="./cc101-2-vscode.html">2. VS Code</a></li>
+      <li><a href="./cc101-3-basics.html">3. 기본</a></li>
+      <li><a href="./cc101-4-git.html" class="active">4. Git</a></li>
+      <li><a href="./cc101-5-claude-md.html">5. CLAUDE.md</a></li>
+      <li><a href="./cc101-6-vibe.html">6. 바이브코딩</a></li>
+      <li><a href="./cc101-7-faq.html">7. FAQ</a></li>
+    </ul>
+    <div class="nav-spacer"></div>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <span class="part-badge">Part 4</span>
+    <h1>Git 안전망</h1>
+    <p>코드의 타임머신 — 언제든 되돌릴 수 있는 안전망을 만드세요.</p>
+  </div>
+</div>
+
+<main class="main-content">
+
+  <h3>왜 Git이 필요한가?</h3>
+
+  <p>문서 작업할 때 이런 파일들을 만든 적 없으신가요?</p>
+  <div class="code-block">
+    <div class="code-label">여러분의 폴더</div>
+    <pre>보고서_최종.docx
+보고서_최최종.docx
+보고서_진짜최종.docx
+보고서_진짜진짜최종_수정본.docx
+보고서_최종_230614.docx</pre>
+  </div>
+  <p><strong>Git은 이 문제를 자동으로 해결합니다.</strong> 모든 변경 내역을 자동으로 기록하고, 언제든 과거 어느 시점으로 돌아갈 수 있습니다.</p>
+  <p>바이브코딩에서는 특히 중요합니다. AI가 만든 코드를 Dangerous 모드로 실행하다가 뭔가 잘못되면? <strong>Git이 있으면 한 방에 복구.</strong></p>
+
+  <div class="callout callout-info">
+    <div class="callout-title">🎮 게임 비유</div>
+    Git은 게임의 세이브 포인트와 같습니다. 보스 몬스터 잡기 직전에 저장하듯, 큰 작업 시작 전에 <strong>"현재 상태 저장해줘"</strong>라고 Claude에게 명령하면 됩니다.
+  </div>
+
+  <h3>Git vs GitHub</h3>
+
+  <div class="git-flow">
+    <div class="git-flow-item">
+      <strong>내 컴퓨터</strong>
+      <span>파일들이 여기 있음</span>
+    </div>
+    <div class="git-flow-sep">⇄</div>
+    <div class="git-flow-item">
+      <strong>Git</strong>
+      <span>로컬 버전 관리 도구</span>
+    </div>
+    <div class="git-flow-sep">⇄</div>
+    <div class="git-flow-item">
+      <strong>GitHub</strong>
+      <span>클라우드 저장소<br>"코드용 구글 드라이브"</span>
+    </div>
+  </div>
+
+  <ul>
+    <li><strong>Git</strong> — 내 컴퓨터에서 변경 내역을 기록하는 도구</li>
+    <li><strong>GitHub</strong> — Git 내역을 클라우드에 올려서 다른 기기에서 접근하거나 팀과 공유</li>
+  </ul>
+
+  <h3>핵심 명령어 7가지</h3>
+  <p>이걸 직접 외울 필요는 없습니다. <strong>Claude Code가 대신 입력해줍니다.</strong> 개념만 이해하면 충분해요.</p>
+
+  <div class="cmd-grid">
+    <div class="cmd-row"><code>git clone [URL]</code><span>GitHub에 있는 프로젝트를 내 컴퓨터로 통째로 가져오기</span></div>
+    <div class="cmd-row"><code>git add [파일]</code><span>저장할 파일을 선택 (무대 위로 올리기)</span></div>
+    <div class="cmd-row"><code>git commit -m "메시지"</code><span>선택한 파일 저장 + 어떤 작업인지 메모 남기기 (Claude가 메시지 자동 작성)</span></div>
+    <div class="cmd-row"><code>git push</code><span>내 컴퓨터 저장 내역 → GitHub에 업로드</span></div>
+    <div class="cmd-row"><code>git pull</code><span>GitHub 최신 버전 → 내 컴퓨터로 받아오기</span></div>
+    <div class="cmd-row"><code>git branch [이름]</code><span>현재 상태를 유지하며 새 시간선 만들기 (실험용 작업 공간)</span></div>
+    <div class="cmd-row"><code>Pull Request (PR)</code><span>브랜치에서 작업한 내용을 메인에 합치도록 요청</span></div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-title">✅ 초보자 전략</div>
+    혼자 작업할 때는 <strong>commit + push + pull</strong> 3개만 잘 써도 충분합니다. 브랜치와 PR은 팀 협업에서 더 중요합니다.
+  </div>
+
+  <h3>Claude Code와 함께 Git 사용하기</h3>
+  <p>Git 명령어를 직접 입력할 필요 없이, Claude에게 말로 시키면 됩니다.</p>
+
+  <div class="code-block">
+    <div class="code-label">이렇게 시키면 됩니다</div>
+    <button class="copy-btn" onclick="copyCode(this)">복사</button>
+    <pre>현재 상태 저장해줘                    → git add + commit + push 자동 실행
+오늘 작업 내용 커밋해줘                → commit 메시지도 Claude가 작성
+GitHub에 올려줘                       → push 자동 실행
+아까 작업하기 전 상태로 돌아가줘        → git reset 또는 checkout</pre>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-title">🤖 커밋 메시지 자동 생성</div>
+    Claude Code는 작업 내용을 파악해서 <strong>의미 있는 커밋 메시지를 자동으로 작성</strong>해줍니다. 나중에 히스토리를 보면 무슨 작업인지 쉽게 이해할 수 있어요.
+  </div>
+
+  <h3>레포지토리 관리 원칙</h3>
+  <ul>
+    <li><strong>프로젝트마다 레포지토리 따로!</strong> — 너구리 게임이랑 회사 대시보드를 같은 레포에 넣으면 안 됩니다</li>
+    <li>VS Code에서 <strong>루트 디렉토리</strong>는 반드시 해당 프로젝트 폴더만 열기</li>
+    <li>프론트엔드/백엔드는 규모에 따라 같이 또는 따로 관리</li>
+  </ul>
+
+  <h3>실습 — GitHub 레포 연결</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>GitHub 레포지토리 만들기</h3>
+        <p><a href="https://github.com" target="_blank">github.com</a> → 로그인 → 우상단 + → New repository → 이름: <code>my-workshop</code> → Create repository</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Claude에게 연결 시키기</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="code-block">
+    <div class="code-label">Claude Code 입력</div>
+    <button class="copy-btn" onclick="copyCode(this)">복사</button>
+    <pre>내 GitHub 레포에 현재 폴더를 연결하고 첫 번째 커밋을 push해줘.
+레포 주소: https://github.com/[내아이디]/my-workshop</pre>
+  </div>
+
+  <div class="steps" style="margin-top:16px;">
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>GitHub에서 확인</h3>
+        <p>레포지토리 페이지에 파일들이 올라갔는지 확인. Commits 탭에서 커밋 메시지도 확인!</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-title">✅ Git 완료 체크</div>
+    GitHub 레포지토리에 내 파일이 올라가 있으면 완료! 이제 Dangerous 모드를 쓸 수 있는 안전망이 생겼습니다.
+  </div>
+
+  <div class="page-nav">
+    <a class="prev" href="./cc101-3-basics.html">
+      <span class="nav-dir">← 이전</span>
+      <span class="nav-title">기본 사용법</span>
+    </a>
+    <a class="next" href="./cc101-5-claude-md.html">
+      <span class="nav-dir">다음 →</span>
+      <span class="nav-title">CLAUDE.md 설정</span>
+    </a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  Above Coding Club · Claude Code 101
+</footer>
+
+<script>
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  navigator.clipboard.writeText(pre.textContent.trim()).then(() => {
+    btn.textContent = '복사됨 ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '복사'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
