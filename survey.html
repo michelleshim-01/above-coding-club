@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>워크샵 설문 | Above Coding Club</title>
+  <meta name="description" content="Above Coding Club 워크샵 사후 설문">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <a href="./" class="logo">Above <span>Coding Club</span></a>
+      <a href="./" class="btn btn--outline" style="padding: 0.5rem 1rem; font-size: 0.875rem;">홈으로</a>
+    </div>
+  </header>
+
+  <!-- Survey Hero -->
+  <section class="apply-hero">
+    <div class="container">
+      <h1>워크샵 설문</h1>
+      <p id="sessionInfo">소중한 피드백을 남겨주세요</p>
+    </div>
+  </section>
+
+  <!-- Form Section -->
+  <section class="form-section">
+    <div class="container container--narrow">
+
+      <!-- 세션 없음 안내 -->
+      <div id="noSession" class="form-message form-message--error" style="display: none;">
+        설문 링크가 올바르지 않습니다. 워크샵에서 받은 링크를 확인해주세요.
+      </div>
+
+      <!-- 이미 제출 안내 -->
+      <div id="alreadySubmitted" class="form-message form-message--success" style="display: none;">
+        이미 설문을 제출하셨습니다. 감사합니다!
+      </div>
+
+      <form class="apply-form" id="surveyForm">
+
+        <!-- Success/Error Message -->
+        <div id="formMessage" class="form-message" style="display: none;"></div>
+
+        <!-- Q1: 전반적 만족도 -->
+        <div class="form-group">
+          <label class="form-label">
+            오늘 워크샵에 얼마나 만족하셨나요? <span class="required">*</span>
+          </label>
+          <div class="rating-group" id="satisfaction">
+            <input type="radio" name="satisfaction" id="sat1" value="1">
+            <label for="sat1">1</label>
+            <input type="radio" name="satisfaction" id="sat2" value="2">
+            <label for="sat2">2</label>
+            <input type="radio" name="satisfaction" id="sat3" value="3">
+            <label for="sat3">3</label>
+            <input type="radio" name="satisfaction" id="sat4" value="4">
+            <label for="sat4">4</label>
+            <input type="radio" name="satisfaction" id="sat5" value="5">
+            <label for="sat5">5</label>
+          </div>
+          <div class="rating-labels">
+            <span>매우 불만족</span>
+            <span>매우 만족</span>
+          </div>
+        </div>
+
+        <!-- Q2: 가장 좋았던 점 -->
+        <div class="form-group">
+          <label class="form-label" for="bestPart">
+            워크샵에서 가장 좋았던 점은 무엇인가요? <span class="required">*</span>
+          </label>
+          <textarea
+            id="bestPart"
+            name="bestPart"
+            class="form-textarea"
+            required
+            rows="2"
+            placeholder="자유롭게 적어주세요"
+          ></textarea>
+        </div>
+
+        <!-- Q3: 개선할 점 -->
+        <div class="form-group">
+          <label class="form-label" for="improvement">
+            개선되었으면 하는 점이 있다면 알려주세요. <span class="required">*</span>
+          </label>
+          <textarea
+            id="improvement"
+            name="improvement"
+            class="form-textarea"
+            required
+            rows="2"
+            placeholder="솔직한 피드백 환영합니다"
+          ></textarea>
+        </div>
+
+        <!-- Q4: 난이도 체감 -->
+        <div class="form-group">
+          <label class="form-label" for="difficulty">
+            워크샵 내용의 난이도는 어떠셨나요? <span class="required">*</span>
+          </label>
+          <select id="difficulty" name="difficulty" class="form-input form-select" required>
+            <option value="">선택해주세요</option>
+            <option value="너무 쉬움">너무 쉬움</option>
+            <option value="적절함">적절함</option>
+            <option value="약간 어려움">약간 어려움</option>
+            <option value="너무 어려움">너무 어려움</option>
+          </select>
+        </div>
+
+        <!-- Q5: 가장 많이 배운 것 -->
+        <div class="form-group">
+          <label class="form-label" for="learned">
+            오늘 가장 많이 배운 것은 무엇인가요? <span class="required">*</span>
+          </label>
+          <textarea
+            id="learned"
+            name="learned"
+            class="form-textarea"
+            required
+            rows="2"
+            placeholder="새로 알게 된 것, 인상 깊었던 내용 등"
+          ></textarea>
+        </div>
+
+        <!-- Q6: 재참여 의향 -->
+        <div class="form-group">
+          <label class="form-label" for="reParticipation">
+            다음 워크샵에도 참여하시겠어요? <span class="required">*</span>
+          </label>
+          <select id="reParticipation" name="reParticipation" class="form-input form-select" required>
+            <option value="">선택해주세요</option>
+            <option value="꼭 다시 참여하고 싶다">꼭 다시 참여하고 싶다</option>
+            <option value="기회가 되면 참여하겠다">기회가 되면 참여하겠다</option>
+            <option value="잘 모르겠다">잘 모르겠다</option>
+            <option value="참여하지 않을 것 같다">참여하지 않을 것 같다</option>
+          </select>
+        </div>
+
+        <!-- Q7: NPS 추천 점수 -->
+        <div class="form-group">
+          <label class="form-label">
+            이 워크샵을 주변에 추천한다면 몇 점을 주시겠어요? <span class="required">*</span>
+          </label>
+          <div class="nps-group" id="nps">
+            <input type="radio" name="nps" id="nps0" value="0"><label for="nps0">0</label>
+            <input type="radio" name="nps" id="nps1" value="1"><label for="nps1">1</label>
+            <input type="radio" name="nps" id="nps2" value="2"><label for="nps2">2</label>
+            <input type="radio" name="nps" id="nps3" value="3"><label for="nps3">3</label>
+            <input type="radio" name="nps" id="nps4" value="4"><label for="nps4">4</label>
+            <input type="radio" name="nps" id="nps5" value="5"><label for="nps5">5</label>
+            <input type="radio" name="nps" id="nps6" value="6"><label for="nps6">6</label>
+            <input type="radio" name="nps" id="nps7" value="7"><label for="nps7">7</label>
+            <input type="radio" name="nps" id="nps8" value="8"><label for="nps8">8</label>
+            <input type="radio" name="nps" id="nps9" value="9"><label for="nps9">9</label>
+            <input type="radio" name="nps" id="nps10" value="10"><label for="nps10">10</label>
+          </div>
+          <div class="nps-labels">
+            <span>전혀 추천 안 함</span>
+            <span>적극 추천</span>
+          </div>
+        </div>
+
+        <!-- Q8: 추가 의견 -->
+        <div class="form-group">
+          <label class="form-label" for="comments">
+            그 외 하고 싶은 말이 있다면 자유롭게 적어주세요 <span class="text-muted">(선택)</span>
+          </label>
+          <textarea
+            id="comments"
+            name="comments"
+            class="form-textarea"
+            rows="2"
+            placeholder="자유롭게 적어주세요"
+          ></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn--primary btn--large form-submit" id="submitBtn">
+          설문 제출하기
+        </button>
+
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>Above Coding Club &copy; 2025</p>
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById('surveyForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const formMessage = document.getElementById('formMessage');
+    const noSessionMsg = document.getElementById('noSession');
+    const alreadySubmittedMsg = document.getElementById('alreadySubmitted');
+
+    // URL에서 세션ID 추출
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session');
+
+    // 세션ID 없으면 폼 비활성화
+    if (!sessionId) {
+      noSessionMsg.style.display = 'block';
+      form.style.display = 'none';
+    } else {
+      // 이미 제출했는지 확인
+      if (localStorage.getItem('survey_' + sessionId)) {
+        alreadySubmittedMsg.style.display = 'block';
+        form.style.display = 'none';
+      }
+    }
+
+    // 폼 제출
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // 별점 필수 체크
+      const satisfaction = document.querySelector('input[name="satisfaction"]:checked');
+      if (!satisfaction) {
+        showMessage('error', '만족도를 선택해주세요.');
+        return;
+      }
+
+      // NPS 필수 체크
+      const nps = document.querySelector('input[name="nps"]:checked');
+      if (!nps) {
+        showMessage('error', '추천 점수를 선택해주세요.');
+        return;
+      }
+
+      // 버튼 로딩 상태
+      submitBtn.disabled = true;
+      submitBtn.textContent = '제출 중...';
+      form.classList.add('form-loading');
+      formMessage.style.display = 'none';
+
+      const data = {
+        session: sessionId,
+        satisfaction: Number(satisfaction.value),
+        bestPart: document.getElementById('bestPart').value,
+        improvement: document.getElementById('improvement').value,
+        difficulty: document.getElementById('difficulty').value,
+        learned: document.getElementById('learned').value,
+        reParticipation: document.getElementById('reParticipation').value,
+        nps: Number(nps.value),
+        comments: document.getElementById('comments').value || ''
+      };
+
+      try {
+        const response = await fetch('/api/survey', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          // 중복 제출 방지
+          localStorage.setItem('survey_' + sessionId, 'true');
+          showMessage('success', '설문이 제출되었습니다! 소중한 피드백 감사합니다.');
+          form.querySelectorAll('fieldset, input, textarea, select, button').forEach(el => el.disabled = true);
+          submitBtn.style.display = 'none';
+        } else {
+          throw new Error(result.error || '제출 중 오류가 발생했습니다');
+        }
+      } catch (error) {
+        console.error('Submit error:', error);
+        showMessage('error', error.message || '제출 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '설문 제출하기';
+        form.classList.remove('form-loading');
+      }
+    });
+
+    function showMessage(type, text) {
+      formMessage.className = 'form-message form-message--' + type;
+      formMessage.textContent = text;
+      formMessage.style.display = 'block';
+      formMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  </script>
+
+</body>
+</html>
