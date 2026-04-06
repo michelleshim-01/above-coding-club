@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>설문 결과 - Above Coding Club</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=BioRhyme:wght@400;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #1a1a1a;
+      min-height: 100vh;
+      background: #f0ebe5;
+      background-image:
+        radial-gradient(ellipse 120% 80% at 80% 0%, rgba(255, 180, 150, 0.25) 0%, transparent 50%),
+        radial-gradient(ellipse 80% 60% at 0% 100%, rgba(180, 190, 230, 0.2) 0%, transparent 50%);
+    }
+
+    /* Password Gate */
+    .gate {
+      position: fixed;
+      inset: 0;
+      background: rgba(240, 235, 229, 0.97);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+
+    .gate.hidden { display: none; }
+
+    .gate-card {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+      padding: 40px;
+      width: 340px;
+      text-align: center;
+    }
+
+    .gate-card h2 {
+      font-family: 'BioRhyme', serif;
+      font-size: 20px;
+      font-weight: 400;
+      font-style: italic;
+      margin-bottom: 8px;
+    }
+
+    .gate-card p {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 24px;
+    }
+
+    .gate-input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .gate-input:focus { border-color: #f05a28; }
+
+    .gate-btn {
+      width: 100%;
+      margin-top: 12px;
+      padding: 12px;
+      background: #2d3a4a;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .gate-btn:hover { background: #1a2a3a; }
+
+    .gate-error {
+      color: #f05a28;
+      font-size: 12px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* Main Layout */
+    .page-wrapper {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-grid {
+      width: 36px;
+      height: 36px;
+      background: #2d3a4a;
+      border-radius: 8px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      padding: 6px;
+    }
+
+    .logo-grid span { border-radius: 2px; }
+    .logo-grid span:nth-child(1) { background: #4a5a6a; }
+    .logo-grid span:nth-child(2) { background: #f05a28; }
+    .logo-grid span:nth-child(3) { background: #f5a623; }
+    .logo-grid span:nth-child(4) { background: #f05a28; }
+    .logo-grid span:nth-child(5) { background: #f5a623; }
+    .logo-grid span:nth-child(6) { background: #4a90d9; }
+    .logo-grid span:nth-child(7) { background: #f5a623; }
+    .logo-grid span:nth-child(8) { background: #4a90d9; }
+    .logo-grid span:nth-child(9) { background: #4a5a6a; }
+
+    .header-title {
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.3;
+    }
+
+    .header-title small {
+      display: block;
+      font-weight: 400;
+      color: #888;
+      font-size: 11px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .header-btn {
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(255,255,255,0.9);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 12px;
+      color: #555;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+
+    .header-btn:hover { background: #fff; }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-family: 'BioRhyme', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #2d3a4a;
+    }
+
+    .stat-sub {
+      font-size: 11px;
+      color: #aaa;
+      margin-top: 4px;
+    }
+
+    .nps-bar {
+      display: flex;
+      height: 6px;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 10px;
+      gap: 2px;
+    }
+
+    .nps-bar-seg {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.6s ease;
+    }
+
+    .nps-bar-seg.detractor { background: #f05a28; }
+    .nps-bar-seg.passive { background: #f5a623; }
+    .nps-bar-seg.promoter { background: #22c55e; }
+
+    /* Section */
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .section-title {
+      font-family: 'BioRhyme', serif;
+      font-size: 18px;
+      font-weight: 400;
+      font-style: italic;
+      margin-bottom: 14px;
+      color: #2d3a4a;
+    }
+
+    /* Chart Card */
+    .chart-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+
+    .bar-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .bar-item:last-child { margin-bottom: 0; }
+
+    .bar-label {
+      font-size: 12px;
+      color: #555;
+      min-width: 120px;
+      text-align: right;
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 24px;
+      background: #f5f5f5;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      padding-left: 8px;
+      font-size: 11px;
+      color: #fff;
+      font-weight: 500;
+      transition: width 0.6s ease;
+      min-width: 28px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .two-col .section { margin-bottom: 0; }
+
+    /* NPS specific colors */
+    .nps-detractor { background: #f05a28; }
+    .nps-passive { background: #f5a623; }
+    .nps-promoter { background: #22c55e; }
+
+    /* Color palette for bars */
+    .bar-c0 { background: #f05a28; }
+    .bar-c1 { background: #f5a623; }
+    .bar-c2 { background: #4a90d9; }
+    .bar-c3 { background: #2d3a4a; }
+    .bar-c4 { background: #7c3aed; }
+    .bar-c5 { background: #22c55e; }
+    .bar-c6 { background: #ec4899; }
+    .bar-c7 { background: #06b6d4; }
+
+    /* Satisfaction star colors */
+    .bar-sat { background: #f5a623; }
+
+    /* Text Responses */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.6);
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 12px;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-btn:hover { background: #fff; }
+    .tab-btn.active {
+      background: #2d3a4a;
+      color: #fff;
+      border-color: #2d3a4a;
+    }
+
+    .response-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .response-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      border-left: 3px solid #f05a28;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #333;
+      white-space: pre-wrap;
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 60px;
+      color: #888;
+      font-size: 13px;
+    }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .two-col { grid-template-columns: 1fr; }
+      .bar-label { min-width: 80px; font-size: 11px; }
+      .stat-value { font-size: 26px; }
+      .header-actions { flex-direction: column; gap: 4px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Password Gate -->
+  <div class="gate" id="gate">
+    <div class="gate-card">
+      <h2>Survey Results</h2>
+      <p>Above Coding Club 설문 결과</p>
+      <input type="password" class="gate-input" id="passwordInput" placeholder="비밀번호 입력" autocomplete="off">
+      <button class="gate-btn" id="loginBtn">입장</button>
+      <div class="gate-error" id="gateError">비밀번호가 올바르지 않습니다.</div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="page-wrapper" id="main" style="display:none;">
+    <header>
+      <div class="header-left">
+        <div class="logo-grid">
+          <span></span><span></span><span></span>
+          <span></span><span></span><span></span>
+          <span></span><span></span><span></span>
+        </div>
+        <div class="header-title">
+          Above Coding Club
+          <small>워크샵 설문 결과</small>
+        </div>
+      </div>
+      <div class="header-actions">
+        <a href="./dashboard.html" class="header-btn">신청자 대시보드</a>
+        <button class="header-btn" id="refreshBtn">새로고침</button>
+      </div>
+    </header>
+
+    <!-- Stats -->
+    <div class="stats-grid" id="statsGrid">
+      <div class="loading">불러오는 중...</div>
+    </div>
+
+    <!-- 만족도 + NPS 분포 -->
+    <div class="two-col">
+      <div class="section">
+        <div class="section-title">만족도 분포</div>
+        <div class="chart-card" id="satisfactionChart">
+          <div class="loading">불러오는 중...</div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-title">NPS 분포</div>
+        <div class="chart-card" id="npsChart">
+          <div class="loading">불러오는 중...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 난이도 + 재참여 -->
+    <div class="two-col">
+      <div class="section">
+        <div class="section-title">난이도 체감</div>
+        <div class="chart-card" id="difficultyChart">
+          <div class="loading">불러오는 중...</div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="section-title">재참여 의향</div>
+        <div class="chart-card" id="reParticipationChart">
+          <div class="loading">불러오는 중...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 알게 된 경로 -->
+    <div class="section">
+      <div class="section-title">알게 된 경로</div>
+      <div class="chart-card" id="referralChart">
+        <div class="loading">불러오는 중...</div>
+      </div>
+    </div>
+
+    <!-- 텍스트 응답 -->
+    <div class="section">
+      <div class="section-title">참가자 목소리</div>
+      <div class="tabs" id="tabs">
+        <button class="tab-btn active" data-tab="bestPart">좋았던 점</button>
+        <button class="tab-btn" data-tab="improvement">개선할 점</button>
+        <button class="tab-btn" data-tab="learned">배운 것</button>
+        <button class="tab-btn" data-tab="comments">추가 의견</button>
+      </div>
+      <div class="response-list" id="responseList">
+        <div class="loading">불러오는 중...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = '/api/survey-dashboard';
+    let password = sessionStorage.getItem('dashboard_pw') || '';
+    let currentData = null;
+    let currentTab = 'bestPart';
+
+    // Gate
+    const gate = document.getElementById('gate');
+    const main = document.getElementById('main');
+    const passwordInput = document.getElementById('passwordInput');
+    const loginBtn = document.getElementById('loginBtn');
+    const gateError = document.getElementById('gateError');
+
+    if (password) fetchData();
+
+    loginBtn.addEventListener('click', tryLogin);
+    passwordInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') tryLogin();
+    });
+
+    async function tryLogin() {
+      password = passwordInput.value.trim();
+      if (!password) return;
+      gateError.style.display = 'none';
+
+      const ok = await fetchData();
+      if (ok) {
+        sessionStorage.setItem('dashboard_pw', password);
+      } else {
+        gateError.style.display = 'block';
+        password = '';
+        sessionStorage.removeItem('dashboard_pw');
+      }
+    }
+
+    async function fetchData() {
+      try {
+        const res = await fetch(`${API_URL}?password=${encodeURIComponent(password)}`);
+        if (res.status === 401) {
+          gate.classList.remove('hidden');
+          main.style.display = 'none';
+          return false;
+        }
+        if (!res.ok) throw new Error('Server error');
+
+        currentData = await res.json();
+        gate.classList.add('hidden');
+        main.style.display = 'block';
+        render(currentData);
+        return true;
+      } catch (err) {
+        console.error(err);
+        return false;
+      }
+    }
+
+    function render(data) {
+      renderStats(data.stats);
+      renderSatisfaction(data.distributions.satisfaction, data.stats.total);
+      renderNPS(data.distributions.nps, data.stats.total);
+      renderDifficulty(data.distributions.difficulty, data.stats.total);
+      renderReParticipation(data.distributions.reParticipation, data.stats.total);
+      renderReferral(data.distributions.referral, data.stats.total);
+      renderResponses(data.textResponses);
+    }
+
+    function renderStats(stats) {
+      const dPct = stats.total ? Math.round((stats.detractors / stats.total) * 100) : 0;
+      const paPct = stats.total ? Math.round((stats.passives / stats.total) * 100) : 0;
+      const prPct = stats.total ? Math.round((stats.promoters / stats.total) * 100) : 0;
+
+      document.getElementById('statsGrid').innerHTML = `
+        <div class="stat-card">
+          <div class="stat-label">총 응답</div>
+          <div class="stat-value">${stats.total}</div>
+          <div class="stat-sub">명</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">평균 만족도</div>
+          <div class="stat-value">${stats.avgSatisfaction}</div>
+          <div class="stat-sub">/ 5점</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">NPS 점수</div>
+          <div class="stat-value">${stats.npsScore >= 0 ? '+' : ''}${stats.npsScore}</div>
+          <div class="stat-sub">추천 ${prPct}% · 중립 ${paPct}% · 비추천 ${dPct}%</div>
+          <div class="nps-bar">
+            ${dPct > 0 ? `<div class="nps-bar-seg detractor" style="width:${dPct}%"></div>` : ''}
+            ${paPct > 0 ? `<div class="nps-bar-seg passive" style="width:${paPct}%"></div>` : ''}
+            ${prPct > 0 ? `<div class="nps-bar-seg promoter" style="width:${prPct}%"></div>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderSatisfaction(dist, total) {
+      const el = document.getElementById('satisfactionChart');
+      el.innerHTML = [5, 4, 3, 2, 1].map(score => {
+        const count = dist[score] || 0;
+        const pct = total ? Math.round((count / total) * 100) : 0;
+        return `<div class="bar-item">
+          <div class="bar-label">${'★'.repeat(score)}</div>
+          <div class="bar-track">
+            <div class="bar-fill bar-sat" style="width:${Math.max(pct, count > 0 ? 12 : 0)}%">${count}</div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function renderNPS(dist, total) {
+      const el = document.getElementById('npsChart');
+      el.innerHTML = Array.from({ length: 11 }, (_, i) => {
+        const score = 10 - i;
+        const count = dist[score] || 0;
+        const pct = total ? Math.round((count / total) * 100) : 0;
+        let colorClass = 'nps-detractor';
+        if (score >= 9) colorClass = 'nps-promoter';
+        else if (score >= 7) colorClass = 'nps-passive';
+        return `<div class="bar-item">
+          <div class="bar-label">${score}점</div>
+          <div class="bar-track">
+            <div class="bar-fill ${colorClass}" style="width:${Math.max(pct, count > 0 ? 12 : 0)}%">${count || ''}</div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function renderDifficulty(dist, total) {
+      const order = ['너무 쉬움', '적절함', '약간 어려움', '너무 어려움'];
+      const colors = ['bar-c2', 'bar-c5', 'bar-c1', 'bar-c0'];
+      const el = document.getElementById('difficultyChart');
+      el.innerHTML = order.map((label, i) => {
+        const count = dist[label] || 0;
+        const pct = total ? Math.round((count / total) * 100) : 0;
+        return `<div class="bar-item">
+          <div class="bar-label">${label}</div>
+          <div class="bar-track">
+            <div class="bar-fill ${colors[i]}" style="width:${Math.max(pct, count > 0 ? 12 : 0)}%">${count}</div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function renderReParticipation(dist, total) {
+      const order = ['꼭 다시 참여하고 싶다', '기회가 되면 참여하겠다', '잘 모르겠다', '참여하지 않을 것 같다'];
+      const colors = ['bar-c5', 'bar-c2', 'bar-c1', 'bar-c0'];
+      const el = document.getElementById('reParticipationChart');
+      el.innerHTML = order.map((label, i) => {
+        const count = dist[label] || 0;
+        const pct = total ? Math.round((count / total) * 100) : 0;
+        return `<div class="bar-item">
+          <div class="bar-label">${label}</div>
+          <div class="bar-track">
+            <div class="bar-fill ${colors[i]}" style="width:${Math.max(pct, count > 0 ? 12 : 0)}%">${count}</div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function renderReferral(dist, total) {
+      const sorted = Object.entries(dist).sort((a, b) => b[1] - a[1]);
+      const el = document.getElementById('referralChart');
+      if (!sorted.length) {
+        el.innerHTML = '<div class="loading">아직 데이터가 없습니다</div>';
+        return;
+      }
+      el.innerHTML = sorted.map(([label, count], i) => {
+        const pct = total ? Math.round((count / total) * 100) : 0;
+        return `<div class="bar-item">
+          <div class="bar-label">${esc(label)}</div>
+          <div class="bar-track">
+            <div class="bar-fill bar-c${i % 8}" style="width:${Math.max(pct, 12)}%">${count}</div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function renderResponses(textResponses) {
+      showTab(currentTab, textResponses);
+    }
+
+    function showTab(tab, textResponses) {
+      const responses = (textResponses || currentData.textResponses)[tab] || [];
+      const colors = ['#f05a28', '#f5a623', '#4a90d9', '#2d3a4a', '#7c3aed', '#22c55e'];
+      const el = document.getElementById('responseList');
+
+      if (!responses.length) {
+        el.innerHTML = '<div class="loading">아직 응답이 없습니다</div>';
+        return;
+      }
+
+      el.innerHTML = responses.map((text, i) =>
+        `<div class="response-card" style="border-left-color:${colors[i % colors.length]}">${esc(text)}</div>`
+      ).join('');
+    }
+
+    // Tab clicks
+    document.getElementById('tabs').addEventListener('click', e => {
+      const btn = e.target.closest('.tab-btn');
+      if (!btn) return;
+      currentTab = btn.dataset.tab;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      showTab(currentTab);
+    });
+
+    // Refresh
+    document.getElementById('refreshBtn').addEventListener('click', fetchData);
+
+    // Escape HTML
+    function esc(s) {
+      const d = document.createElement('div');
+      d.textContent = s;
+      return d.innerHTML;
+    }
+  </script>
+</body>
+</html>
