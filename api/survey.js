@@ -32,6 +32,7 @@ export default async function handler(req, res) {
       learned,
       reParticipation,
       nps,
+      referral,
       comments
     } = req.body;
 
@@ -58,6 +59,11 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: '재참여 의향을 선택해주세요.' });
     }
 
+    const validReferrals = ['지인 추천', '인스타그램', '기타 SNS', '검색', '기타'];
+    if (!referral || !validReferrals.includes(referral)) {
+      return res.status(400).json({ error: '알게 된 경로를 선택해주세요.' });
+    }
+
     // Airtable API 호출
     const airtableUrl = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_SURVEY_TABLE_ID}`;
 
@@ -78,6 +84,7 @@ export default async function handler(req, res) {
             '가장 많이 배운 것': learned || '',
             '재참여 의향': reParticipation,
             '추천 점수': Number(nps),
+            '알게 된 경로': referral,
             '추가 의견': comments || ''
           }
         }]

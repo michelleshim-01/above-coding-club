@@ -164,7 +164,22 @@
           </div>
         </div>
 
-        <!-- Q8: 추가 의견 -->
+        <!-- Q8: 알게 된 경로 -->
+        <div class="form-group">
+          <label class="form-label" for="referral">
+            이 워크샵을 어떻게 알게 되셨나요? <span class="required">*</span>
+          </label>
+          <select id="referral" name="referral" class="form-input form-select" required>
+            <option value="">선택해주세요</option>
+            <option value="지인 추천">지인 추천</option>
+            <option value="인스타그램">인스타그램</option>
+            <option value="기타 SNS">기타 SNS</option>
+            <option value="검색">검색</option>
+            <option value="기타">기타</option>
+          </select>
+        </div>
+
+        <!-- Q9: 추가 의견 -->
         <div class="form-group">
           <label class="form-label" for="comments">
             그 외 하고 싶은 말이 있다면 자유롭게 적어주세요 <span class="text-muted">(선택)</span>
@@ -250,6 +265,7 @@
         learned: document.getElementById('learned').value,
         reParticipation: document.getElementById('reParticipation').value,
         nps: Number(nps.value),
+        referral: document.getElementById('referral').value,
         comments: document.getElementById('comments').value || ''
       };
 
