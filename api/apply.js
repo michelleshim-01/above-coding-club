@@ -103,11 +103,11 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    // 슬랙 알림 + 확인 이메일 (응답 차단 없이 비동기 실행)
-    Promise.allSettled([
+    // 슬랙 알림 + 확인 이메일 발송 (완료까지 대기)
+    await Promise.allSettled([
       sendSlackNotification({ name, phone, email, job, tool }),
       sendConfirmationEmail({ name, email })
-    ]).catch(err => console.error('Notification error:', err));
+    ]);
 
     return res.status(200).json({
       success: true,
