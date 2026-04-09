@@ -1,3 +1,37 @@
+// 슬랙 알림 발송
+async function sendSlackNotification({ name, phone, email, job, tool }) {
+  const webhookUrl = process.env.SLACK_WEBHOOK_URL;
+  if (!webhookUrl) return;
+
+  const text = `🎉 새 워크샵 신청!\n이름: ${name}\n하시는 일: ${job}\n이메일: ${email}\n연락처: ${phone}${tool ? `\n만들고 싶은 도구: ${tool}` : ''}`;
+
+  await fetch(webhookUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text })
+  });
+}
+
+// 신청 확인 이메일 발송
+async function sendConfirmationEmail({ name, email }) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return;
+
+  await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      from: process.env.FROM_EMAIL || 'Above Coding Club <onboarding@resend.dev>',
+      to: email,
+      subject: '[어보브 코딩 클럽] 워크샵 신청이 완료되었습니다',
+      text: `${name}님, 어보브 코딩 클럽 워크샵 신청이 완료되었습니다!\n\n신청 내역을 확인한 후 상세 안내 메일을 보내드릴게요.\n궁금한 점은 이 메일로 편하게 답장 주세요.\n\n어보브 코딩 클럽 드림`
+    })
+  });
+}
+
 export default async function handler(req, res) {
   // CORS 헤더 설정
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -68,6 +102,13 @@ export default async function handler(req, res) {
     }
 
     const data = await response.json();
+
+    // 슬랙 알림 + 확인 이메일 (응답 차단 없이 비동기 실행)
+    Promise.allSettled([
+      sendSlackNotification({ name, phone, email, job, tool }),
+      sendConfirmationEmail({ name, email })
+    ]).catch(err => console.error('Notification error:', err));
+
     return res.status(200).json({
       success: true,
       message: '신청이 완료되었습니다!',
