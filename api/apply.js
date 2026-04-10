@@ -106,7 +106,7 @@ export default async function handler(req, res) {
             '연락처': phone,
             '이메일': email,
             '하시는 일': job,
-            '맥북 확인': macbook || '',
+            '맥북 확인': !!macbook,
             '참가비 입금': paid === true,
             '만들어보고 싶은 도구': tool || '',
             '하고 싶은 말': message || ''
