@@ -51,13 +51,13 @@ export default async function handler(req, res) {
   // 환경 변수 확인
   const { AIRTABLE_TOKEN, AIRTABLE_BASE_ID, AIRTABLE_TABLE_ID } = process.env;
 
-  if (!AIRTABLE_TOKEN || !AIRTABLE_BASE_ID || !AIRTABLE_TABLE_ID) {
+  if (!AIRTABLE_TOKEN || !AIRTABLE_BASE_ID) {
     console.error('Missing environment variables');
     return res.status(500).json({ error: '서버 설정 오류입니다. 관리자에게 문의해주세요.' });
   }
 
   try {
-    const { name, phone, email, job, macbook, paid, tool, message } = req.body;
+    const { name, phone, email, job, macbook, paid, tool, message, workshop } = req.body;
 
     // 필수 필드 검증
     if (!name || !phone || !email || !job) {
@@ -70,8 +70,28 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: '올바른 이메일 주소를 입력해주세요.' });
     }
 
+    // 워크샵 테이블 결정: workshop 파라미터가 있으면 해당 테이블, 없으면 기본 테이블
+    let tableId = AIRTABLE_TABLE_ID;
+    if (workshop) {
+      const metaUrl = `https://api.airtable.com/v0/meta/bases/${AIRTABLE_BASE_ID}/tables`;
+      const metaRes = await fetch(metaUrl, {
+        headers: { 'Authorization': `Bearer ${AIRTABLE_TOKEN}` }
+      });
+      if (metaRes.ok) {
+        const metaData = await metaRes.json();
+        const targetTable = metaData.tables.find(t => t.name === `워크샵_${workshop}`);
+        if (targetTable) {
+          tableId = targetTable.id;
+        }
+      }
+    }
+
+    if (!tableId) {
+      return res.status(500).json({ error: '서버 설정 오류입니다. 관리자에게 문의해주세요.' });
+    }
+
     // Airtable API 호출
-    const airtableUrl = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_ID}`;
+    const airtableUrl = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${tableId}`;
 
     const response = await fetch(airtableUrl, {
       method: 'POST',
@@ -86,7 +106,7 @@ export default async function handler(req, res) {
             '연락처': phone,
             '이메일': email,
             '하시는 일': job,
-            '맥북 확인': macbook === true,
+            '맥북 확인': macbook || '',
             '참가비 입금': paid === true,
             '만들어보고 싶은 도구': tool || '',
             '하고 싶은 말': message || ''

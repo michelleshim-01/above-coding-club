@@ -126,17 +126,20 @@ async function getApplicants(res, env, tableId) {
     phone: r.fields['연락처'] || '',
     email: r.fields['이메일'] || '',
     job: r.fields['하시는 일'] || '',
-    macbook: r.fields['맥북 확인'] || false,
+    laptop: r.fields['맥북 확인'] || '',
     paid: r.fields['참가비 입금'] || false,
     tool: r.fields['만들어보고 싶은 도구'] || '',
     message: r.fields['하고 싶은 말'] || '',
     signupDate: r.createdTime || ''
   })).sort((a, b) => new Date(b.signupDate) - new Date(a.signupDate));
 
+  const macCount = participants.filter(p => p.laptop && p.laptop.includes('맥')).length;
+  const winCount = participants.filter(p => p.laptop && !p.laptop.includes('맥')).length;
+
   const stats = {
     total: participants.length,
-    paid: participants.filter(p => p.paid).length,
-    macbook: participants.filter(p => p.macbook).length
+    macbook: macCount,
+    windows: winCount
   };
 
   const jobDistribution = {};

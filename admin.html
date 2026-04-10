@@ -58,7 +58,6 @@
       display: flex; align-items: center; justify-content: space-between;
       margin-bottom: 28px;
     }
-    .header-left { display: flex; align-items: center; gap: 14px; }
     .header-title { font-family: 'BioRhyme', serif; font-size: 18px; }
     .header-title small { display: block; font-size: 11px; color: #888; font-family: 'IBM Plex Mono', monospace; }
 
@@ -124,11 +123,27 @@
     td { padding: 12px 14px; border-bottom: 1px solid #f8f8f8; white-space: nowrap; }
     tr:last-child td { border-bottom: none; }
     tr:hover td { background: #fdfcfb; }
+
+    .copy-btn {
+      background: none; border: none; cursor: pointer; font-size: 14px;
+      padding: 2px 6px; border-radius: 4px; vertical-align: middle;
+    }
+    .copy-btn:hover { background: #f0f0f0; }
+    .copy-btn.copied { color: #22c55e; }
+
+    .laptop-tag {
+      display: inline-block; padding: 2px 8px; border-radius: 10px;
+      font-size: 11px; font-weight: 500;
+    }
+    .laptop-tag.mac { background: #e0f2fe; color: #0369a1; }
+    .laptop-tag.win { background: #fef3c7; color: #92400e; }
+    .laptop-tag.unknown { background: #f3f4f6; color: #6b7280; }
+
     .badge { display: inline-block; width: 8px; height: 8px; border-radius: 50%; }
     .badge.green { background: #22c55e; }
     .badge.gray { background: #ddd; }
 
-    /* Survey cards */
+    /* Cards */
     .survey-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
     .card {
       background: #fff; border-radius: 12px; padding: 20px;
@@ -137,13 +152,10 @@
     .card h3 { font-size: 13px; color: #888; font-weight: 500; margin-bottom: 14px; }
     .dist-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
     .dist-label { font-size: 12px; color: #555; min-width: 140px; text-align: right; }
-    .dist-bar {
-      flex: 1; height: 22px; background: #f5f5f5; border-radius: 6px; overflow: hidden;
-    }
+    .dist-bar { flex: 1; height: 22px; background: #f5f5f5; border-radius: 6px; overflow: hidden; }
     .dist-fill {
       height: 100%; border-radius: 6px; display: flex; align-items: center;
-      padding-left: 8px; font-size: 11px; color: #fff; font-weight: 500;
-      min-width: 24px;
+      padding-left: 8px; font-size: 11px; color: #fff; font-weight: 500; min-width: 24px;
     }
     .feedback-list { max-height: 300px; overflow-y: auto; }
     .feedback-item {
@@ -152,13 +164,17 @@
     }
     .feedback-item:last-child { border-bottom: none; }
 
-    /* Email section */
+    /* Email */
+    .guide-box {
+      background: #fff8f0; border: 1px solid #fed7aa; border-radius: 8px;
+      padding: 16px; margin-bottom: 20px; font-size: 13px; line-height: 1.8; color: #9a3412;
+    }
+    .guide-box strong { color: #7c2d12; }
     .email-preview {
       background: #fafafa; border: 1px solid #eee; border-radius: 8px;
       padding: 20px; font-size: 13px; line-height: 1.8;
       white-space: pre-wrap; color: #333;
-      max-height: 400px; overflow-y: auto; display: none;
-      margin-top: 16px;
+      max-height: 400px; overflow-y: auto; display: none; margin-top: 16px;
     }
     .btn {
       padding: 8px 18px; border: none; border-radius: 6px;
@@ -169,7 +185,6 @@
     .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
     .btn-outline { background: #fff; color: #2d3a4a; border: 1px solid #2d3a4a; }
     .btn-outline:hover { background: #f5f5f5; }
-
     .result-msg {
       margin-top: 12px; padding: 12px 16px; border-radius: 6px;
       font-size: 13px; display: none;
@@ -203,15 +218,12 @@
   <!-- Main -->
   <div class="page-wrapper" id="main" style="display:none;">
     <header>
-      <div class="header-left">
-        <div class="header-title">
-          Above Coding Club
-          <small>관리자</small>
-        </div>
+      <div class="header-title">
+        Above Coding Club
+        <small>관리자</small>
       </div>
     </header>
 
-    <!-- Tabs -->
     <div class="tabs">
       <button class="tab active" data-tab="applicants">신청 관리</button>
       <button class="tab" data-tab="surveys">후기 서베이</button>
@@ -234,7 +246,7 @@
             <thead>
               <tr>
                 <th>이름</th><th>하시는 일</th><th>연락처</th>
-                <th>이메일</th><th>입금</th><th>맥북</th><th>신청일</th>
+                <th>이메일</th><th>노트북</th><th>입금</th><th>신청일</th>
               </tr>
             </thead>
             <tbody id="appTable"><tr><td colspan="7" class="loading">워크샵을 선택해주세요</td></tr></tbody>
@@ -256,8 +268,16 @@
 
     <!-- Tab 3: 메일 보내기 -->
     <div class="tab-content" id="tab-email">
+      <div class="guide-box">
+        <strong>사용 방법</strong><br>
+        1. 워크샵을 선택하세요 (이메일을 보낼 대상 테이블)<br>
+        2. 워크샵 날짜를 선택하세요 (이메일 본문에 들어갈 날짜)<br>
+        3. [미리보기]로 내용을 확인한 후 [전체 발송]을 누르세요<br>
+        <br>
+        * Resend 도메인 인증이 완료되어야 실제 발송됩니다.
+      </div>
       <div class="controls">
-        <label>워크샵 선택</label>
+        <label>워크샵</label>
         <select id="emailWorkshopSelect"><option value="">불러오는 중...</option></select>
         <label>워크샵 날짜</label>
         <input type="date" id="emailDate">
@@ -277,9 +297,6 @@
     let currentApplicants = [];
 
     // --- Gate ---
-    const gate = document.getElementById('gate');
-    const mainEl = document.getElementById('main');
-
     if (password) init();
 
     document.getElementById('loginBtn').addEventListener('click', tryLogin);
@@ -310,14 +327,16 @@
         workshops = data.workshops || [];
         sessions = data.sessions || [];
 
-        gate.classList.add('hidden');
-        mainEl.style.display = 'block';
+        document.getElementById('gate').classList.add('hidden');
+        document.getElementById('main').style.display = 'block';
 
         populateSelects();
         if (workshops.length > 0) {
           document.getElementById('workshopSelect').value = workshops[0].id;
           loadApplicants(workshops[0].id);
         }
+        // 서베이 자동 로딩
+        loadSurveys(sessions.length > 0 ? sessions[0] : '');
         return true;
       } catch (e) {
         console.error(e);
@@ -330,8 +349,9 @@
       document.getElementById('workshopSelect').innerHTML = opts || '<option>워크샵 없음</option>';
       document.getElementById('emailWorkshopSelect').innerHTML = opts || '<option>워크샵 없음</option>';
 
-      const sOpts = sessions.map(s => `<option value="${s}">${s}</option>`).join('');
-      document.getElementById('surveySelect').innerHTML = sOpts || '<option>서베이 없음</option>';
+      let sOpts = '<option value="">전체</option>';
+      sOpts += sessions.map(s => `<option value="${s}">${s}</option>`).join('');
+      document.getElementById('surveySelect').innerHTML = sOpts;
     }
 
     // --- Tabs ---
@@ -361,12 +381,10 @@
 
     function renderAppStats(s) {
       if (!s) return;
-      const paidPct = s.total ? Math.round((s.paid / s.total) * 100) : 0;
-      const macPct = s.total ? Math.round((s.macbook / s.total) * 100) : 0;
       document.getElementById('appStats').innerHTML = `
         <div class="stat-card"><div class="stat-label">총 신청</div><div class="stat-value">${s.total}</div><div class="stat-sub">명</div></div>
-        <div class="stat-card"><div class="stat-label">입금 완료</div><div class="stat-value">${s.paid}</div><div class="stat-sub">${paidPct}%</div></div>
-        <div class="stat-card"><div class="stat-label">맥북 확인</div><div class="stat-value">${s.macbook}</div><div class="stat-sub">${macPct}%</div></div>
+        <div class="stat-card"><div class="stat-label">맥북</div><div class="stat-value">${s.macbook}</div><div class="stat-sub">명</div></div>
+        <div class="stat-card"><div class="stat-label">윈도우</div><div class="stat-value">${s.windows}</div><div class="stat-sub">명</div></div>
       `;
     }
 
@@ -377,14 +395,28 @@
       }
       document.getElementById('appTable').innerHTML = list.map(p => {
         const d = p.signupDate ? new Date(p.signupDate).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' }) : '-';
+        const laptop = p.laptop || '';
+        const isMac = laptop.includes('맥') || laptop.toLowerCase().includes('mac');
+        const laptopClass = laptop ? (isMac ? 'mac' : 'win') : 'unknown';
+        const laptopLabel = laptop || '-';
         return `<tr>
-          <td><strong>${esc(p.name)}</strong></td><td>${esc(p.job)}</td>
-          <td>${esc(p.phone)}</td><td>${esc(p.email)}</td>
+          <td><strong>${esc(p.name)}</strong></td>
+          <td>${esc(p.job)}</td>
+          <td>${esc(p.phone)} <button class="copy-btn" onclick="copyText('${esc(p.phone)}', this)" title="복사">📋</button></td>
+          <td>${esc(p.email)}</td>
+          <td><span class="laptop-tag ${laptopClass}">${esc(laptopLabel)}</span></td>
           <td><span class="badge ${p.paid ? 'green' : 'gray'}"></span></td>
-          <td><span class="badge ${p.macbook ? 'green' : 'gray'}"></span></td>
           <td style="color:#888">${d}</td>
         </tr>`;
       }).join('');
+    }
+
+    function copyText(text, btn) {
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = '✓';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = '📋'; btn.classList.remove('copied'); }, 1500);
+      });
     }
 
     document.getElementById('appSearch').addEventListener('input', e => {
@@ -398,14 +430,6 @@
     // --- Tab 2: Surveys ---
     document.getElementById('surveySelect').addEventListener('change', e => loadSurveys(e.target.value));
 
-    // 첫 서베이 자동 로딩
-    setTimeout(() => {
-      if (sessions.length > 0) {
-        document.getElementById('surveySelect').value = sessions[0];
-        loadSurveys(sessions[0]);
-      }
-    }, 500);
-
     async function loadSurveys(sessionId) {
       document.getElementById('surveyStats').innerHTML = '<div class="loading">불러오는 중...</div>';
       document.getElementById('surveyCharts').innerHTML = '';
@@ -413,7 +437,16 @@
 
       const url = `${API}?password=${encodeURIComponent(password)}&action=surveys${sessionId ? `&sessionId=${encodeURIComponent(sessionId)}` : ''}`;
       const res = await fetch(url);
+      if (!res.ok) {
+        document.getElementById('surveyStats').innerHTML = '<div class="empty">데이터를 불러올 수 없습니다</div>';
+        return;
+      }
       const data = await res.json();
+
+      if (!data.surveys || data.surveys.length === 0) {
+        document.getElementById('surveyStats').innerHTML = '<div class="empty">서베이 응답이 없습니다</div>';
+        return;
+      }
 
       renderSurveyStats(data.stats);
       renderSurveyCharts(data.difficultyDist, data.reJoinDist);
@@ -453,6 +486,7 @@
     function renderSurveyFeedback(surveys) {
       const goods = surveys.filter(s => s.bestPart.trim()).map(s => s.bestPart.trim());
       const improves = surveys.filter(s => s.improvement.trim()).map(s => s.improvement.trim());
+      const learned = surveys.filter(s => s.learned.trim()).map(s => s.learned.trim());
 
       document.getElementById('surveyFeedback').innerHTML = `
         <div class="survey-grid">
@@ -469,22 +503,24 @@
             </div>
           </div>
         </div>
+        <div style="margin-top:14px;">
+          <div class="card">
+            <h3>가장 많이 배운 것</h3>
+            <div class="feedback-list">
+              ${learned.length ? learned.map(g => `<div class="feedback-item">${esc(g)}</div>`).join('') : '<div class="empty">응답 없음</div>'}
+            </div>
+          </div>
+        </div>
       `;
     }
 
     // --- Tab 3: Email ---
-    const previewBtn = document.getElementById('previewBtn');
-    const sendBtn = document.getElementById('sendBtn');
-    const emailPreview = document.getElementById('emailPreview');
-    const emailResult = document.getElementById('emailResult');
-
-    previewBtn.addEventListener('click', async () => {
+    document.getElementById('previewBtn').addEventListener('click', async () => {
       const tableId = document.getElementById('emailWorkshopSelect').value;
       const dateVal = document.getElementById('emailDate').value;
       if (!tableId) { alert('워크샵을 선택해주세요.'); return; }
       if (!dateVal) { alert('워크샵 날짜를 선택해주세요.'); return; }
 
-      // 해당 워크샵 신청자 로딩
       const res = await fetch(`${API}?password=${encodeURIComponent(password)}&action=applicants&tableId=${tableId}`);
       const data = await res.json();
       const participants = data.participants || [];
@@ -501,7 +537,8 @@
       const jobs = [...new Set(participants.map(p => p.job).filter(Boolean))].join(', ');
       const tools = participants.filter(p => p.tool && p.tool.trim()).map(p => `• ${p.tool.trim()}`).join('\n');
 
-      emailPreview.textContent = `[발송 대상: ${participants.length}명]\n\n` +
+      const preview = document.getElementById('emailPreview');
+      preview.textContent = `[발송 대상: ${participants.length}명]\n\n` +
 `안녕하세요, 어보브 코딩 클럽 워크샵을 신청해 주셔서 감사합니다.
 ${month}월 ${day}일 워크샵에 대해 안내드릴게요.
 
@@ -523,21 +560,23 @@ ${tools || '(아직 적어주신 분이 없어요)'}
 ${month}월 ${day}일에 만나요!
 어보브 코딩 클럽 드림`;
 
-      emailPreview.style.display = 'block';
-      sendBtn.disabled = false;
-      emailResult.style.display = 'none';
+      preview.style.display = 'block';
+      document.getElementById('sendBtn').disabled = false;
+      document.getElementById('emailResult').style.display = 'none';
     });
 
-    sendBtn.addEventListener('click', async () => {
+    document.getElementById('sendBtn').addEventListener('click', async () => {
       const tableId = document.getElementById('emailWorkshopSelect').value;
       const dateVal = document.getElementById('emailDate').value;
       if (!tableId || !dateVal) return;
 
       if (!confirm('상세 안내 이메일을 전체 발송합니다.\n계속할까요?')) return;
 
+      const sendBtn = document.getElementById('sendBtn');
+      const result = document.getElementById('emailResult');
       sendBtn.disabled = true;
       sendBtn.textContent = '발송 중...';
-      emailResult.style.display = 'none';
+      result.style.display = 'none';
 
       try {
         const res = await fetch(API, {
@@ -550,13 +589,13 @@ ${month}월 ${day}일에 만나요!
         });
 
         const data = await res.json();
-        emailResult.className = res.ok ? 'result-msg success' : 'result-msg error';
-        emailResult.textContent = res.ok ? `✓ ${data.message}` : `✗ ${data.error || '발송 실패'}`;
-        emailResult.style.display = 'block';
+        result.className = res.ok ? 'result-msg success' : 'result-msg error';
+        result.textContent = res.ok ? `✓ ${data.message}` : `✗ ${data.error || '발송 실패'}`;
+        result.style.display = 'block';
       } catch (err) {
-        emailResult.className = 'result-msg error';
-        emailResult.textContent = `✗ 네트워크 오류: ${err.message}`;
-        emailResult.style.display = 'block';
+        result.className = 'result-msg error';
+        result.textContent = `✗ 네트워크 오류: ${err.message}`;
+        result.style.display = 'block';
       }
 
       sendBtn.disabled = false;

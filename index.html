@@ -732,7 +732,8 @@
       margin-top: 10px;
     }
 
-    .form-check input[type="checkbox"] {
+    .form-check input[type="checkbox"],
+    .form-check input[type="radio"] {
       width: 18px;
       height: 18px;
       margin-top: 2px;
@@ -1123,10 +1124,17 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label"><span class="num">5</span>노트북 확인<span class="required">*</span></label>
-          <div class="form-check">
-            <input type="checkbox" name="macbook" id="mac-check-page" required>
-            <label for="mac-check-page">노트북(맥북 M1 이상 또는 윈도우 최근 5년 이내 구매)을 가지고 있으며, 당일 지참 가능합니다.</label>
+          <label class="form-label"><span class="num">5</span>노트북 종류<span class="required">*</span></label>
+          <p class="form-hint">당일에 꼭 챙겨와 주세요.</p>
+          <div class="form-radio-group">
+            <div class="form-check">
+              <input type="radio" name="laptop" id="laptop-mac-page" value="맥북" required>
+              <label for="laptop-mac-page">맥북 (M1 이상)</label>
+            </div>
+            <div class="form-check">
+              <input type="radio" name="laptop" id="laptop-win-page" value="윈도우" required>
+              <label for="laptop-win-page">윈도우 (최근 5년 이내)</label>
+            </div>
           </div>
         </div>
 
@@ -1199,10 +1207,17 @@
         </div>
 
         <div class="form-group">
-          <label class="form-label"><span class="num">5</span>노트북 확인<span class="required">*</span></label>
-          <div class="form-check">
-            <input type="checkbox" name="macbook" id="mac-check-modal" required>
-            <label for="mac-check-modal">노트북(맥북 M1 이상 또는 윈도우 최근 5년 이내 구매)을 가지고 있으며, 당일 지참 가능합니다.</label>
+          <label class="form-label"><span class="num">5</span>노트북 종류<span class="required">*</span></label>
+          <p class="form-hint">당일에 꼭 챙겨와 주세요.</p>
+          <div class="form-radio-group">
+            <div class="form-check">
+              <input type="radio" name="laptop" id="laptop-mac-modal" value="맥북" required>
+              <label for="laptop-mac-modal">맥북 (M1 이상)</label>
+            </div>
+            <div class="form-check">
+              <input type="radio" name="laptop" id="laptop-win-modal" value="윈도우" required>
+              <label for="laptop-win-modal">윈도우 (최근 5년 이내)</label>
+            </div>
           </div>
         </div>
 
@@ -1306,15 +1321,17 @@
 
       // 폼 데이터 수집
       const formData = new FormData(form);
+      const urlParams = new URLSearchParams(window.location.search);
       const data = {
         name: formData.get('name'),
         phone: formData.get('phone'),
         email: formData.get('email'),
         job: formData.get('job'),
-        macbook: formData.get('macbook') === 'on',
+        macbook: formData.get('laptop'),
         paid: formData.get('paid') === 'on',
         tool: formData.get('tool') || '',
-        message: formData.get('message') || ''
+        message: formData.get('message') || '',
+        workshop: urlParams.get('workshop') || ''
       };
 
       try {
