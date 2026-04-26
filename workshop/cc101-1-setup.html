@@ -17,6 +17,7 @@
   <nav class="nav-inner">
     <a class="nav-logo" href="./cc101.html">Above Coding Club</a>
     <ul class="nav-links">
+      <li><a href="./cc101-0-intro.html">0. 시작 전에</a></li>
       <li><a href="./cc101-1-setup.html" class="active">1. 세팅</a></li>
       <li><a href="./cc101-2-vscode.html">2. VS Code</a></li>
       <li><a href="./cc101-3-basics.html">3. 기본</a></li>
@@ -39,6 +40,17 @@
 
 <main class="main-content">
 
+  <div class="callout callout-info">
+    <div class="callout-title">오늘 뭘 설치해요?</div>
+    세 가지 공식 프로그램을 깔아요.
+    <ul style="margin:8px 0 0 18px;">
+      <li><strong>VS Code</strong> — 코드 작업 공간 (Microsoft 제공)</li>
+      <li><strong>Claude Code</strong> — AI 코딩 에이전트 (Anthropic 제공)</li>
+      <li><strong>Git / Homebrew</strong> — 코드 저장 + 앱 관리 도구</li>
+    </ul>
+    모두 공식 프로그램이고, 설치 후 언제든 지울 수 있어요. (Claude Code는 Claude Pro $20/월 구독이 필요해요.)
+  </div>
+
   <p>아래에서 내 운영체제를 선택하세요.</p>
 
   <div class="os-tabs os-global-tabs">
@@ -56,7 +68,7 @@
       <tbody>
         <tr><td><a href="https://github.com" target="_blank"><strong>GitHub</strong></a></td><td>코드 저장 & 공유</td><td>Sign up → Continue with Google</td></tr>
         <tr><td><a href="https://vercel.com" target="_blank"><strong>Vercel</strong></a></td><td>웹사이트 배포</td><td>Sign Up → Continue with GitHub</td></tr>
-        <tr><td><a href="https://claude.ai" target="_blank"><strong>Claude</strong></a></td><td>AI 코딩 에이전트</td><td>계정 생성 → Pro 구독 ($20/월)</td></tr>
+        <tr><td><a href="https://claude.ai" target="_blank"><strong>Claude (Anthropic)</strong></a></td><td>Claude Code 사용을 위한 계정</td><td>계정 생성 → Pro 구독 ($20/월)</td></tr>
       </tbody>
     </table>
   </div>
@@ -99,10 +111,13 @@
 
   <h3>Extension 열기</h3>
   <ol>
-    <li>왼쪽 사이드바 <strong>파일 아이콘</strong> 클릭 (맨 위)</li>
-    <li>우측 상단 주황색 <strong>Claude 아이콘</strong> 클릭하여 패널 열기
-      <div class="os-content-mac"><p style="font-size:13px; color:var(--text-2);">단축키: <kbd>Cmd+Shift+Esc</kbd></p></div>
-      <div class="os-content-win"><p style="font-size:13px; color:var(--text-2);">단축키: <kbd>Ctrl+Shift+Esc</kbd></p></div>
+    <li>아무 파일이나 하나 열어둔 상태에서 (예: 새 파일이라도)</li>
+    <li>에디터 우측 상단의 <strong>Spark 아이콘 (✱)</strong> 클릭 — Claude 패널이 열립니다
+      <p style="font-size:13px; color:var(--text-2);">또는: 좌측 활동 표시줄(Activity Bar)의 Spark 아이콘 / 하단 상태 표시줄의 <strong>✱ Claude Code</strong> 클릭</p>
+    </li>
+    <li>패널이 열린 후, 에디터와 Claude 입력창 사이를 오갈 때:
+      <div class="os-content-mac"><p style="font-size:13px; color:var(--text-2);">포커스 전환 단축키: <kbd>Cmd+Esc</kbd></p></div>
+      <div class="os-content-win"><p style="font-size:13px; color:var(--text-2);">포커스 전환 단축키: <kbd>Ctrl+Esc</kbd></p></div>
     </li>
   </ol>
   <img src="./images/claude-panel.png" alt="Claude 익스텐션 패널" style="width:100%; border-radius:var(--radius); border:1px solid var(--border); margin:12px 0;">
@@ -121,11 +136,12 @@
   </div>
 
   <!-- Step 4 -->
-  <h2>Step 4. Homebrew & Git 설치</h2>
+  <h2>Step 4. Git 설치 <span style="font-size:14px; font-weight:400; color:var(--text-2);">(Mac은 Homebrew도 함께)</span></h2>
   <div class="callout callout-info">
     <div class="callout-title">💡 왜 필요한가요?</div>
-    Claude Code 터미널 버전에서 스킬을 설치하고 공유하려면 <strong>Git</strong>이 필요합니다.
-    <div class="os-content-mac">Mac에서는 <strong>Homebrew</strong>(패키지 관리자)를 먼저 설치하고, Homebrew로 Git을 설치합니다.</div>
+    <strong>Git</strong>은 코드의 버전을 저장·복원하는 도구예요. 작업이 망가졌을 때 이전 상태로 돌아가거나 GitHub에 올리려면 꼭 필요합니다. (Part 4에서 자세히 다뤄요.)
+    <div class="os-content-mac" style="margin-top:8px;">Mac에서는 <strong>Homebrew</strong>(패키지 관리자)를 먼저 설치하고, Homebrew로 Git을 설치합니다.</div>
+    <div class="os-content-win" style="margin-top:8px;">Windows에서는 Git 공식 사이트에서 설치 파일(.exe)을 받아 바로 설치합니다.</div>
   </div>
 
   <div class="os-content-mac">
@@ -139,19 +155,36 @@
       <button class="copy-btn" onclick="copyCode(this)">복사</button>
       <pre>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</pre>
     </div>
+    <div class="callout callout-info">
+      <div class="callout-title">이 한 줄이 뭐 해요?</div>
+      Homebrew라는 프로그램 관리자를 공식 사이트에서 받아서 설치하는 명령이에요. 앱스토어에서 앱 받는 거랑 같은 일을, 터미널에서 한 줄로 하는 거예요.
+    </div>
+    <div class="callout callout-info">
+      <div class="callout-title">왜 비밀번호를 물어봐요?</div>
+      새 프로그램을 컴퓨터에 설치하려면 "허락해주세요" 하는 확인이에요. 평소 앱 깔 때 뜨는 창과 같은 역할이고, 비밀번호는 내 컴퓨터 안에서만 쓰여요. 외부로 전송되지 않아요.
+    </div>
     <ol start="3">
       <li>비밀번호 입력 요청 → <strong>Mac 로그인 비밀번호</strong> 입력 (화면에 안 보이지만 정상)</li>
       <li>설치 완료 메시지 확인</li>
     </ol>
     <div class="callout callout-warning">
-      <div class="callout-title">⚠️ 설치 후 아래와 같은 메시지가 나오면 그대로 복사해서 실행하세요:</div>
+      <div class="callout-title">⚠️ 설치 후 "Next steps" 메시지가 나오면 — PATH 설정이 필요해요</div>
+      Homebrew 설치가 끝나면 터미널에 다음과 비슷한 안내문이 나와요. <strong>안내문 자체는 명령어가 아니에요</strong> — 들여쓰기된 3줄을 실행하라는 뜻입니다.
       <div class="code-block" style="margin-top:8px;">
-        <div class="code-label">터미널에 표시된 메시지 예시</div>
+        <div class="code-label">Homebrew가 보여주는 안내문 (예시 — 명령어 아님)</div>
         <pre>==> Next steps:
 - Run these commands in your terminal to add Homebrew to your PATH:
-    echo >> ~/.zprofile
-    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+    echo >> /Users/내이름/.zprofile
+    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/내이름/.zprofile
     eval "$(/opt/homebrew/bin/brew shellenv)"</pre>
+      </div>
+      아래 3줄을 한꺼번에 복사해서 터미널에 붙여넣고 Enter를 누르세요. (대부분의 Mac에서 동일하게 작동해요.)
+      <div class="code-block" style="margin-top:8px;">
+        <div class="code-label">Terminal — 이걸 복사해서 실행</div>
+        <button class="copy-btn" onclick="copyCode(this)">복사</button>
+        <pre>echo >> ~/.zprofile
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"</pre>
       </div>
     </div>
     <p>확인: <code>brew --version</code></p>
@@ -182,8 +215,12 @@
   </div>
 
   <!-- Step 5 -->
-  <h2>Step 5. Claude Code 설치 (터미널 버전)</h2>
-  <p>Extension과 별개로, 터미널에서 직접 쓰는 버전을 설치합니다.</p>
+  <h2>Step 5. Claude Code 시스템 전역 설치 (선택)</h2>
+  <div class="callout callout-info">
+    <div class="callout-title">이 단계는 꼭 안 해도 돼요</div>
+    Step 3에서 깐 VS Code 확장(Extension)에는 이미 CLI(터미널 버전)가 함께 들어있어요. <strong>VS Code 통합 터미널을 열고 <code>claude</code> 명령어를 그대로 쓸 수 있습니다.</strong><br><br>
+    이번 Step 5는 VS Code 밖의 일반 터미널(Mac의 Terminal.app, Windows의 PowerShell 등)에서도 <code>claude</code>를 쓰고 싶을 때만 필요해요. 워크샵에서는 건너뛰어도 진행에 문제 없어요.
+  </div>
 
   <div class="os-content-mac">
     <ol>
@@ -194,6 +231,10 @@
       <div class="code-label">Terminal</div>
       <button class="copy-btn" onclick="copyCode(this)">복사</button>
       <pre>curl -fsSL https://claude.ai/install.sh | bash</pre>
+    </div>
+    <div class="callout callout-info">
+      <div class="callout-title">Step 4의 Homebrew 설치랑 뭐가 달라요?</div>
+      Step 4에서는 "앱 관리자"를 깔았다면, 여기는 Claude Code 본체를 까는 단계예요. 두 단계로 나뉘어 있어요.
     </div>
     <ol start="3">
       <li>VS Code <strong>완전히 종료</strong> 후 다시 열기</li>
@@ -223,6 +264,14 @@
       <div class="code-label">PowerShell</div>
       <button class="copy-btn" onclick="copyCode(this)">복사</button>
       <pre>irm https://claude.ai/install.ps1 | iex</pre>
+    </div>
+    <div class="callout callout-info">
+      <div class="callout-title">이 한 줄이 뭐 해요?</div>
+      Claude Code를 Anthropic 공식 사이트에서 받아서 설치하는 명령이에요. PowerShell의 <code>irm</code>은 인터넷에서 파일을 받아오는 명령(Invoke-RestMethod), <code>iex</code>는 받은 내용을 바로 실행하는 명령(Invoke-Expression)이에요. 앱스토어에서 앱 받아 설치하는 거랑 같은 일을, PowerShell에서 한 줄로 하는 거예요.
+    </div>
+    <div class="callout callout-info">
+      <div class="callout-title">Step 4의 Git 설치랑 뭐가 달라요?</div>
+      Step 4에서는 코드를 저장·복원할 수 있게 해주는 Git을 깔았다면, 여기는 Claude Code 본체를 까는 단계예요. 두 단계로 나뉘어 있어요.
     </div>
     <div class="callout callout-warning" style="margin-top:4px;">
       <div class="callout-title">⚠️ CMD에서는 작동하지 않습니다. 반드시 PowerShell을 사용하세요.</div>
@@ -293,9 +342,9 @@
   </div>
 
   <div class="page-nav">
-    <a class="prev" href="./cc101.html">
+    <a class="prev" href="./cc101-0-intro.html">
       <span class="nav-dir">← 이전</span>
-      <span class="nav-title">CC 101 홈</span>
+      <span class="nav-title">시작 전에</span>
     </a>
     <a class="next" href="./cc101-2-vscode.html">
       <span class="nav-dir">다음 →</span>
