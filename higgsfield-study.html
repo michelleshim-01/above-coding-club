@@ -1376,7 +1376,7 @@
           <li>몰수된 보증금은 파이널 간식비로 써요. 투명하게 공개할게요.</li>
           <li>환급은 파이널 종료 후 3일 이내에 일괄로 보내드려요.</li>
           <li>힉스필드 유료 구독은 참가비와 별도예요. 정확한 요금은 <a href="https://higgsfield.ai" target="_blank" rel="noopener">higgsfield.ai</a> 공식 페이지에서 확인해 주세요.</li>
-          <li>입금 계좌는 신청 확인 후 개별로 안내해 드려요.</li>
+          <li>입금 계좌: <strong>카카오뱅크 3333-35-6872074 (김*석)</strong> — 참가비+보증금 합계 60,000원을 입금해 주세요.</li>
         </ul>
       </div>
     </section>
@@ -1450,6 +1450,15 @@
           <textarea id="hf-message" name="message" class="form-textarea" placeholder="자유롭게 적어주세요."></textarea>
         </div>
 
+        <div class="form-group">
+          <label class="form-label" for="hf-paid"><span class="num">7</span>입금 확인</label>
+          <p class="form-hint">참가비+보증금 60,000원 · 카카오뱅크 3333-35-6872074 (김*석)</p>
+          <label for="hf-paid" style="display:flex;align-items:center;gap:10px;font-size:16px;color:#333;cursor:pointer;line-height:1.5;">
+            <input type="checkbox" id="hf-paid" name="paid" style="width:18px;height:18px;flex:0 0 auto;accent-color:#f05a28;">
+            입금을 완료했어요 (신청 먼저 하고 나중에 입금하셔도 괜찮아요)
+          </label>
+        </div>
+
         <button type="submit" class="form-submit">신청 완료</button>
         <div class="form-message"></div>
       </form>
@@ -1518,6 +1527,7 @@
         job: formData.get('job'),
         tool: formData.get('tool') || '',
         message: formData.get('message') || '',
+        paid: form.querySelector('#hf-paid').checked,
         workshop: '힉스필드스터디'
       };
 
